@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | NexusUtility</title>
+    <meta name="description" content="Contact NexusUtility for support, feature requests, or feedback. We'd love to hear from you.">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 800px; margin: 0 auto; padding: 3rem 2rem; }
+        .page-header { text-align: center; padding: 3rem 0; }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--accent); }
+        .page-header p { color: var(--text-secondary); }
+        .contact-section { background: var(--bg-secondary); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; }
+        .contact-section h2 { color: var(--accent); margin-bottom: 1rem; font-size: 1.5rem; }
+        .contact-section p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.8; }
+        .contact-email { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 1.5rem; text-align: center; margin: 1.5rem 0; }
+        .contact-email a { color: var(--accent); font-size: 1.2rem; text-decoration: none; font-weight: 600; }
+        .contact-email a:hover { text-decoration: underline; }
+        .faq-section { margin-top: 2rem; }
+        .faq-item { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+        .faq-question { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .faq-answer { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .page-header h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about-us.html">About</a></li>
+                <li><a href="privacy-policy.html">Privacy</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>📧 Contact Us</h1>
+            <p>Have a question or suggestion? We'd love to hear from you.</p>
+        </header>
+
+        <div class="contact-section">
+            <h2>Get in Touch</h2>
+            <p>While we don't have a traditional contact form (to maintain our privacy-first approach), you can reach us directly via email. We typically respond within 24-48 hours.</p>
+            
+            <div class="contact-email">
+                <p style="margin-bottom: 0.5rem;">General Inquiries</p>
+                <a href="mailto:contact@nexusutility.github.io">contact@nexusutility.github.io</a>
+            </div>
+
+            <div class="contact-email">
+                <p style="margin-bottom: 0.5rem;">Privacy Concerns</p>
+                <a href="mailto:privacy@nexusutility.github.io">privacy@nexusutility.github.io</a>
+            </div>
+        </div>
+
+        <div class="contact-section faq-section">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Can I suggest a new tool?</span>
+                    <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                    Absolutely! We love hearing tool suggestions from our users. Send us an email with your idea and we'll consider it for our roadmap.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>I found a bug. How do I report it?</span>
+                    <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                    Please email us with details about the bug, including which tool you were using, what you were trying to do, and what happened instead. Screenshots are helpful too!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Do you offer custom tool development?</span>
+                    <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                    We focus on maintaining and improving our public tool collection. For custom development inquiries, feel free to reach out and we'll let you know if it's something we can help with.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>How can I support NexusUtility?</span>
+                    <span>▼</span>
+                </div>
+                <div class="faq-answer">
+                    The best way to support us is by sharing our tools with others who might find them useful. You can also whitelist our site in your ad blocker if you'd like to support us that way.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about-us.html">About Us</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>

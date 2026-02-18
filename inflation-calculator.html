@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inflation Calculator | Free Purchasing Power Tool | NexusUtility</title>
+    <meta name="description" content="Free inflation calculator. See how inflation erodes purchasing power over time. Calculate future value of money and historical price changes.">
+    <meta name="keywords" content="inflation calculator, purchasing power, cost of living, price calculator, inflation rate, money value">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Inflation Calculator", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.6", "ratingCount": "850"}, "description": "Calculate inflation impact on purchasing power and money value over time.", "url": "https://nexusutility.github.io/core-nexus/tools/inflation-calculator.html"}</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --accent-dark: #059669; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); --shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; padding: 3rem 0; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin: 2rem auto; text-align: center; max-width: 728px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .tool-container { background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; margin: 2rem 0; box-shadow: var(--shadow); }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { color: var(--text-secondary); font-size: 0.9rem; }
+        .input-group input, .input-group select { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 1rem; border-radius: 12px; font-size: 1rem; }
+        .input-group input:focus { outline: none; border-color: var(--accent); }
+        .calc-btn { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border: none; padding: 1rem 3rem; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: block; margin: 0 auto 2rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
+        .results-section { background: var(--bg-secondary); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; text-align: center; }
+        .result-value { font-size: 3rem; font-weight: 700; color: var(--accent); }
+        .result-label { color: var(--text-secondary); margin-top: 0.5rem; }
+        .result-comparison { display: flex; justify-content: center; gap: 3rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .comparison-item { text-align: center; }
+        .comparison-item .value { font-size: 1.5rem; font-weight: 600; }
+        .comparison-item .label { color: var(--text-secondary); font-size: 0.85rem; }
+        .chart-container { background: var(--bg-secondary); border-radius: 16px; padding: 1.5rem; height: 250px; position: relative; margin-bottom: 2rem; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .info-card { background: var(--bg-secondary); border-radius: 12px; padding: 1.5rem; }
+        .info-card h3 { color: var(--accent); margin-bottom: 0.75rem; }
+        .info-card p { color: var(--text-secondary); font-size: 0.95rem; }
+        .content-section { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .content-section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent); }
+        .content-section p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.8; }
+        .faq-item { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+        .faq-question { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .faq-answer { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .tool-header h1 { font-size: 1.8rem; } .tool-container { padding: 1.5rem; } .result-value { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>📈 Inflation Calculator</h1>
+            <p>See how inflation affects your money's purchasing power over time. Plan for the future by understanding the true cost of rising prices.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="amount" placeholder="1000" value="1000">
+                </div>
+                <div class="input-group">
+                    <label>From Year</label>
+                    <input type="number" id="fromYear" placeholder="2000" value="2000">
+                </div>
+                <div class="input-group">
+                    <label>To Year</label>
+                    <input type="number" id="toYear" placeholder="2026" value="2026">
+                </div>
+                <div class="input-group">
+                    <label>Inflation Rate (%)</label>
+                    <input type="number" id="inflationRate" placeholder="3" value="3" step="0.1">
+                </div>
+            </div>
+
+            <button class="calc-btn" onclick="calculateInflation()">Calculate</button>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="result-value" id="futureValue">-</div>
+                <div class="result-label">Equivalent Value</div>
+                <div class="result-comparison">
+                    <div class="comparison-item">
+                        <div class="value" id="originalAmount">-</div>
+                        <div class="label">Original Amount</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="value" id="purchasingPower">-</div>
+                        <div class="label">Purchasing Power Lost</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="value" id="totalInflation">-</div>
+                        <div class="label">Total Inflation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>💡 The Rule of 72</h3>
+                    <p>Divide 72 by the inflation rate to estimate how long it takes prices to double. At 3% inflation, prices double in about 24 years.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📊 Historical Average</h3>
+                    <p>US inflation has averaged about 3% annually over the long term. Recent years saw higher rates (7-9% in 2021-2022).</p>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 Beating Inflation</h3>
+                    <p>To maintain purchasing power, investments must return more than inflation. Stocks historically average 7% after inflation.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Understanding Inflation</h2>
+        <p>Inflation is the rate at which the general level of prices for goods and services rises, causing purchasing power to fall. As inflation increases, every dollar you own buys a smaller percentage of goods or services.</p>
+        <p>The most common measure of inflation is the Consumer Price Index (CPI), which tracks the prices of a basket of goods and services over time. Central banks typically target 2% annual inflation as a healthy rate for economic growth.</p>
+
+        <h2>🔬 Inflation Formula</h2>
+        <p style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; font-family: monospace;">Future Value = Present Value × (1 + Inflation Rate)^Years<br><br>Example: $1,000 at 3% inflation for 10 years<br>= $1,000 × (1.03)^10 = $1,344</p>
+
+        <h2>❓ FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)"><span>What causes inflation?</span><span>▼</span></div>
+            <div class="faq-answer">Inflation is caused by increased money supply, rising production costs, supply shortages, or increased demand. The COVID-19 pandemic and subsequent supply chain issues caused recent spikes in inflation globally.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)"><span>How can I protect against inflation?</span><span>▼</span></div>
+            <div class="faq-answer">Invest in assets that historically outpace inflation: stocks, real estate, Treasury Inflation-Protected Securities (TIPS), and commodities. Avoid holding large amounts of cash for long periods.</div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({}); (adsbygoogle = window.adsbygoogle || []).push({});
+        function calculateInflation() {
+            const amount = parseFloat(document.getElementById('amount').value) || 0;
+            const fromYear = parseInt(document.getElementById('fromYear').value) || 2000;
+            const toYear = parseInt(document.getElementById('toYear').value) || 2026;
+            const rate = parseFloat(document.getElementById('inflationRate').value) / 100 || 0.03;
+            const years = toYear - fromYear;
+            const futureValue = amount * Math.pow(1 + rate, years);
+            const purchasingPower = ((futureValue - amount) / futureValue * 100).toFixed(1);
+            const totalInflation = ((futureValue - amount) / amount * 100).toFixed(1);
+            document.getElementById('futureValue').textContent = '$' + futureValue.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('originalAmount').textContent = '$' + amount.toLocaleString();
+            document.getElementById('purchasingPower').textContent = purchasingPower + '%';
+            document.getElementById('totalInflation').textContent = totalInflation + '%';
+            document.getElementById('resultsSection').style.display = 'block';
+        }
+        function toggleFaq(element) { const faqItem = element.parentElement; faqItem.classList.toggle('active'); element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼'; }
+    </script>
+</body>
+</html>

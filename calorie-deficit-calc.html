@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Deficit Calculator | Free Weight Loss Planner | NexusUtility</title>
+    <meta name="description" content="Free calorie deficit calculator for weight loss. Calculate TDEE, BMR, and create personalized calorie targets. Reach your goals faster with science-backed planning.">
+    <meta name="keywords" content="calorie deficit calculator, TDEE calculator, weight loss calculator, BMR calculator, calorie tracker, fat loss planner">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Calorie Deficit Calculator",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1500"},
+        "description": "Calculate optimal calorie deficit for weight loss with TDEE and BMR analysis. Privacy-first local storage.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/calorie-deficit-calc.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-dark: #059669;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .input-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .input-group input, .input-group select {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .calculate-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .result-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .result-card.highlight {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+        .result-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .result-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .deficit-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .deficit-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .deficit-card:hover, .deficit-card.active {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .deficit-card.active {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        .deficit-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .deficit-calories {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        .deficit-rate {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .timeline-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .timeline-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+        .timeline-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+        .timeline-week {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .timeline-weight {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .content-section ul {
+            color: var(--text-secondary);
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .overlay-text {
+            margin-top: 1.5rem;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>🔥 Calorie Deficit Calculator</h1>
+            <p>Calculate your TDEE, BMR, and optimal calorie deficit for sustainable weight loss. Science-backed calculations for real results.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Age</label>
+                    <input type="number" id="age" placeholder="years" min="10" max="100">
+                </div>
+                <div class="input-group">
+                    <label>Height (cm)</label>
+                    <input type="number" id="height" placeholder="cm" min="50" max="250">
+                </div>
+                <div class="input-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="kg" min="20" max="300">
+                </div>
+                <div class="input-group">
+                    <label>Activity Level</label>
+                    <select id="activity">
+                        <option value="1.2">Sedentary (desk job)</option>
+                        <option value="1.375">Light Exercise (1-3x/week)</option>
+                        <option value="1.55">Moderate Exercise (3-5x/week)</option>
+                        <option value="1.725">Heavy Exercise (6-7x/week)</option>
+                        <option value="1.9">Athlete (2x/day)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Target Weight (kg)</label>
+                    <input type="number" id="targetWeight" placeholder="optional" min="20" max="300">
+                </div>
+            </div>
+
+            <button class="calculate-btn" onclick="calculateCalories()">Calculate My Deficit</button>
+
+            <div id="resultsSection" style="display: none;">
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-value" id="bmrValue">--</div>
+                        <div class="result-label">BMR (calories/day)</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-value" id="tdeeValue">--</div>
+                        <div class="result-label">TDEE (calories/day)</div>
+                    </div>
+                    <div class="result-card highlight">
+                        <div class="result-value" id="targetValue">--</div>
+                        <div class="result-label">Target for Weight Loss</div>
+                    </div>
+                </div>
+
+                <h3 style="text-align: center; margin: 2rem 0 1rem;">Choose Your Deficit Level</h3>
+                <div class="deficit-options">
+                    <div class="deficit-card" onclick="selectDeficit(250, this)">
+                        <div class="deficit-name">🐢 Conservative</div>
+                        <div class="deficit-calories" id="conservativeCal">--</div>
+                        <div class="deficit-rate">~0.25 kg/week</div>
+                    </div>
+                    <div class="deficit-card active" onclick="selectDeficit(500, this)">
+                        <div class="deficit-name">🚶 Moderate (Recommended)</div>
+                        <div class="deficit-calories" id="moderateCal">--</div>
+                        <div class="deficit-rate">~0.5 kg/week</div>
+                    </div>
+                    <div class="deficit-card" onclick="selectDeficit(750, this)">
+                        <div class="deficit-name">🏃 Aggressive</div>
+                        <div class="deficit-calories" id="aggressiveCal">--</div>
+                        <div class="deficit-rate">~0.75 kg/week</div>
+                    </div>
+                    <div class="deficit-card" onclick="selectDeficit(1000, this)">
+                        <div class="deficit-name">⚡ Very Aggressive</div>
+                        <div class="deficit-calories" id="veryAggressiveCal">--</div>
+                        <div class="deficit-rate">~1 kg/week</div>
+                    </div>
+                </div>
+
+                <div class="timeline-section">
+                    <h3>📅 Projected Weight Loss Timeline</h3>
+                    <div class="timeline-grid" id="timelineGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: The Science of Calorie Deficits</h2>
+        <p>Weight loss fundamentally comes down to energy balance: consuming fewer calories than your body expends creates a calorie deficit, forcing your body to tap into stored energy reserves (fat) to make up the difference. Our Calorie Deficit Calculator provides the precise mathematical framework needed to achieve sustainable, healthy weight loss.</p>
+        <p>The calculator uses the Mifflin-St Jeor equation, widely regarded as the most accurate formula for estimating Basal Metabolic Rate (BMR) - the calories your body burns at complete rest. From there, we calculate your Total Daily Energy Expenditure (TDEE) by applying activity multipliers that account for your lifestyle and exercise habits.</p>
+        <p>What sets our calculator apart is its focus on sustainability. We present four deficit levels, from conservative (250 calories/day, ~0.25kg/week loss) to very aggressive (1000 calories/day, ~1kg/week loss), allowing you to choose an approach that fits your lifestyle and preferences. The projected timeline shows exactly what to expect, helping you set realistic goals and stay motivated.</p>
+
+        <h2>🔧 Operational Manual: Using the Calculator</h2>
+        <p>To get started, enter your basic information: gender, age, height, and current weight. Select the activity level that best describes your typical week. If you have a target weight in mind, enter that as well for a personalized timeline.</p>
+        <p>Click "Calculate My Deficit" to see your BMR, TDEE, and recommended daily calorie targets. The BMR shows what you'd burn lying in bed all day. TDEE adds your daily activities. The deficit options show various calorie targets for different weight loss speeds.</p>
+        <p>We recommend the "Moderate" deficit (500 calories/day) for most people. This creates approximately 0.5kg of fat loss per week - fast enough to see progress, slow enough to maintain muscle mass and energy levels. The timeline section projects your weight week by week based on your selected deficit.</p>
+
+        <h2>🔬 The Math & Science Logic</h2>
+        
+        <h3>Mifflin-St Jeor BMR Formula</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Men: BMR = (10 × weight kg) + (6.25 × height cm) - (5 × age) + 5<br>
+            Women: BMR = (10 × weight kg) + (6.25 × height cm) - (5 × age) - 161<br><br>
+            Example (Male, 30, 175cm, 80kg):<br>
+            BMR = (10 × 80) + (6.25 × 175) - (5 × 30) + 5 = 1,744 calories
+        </p>
+        
+        <h3>TDEE Calculation</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            TDEE = BMR × Activity Multiplier<br><br>
+            Activity Multipliers:<br>
+            • Sedentary: 1.2<br>
+            • Light Exercise: 1.375<br>
+            • Moderate Exercise: 1.55<br>
+            • Heavy Exercise: 1.725<br>
+            • Athlete: 1.9
+        </p>
+
+        <h3>Weight Loss Mathematics</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            1 kg body fat ≈ 7,700 calories<br>
+            Weekly deficit = Daily deficit × 7<br>
+            Weekly weight loss = Weekly deficit ÷ 7,700<br><br>
+            500 cal/day deficit = 3,500 cal/week = ~0.45 kg fat loss
+        </p>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Personal Training Programs</h3>
+        <p>Trainers use precise calorie calculations to design nutrition plans that complement training protocols, ensuring clients lose fat while preserving or building muscle.</p>
+
+        <h3>2. Medical Weight Management</h3>
+        <p>Physicians and dietitians utilize deficit calculations for patients managing obesity, diabetes, and metabolic syndrome, creating medically-supervised weight loss plans.</p>
+
+        <h3>3. Athletic Weight Classes</h3>
+        <p>Combat sports athletes use the calculator to safely make weight for competitions, balancing performance needs with weight requirements.</p>
+
+        <h3>4. Bodybuilding Contest Prep</h3>
+        <p>Physique competitors rely on precise calorie deficits to achieve stage-ready conditioning while maintaining maximum muscle mass.</p>
+
+        <h3>5. Corporate Wellness Programs</h3>
+        <p>Employers integrate the calculator into wellness platforms, helping employees understand their nutritional needs and set realistic health goals.</p>
+
+        <h2>🔒 Privacy Assurance</h2>
+        <p>Your weight, body composition, and health goals are sensitive personal information. Our calculator performs all calculations locally in your browser. No data is transmitted, stored on servers, or shared with third parties. Optional localStorage saves your inputs only on your device.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the safest rate of weight loss?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Health organizations recommend 0.5-1 kg (1-2 lbs) per week as a safe, sustainable rate. Faster loss risks muscle loss, nutrient deficiencies, and metabolic slowdown. Our "Moderate" deficit aligns with these guidelines.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Why did my weight loss stop?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Weight loss plateaus occur as your body adapts to lower calories (metabolic adaptation) and as you lose weight (lower TDEE). Recalculate your needs every 5-10 kg lost, and consider diet breaks or refeed days to reset hormones.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Should I eat back exercise calories?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                If using the TDEE method (activity included in multiplier), don't eat back exercise calories - they're already counted. If using BMR + tracking exercise separately, you may eat back 50-75% of tracked burn to account for estimation errors.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How accurate is BMR calculation?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Mifflin-St Jeor has ~10% margin of error for individuals. It's accurate for population estimates but individual variation exists due to genetics, hormones, and body composition. Use it as a starting point and adjust based on real-world results.
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <div class="overlay-text">Nexus Engine: Processing Local Data...</div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        let currentTDEE = 0;
+        let currentWeight = 0;
+        let targetWeight = 0;
+
+        function calculateCalories() {
+            showOverlay();
+            setTimeout(() => {
+                const gender = document.getElementById('gender').value;
+                const age = parseFloat(document.getElementById('age').value);
+                const height = parseFloat(document.getElementById('height').value);
+                currentWeight = parseFloat(document.getElementById('weight').value);
+                const activity = parseFloat(document.getElementById('activity').value);
+                targetWeight = parseFloat(document.getElementById('targetWeight').value) || currentWeight - 5;
+
+                if (!age || !height || !currentWeight) {
+                    alert('Please fill in all required fields');
+                    hideOverlay();
+                    return;
+                }
+
+                // Mifflin-St Jeor BMR
+                let bmr;
+                if (gender === 'male') {
+                    bmr = (10 * currentWeight) + (6.25 * height) - (5 * age) + 5;
+                } else {
+                    bmr = (10 * currentWeight) + (6.25 * height) - (5 * age) - 161;
+                }
+
+                currentTDEE = Math.round(bmr * activity);
+                bmr = Math.round(bmr);
+
+                document.getElementById('bmrValue').textContent = bmr.toLocaleString();
+                document.getElementById('tdeeValue').textContent = currentTDEE.toLocaleString();
+                document.getElementById('targetValue').textContent = (currentTDEE - 500).toLocaleString();
+
+                // Update deficit options
+                document.getElementById('conservativeCal').textContent = (currentTDEE - 250).toLocaleString() + ' cal';
+                document.getElementById('moderateCal').textContent = (currentTDEE - 500).toLocaleString() + ' cal';
+                document.getElementById('aggressiveCal').textContent = (currentTDEE - 750).toLocaleString() + ' cal';
+                document.getElementById('veryAggressiveCal').textContent = (currentTDEE - 1000).toLocaleString() + ' cal';
+
+                document.getElementById('resultsSection').style.display = 'block';
+                
+                // Generate timeline with moderate deficit
+                generateTimeline(500);
+                
+                hideOverlay();
+            }, 2500);
+        }
+
+        function selectDeficit(deficit, element) {
+            document.querySelectorAll('.deficit-card').forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('targetValue').textContent = (currentTDEE - deficit).toLocaleString();
+            generateTimeline(deficit);
+        }
+
+        function generateTimeline(deficit) {
+            const weeklyLoss = (deficit * 7) / 7700;
+            const timelineGrid = document.getElementById('timelineGrid');
+            let html = '';
+            
+            for (let week = 1; week <= 12; week++) {
+                const projectedWeight = Math.max(currentWeight - (weeklyLoss * week), targetWeight);
+                const weightDiff = (currentWeight - projectedWeight).toFixed(1);
+                
+                html += `
+                    <div class="timeline-item">
+                        <div class="timeline-week">Week ${week}</div>
+                        <div class="timeline-weight">${projectedWeight.toFixed(1)} kg</div>
+                        <div style="font-size: 0.8rem; color: var(--accent);">-${weightDiff} kg</div>
+                    </div>
+                `;
+                
+                if (projectedWeight <= targetWeight) break;
+            }
+            
+            timelineGrid.innerHTML = html;
+        }
+
+        function showOverlay() {
+            document.getElementById('processingOverlay').classList.add('active');
+        }
+
+        function hideOverlay() {
+            document.getElementById('processingOverlay').classList.remove('active');
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>

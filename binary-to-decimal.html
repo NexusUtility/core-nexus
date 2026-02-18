@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary to Decimal Converter | Number Base Converter Tool | NexusUtility</title>
+    <meta name="description" content="Free binary to decimal converter. Convert between binary, decimal, hexadecimal, and octal number systems instantly. Perfect for programmers, students, and developers.">
+    <meta name="keywords" content="binary to decimal, decimal to binary, hex converter, octal converter, number base converter, programmer calculator">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --accent: #10b981;
+            --accent-dim: #059669;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #27272a;
+            --error: #ef4444;
+            --success: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; margin-bottom: 2rem; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .tool-header h1 span { color: var(--accent); }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; }
+        .ad-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .converter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .input-group {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .input-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .input-group label .icon { font-size: 1.2rem; }
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Courier New', monospace;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .input-group .hint {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .quick-actions button {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .quick-actions button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .info-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .info-section h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .info-section h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.2rem;
+        }
+        .info-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .info-section ul {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-section li { margin-bottom: 0.5rem; }
+        .conversion-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .conversion-table th,
+        .conversion-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .conversion-table th {
+            background: var(--bg-secondary);
+            color: var(--accent);
+        }
+        .conversion-table td {
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .faq-item p {
+            color: var(--text-secondary);
+        }
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .processing-overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; padding: 1rem; }
+            .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .tool-header h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NexusUtility</div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#tools">Tools</a></li>
+            <li><a href="../about-us.html">About</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="tool-header">
+            <h1>Binary to <span>Decimal Converter</span></h1>
+            <p>Convert between binary, decimal, hexadecimal, and octal number systems instantly</p>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="converter-grid">
+                <div class="input-group">
+                    <label><span class="icon">0️⃣</span> Binary</label>
+                    <input type="text" id="binaryInput" placeholder="Enter binary (e.g., 101010)" maxlength="32">
+                    <div class="hint">Only 0 and 1 allowed</div>
+                </div>
+                <div class="input-group">
+                    <label><span class="icon">🔟</span> Decimal</label>
+                    <input type="text" id="decimalInput" placeholder="Enter decimal (e.g., 42)" maxlength="15">
+                    <div class="hint">Standard base-10 numbers</div>
+                </div>
+                <div class="input-group">
+                    <label><span class="icon">🔠</span> Hexadecimal</label>
+                    <input type="text" id="hexInput" placeholder="Enter hex (e.g., 2A)" maxlength="12">
+                    <div class="hint">0-9 and A-F characters</div>
+                </div>
+                <div class="input-group">
+                    <label><span class="icon">🐙</span> Octal</label>
+                    <input type="text" id="octalInput" placeholder="Enter octal (e.g., 52)" maxlength="16">
+                    <div class="hint">Digits 0-7 only</div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button onclick="setExample('101010')">Example: 101010</button>
+                <button onclick="setExample('11111111')">Example: 11111111</button>
+                <button onclick="setExample('10000000')">Example: 10000000</button>
+                <button onclick="clearAll()">Clear All</button>
+                <button onclick="copyAll()">Copy All</button>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="0987654321" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="info-section">
+            <h2>Understanding Number Base Systems</h2>
+            <p>Number base systems are different ways of representing numbers using a specific set of digits. The most common systems used in computing and mathematics are binary (base-2), decimal (base-10), hexadecimal (base-16), and octal (base-8). Understanding these systems is essential for programmers, computer scientists, and anyone working with digital systems.</p>
+            
+            <h3>Binary Number System (Base-2)</h3>
+            <p>Binary is the fundamental language of computers. It uses only two digits: 0 and 1. Each digit is called a "bit" (binary digit). Computers use binary because electronic circuits can easily represent two states: off (0) and on (1). Binary numbers are the foundation of all digital computing, from simple calculators to complex supercomputers.</p>
+            
+            <h3>Decimal Number System (Base-10)</h3>
+            <p>Decimal is the number system we use in everyday life. It uses ten digits: 0 through 9. Each position in a decimal number represents a power of 10. For example, in the number 456, the 6 is in the ones place (10^0), the 5 is in the tens place (10^1), and the 4 is in the hundreds place (10^2).</p>
+            
+            <h3>Hexadecimal Number System (Base-16)</h3>
+            <p>Hexadecimal (often shortened to "hex") uses sixteen digits: 0-9 and A-F, where A=10, B=11, C=12, D=13, E=14, and F=15. Hexadecimal is commonly used in computing because it provides a more compact way to represent binary numbers. Two hexadecimal digits can represent one byte (8 bits) of data.</p>
+            
+            <h3>Octal Number System (Base-8)</h3>
+            <p>Octal uses eight digits: 0 through 7. While less common today, octal was widely used in early computing systems. Each octal digit represents exactly three binary digits (bits), making it useful for representing binary data in a more readable format.</p>
+
+            <h3>Common Conversion Table</h3>
+            <table class="conversion-table">
+                <tr><th>Decimal</th><th>Binary</th><th>Hexadecimal</th><th>Octal</th></tr>
+                <tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                <tr><td>2</td><td>10</td><td>2</td><td>2</td></tr>
+                <tr><td>4</td><td>100</td><td>4</td><td>4</td></tr>
+                <tr><td>8</td><td>1000</td><td>8</td><td>10</td></tr>
+                <tr><td>10</td><td>1010</td><td>A</td><td>12</td></tr>
+                <tr><td>16</td><td>10000</td><td>10</td><td>20</td></tr>
+                <tr><td>32</td><td>100000</td><td>20</td><td>40</td></tr>
+                <tr><td>64</td><td>1000000</td><td>40</td><td>100</td></tr>
+                <tr><td>128</td><td>10000000</td><td>80</td><td>200</td></tr>
+                <tr><td>255</td><td>11111111</td><td>FF</td><td>377</td></tr>
+                <tr><td>256</td><td>100000000</td><td>100</td><td>400</td></tr>
+            </table>
+        </div>
+
+        <div class="info-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h4>How do I convert binary to decimal manually?</h4>
+                <p>To convert binary to decimal, multiply each binary digit by 2 raised to the power of its position (starting from 0 on the right), then sum the results. For example, binary 1011 = 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 8 + 0 + 2 + 1 = 11 in decimal.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Why do programmers use hexadecimal?</h4>
+                <p>Programmers use hexadecimal because it's more compact than binary while maintaining a direct relationship with binary data. Two hex digits represent exactly one byte (8 bits), making it ideal for representing memory addresses, color codes, and binary data in a readable format.</p>
+            </div>
+            <div class="faq-item">
+                <h4>What is the largest number this converter can handle?</h4>
+                <p>This converter can handle decimal numbers up to 2,147,483,647 (the maximum positive value for a 32-bit signed integer). This corresponds to binary numbers up to 31 digits and hexadecimal numbers up to 8 digits.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Is this converter accurate for all inputs?</h4>
+                <p>Yes, this converter uses JavaScript's built-in number parsing functions which are accurate for all valid inputs within the supported range. Invalid inputs (like letters in binary fields) are automatically rejected.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="processing-overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <p>Nexus Engine: Processing...</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 NexusUtility. All rights reserved. | <a href="../privacy-policy.html">Privacy Policy</a> | <a href="../about-us.html">About Us</a></p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Binary to Decimal Converter",
+        "description": "Convert between binary, decimal, hexadecimal, and octal number systems",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+
+    <script>
+        const binaryInput = document.getElementById('binaryInput');
+        const decimalInput = document.getElementById('decimalInput');
+        const hexInput = document.getElementById('hexInput');
+        const octalInput = document.getElementById('octalInput');
+
+        function showProcessing() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => overlay.classList.remove('active'), 500);
+        }
+
+        function isValidBinary(str) { return /^[01]*$/.test(str); }
+        function isValidDecimal(str) { return /^\d*$/.test(str); }
+        function isValidHex(str) { return /^[0-9A-Fa-f]*$/.test(str); }
+        function isValidOctal(str) { return /^[0-7]*$/.test(str); }
+
+        function updateFromBinary() {
+            const val = binaryInput.value;
+            if (!val || !isValidBinary(val)) {
+                decimalInput.value = '';
+                hexInput.value = '';
+                octalInput.value = '';
+                return;
+            }
+            const dec = parseInt(val, 2);
+            if (!isNaN(dec)) {
+                decimalInput.value = dec.toString(10);
+                hexInput.value = dec.toString(16).toUpperCase();
+                octalInput.value = dec.toString(8);
+            }
+        }
+
+        function updateFromDecimal() {
+            const val = decimalInput.value;
+            if (!val || !isValidDecimal(val)) {
+                binaryInput.value = '';
+                hexInput.value = '';
+                octalInput.value = '';
+                return;
+            }
+            const dec = parseInt(val, 10);
+            if (!isNaN(dec)) {
+                binaryInput.value = dec.toString(2);
+                hexInput.value = dec.toString(16).toUpperCase();
+                octalInput.value = dec.toString(8);
+            }
+        }
+
+        function updateFromHex() {
+            const val = hexInput.value;
+            if (!val || !isValidHex(val)) {
+                binaryInput.value = '';
+                decimalInput.value = '';
+                octalInput.value = '';
+                return;
+            }
+            const dec = parseInt(val, 16);
+            if (!isNaN(dec)) {
+                binaryInput.value = dec.toString(2);
+                decimalInput.value = dec.toString(10);
+                octalInput.value = dec.toString(8);
+            }
+        }
+
+        function updateFromOctal() {
+            const val = octalInput.value;
+            if (!val || !isValidOctal(val)) {
+                binaryInput.value = '';
+                decimalInput.value = '';
+                hexInput.value = '';
+                return;
+            }
+            const dec = parseInt(val, 8);
+            if (!isNaN(dec)) {
+                binaryInput.value = dec.toString(2);
+                decimalInput.value = dec.toString(10);
+                hexInput.value = dec.toString(16).toUpperCase();
+            }
+        }
+
+        binaryInput.addEventListener('input', () => { showProcessing(); updateFromBinary(); });
+        decimalInput.addEventListener('input', () => { showProcessing(); updateFromDecimal(); });
+        hexInput.addEventListener('input', () => { showProcessing(); updateFromHex(); });
+        octalInput.addEventListener('input', () => { showProcessing(); updateFromOctal(); });
+
+        function setExample(bin) {
+            showProcessing();
+            binaryInput.value = bin;
+            updateFromBinary();
+        }
+
+        function clearAll() {
+            showProcessing();
+            binaryInput.value = '';
+            decimalInput.value = '';
+            hexInput.value = '';
+            octalInput.value = '';
+        }
+
+        function copyAll() {
+            const text = `Binary: ${binaryInput.value || 'N/A'}
+Decimal: ${decimalInput.value || 'N/A'}
+Hexadecimal: ${hexInput.value || 'N/A'}
+Octal: ${octalInput.value || 'N/A'}`;
+            navigator.clipboard.writeText(text).then(() => alert('All values copied to clipboard!'));
+        }
+
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

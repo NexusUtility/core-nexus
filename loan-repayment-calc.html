@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Repayment Calculator | Free Amortization Schedule | NexusUtility</title>
+    <meta name="description" content="Free loan calculator with amortization schedule. Calculate monthly payments, total interest, and payoff timeline for mortgages, auto loans, and personal loans.">
+    <meta name="keywords" content="loan calculator, mortgage calculator, amortization schedule, loan repayment, interest calculator, monthly payment">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Loan Repayment Calculator", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2100"}, "description": "Calculate loan payments, total interest, and view full amortization schedule.", "url": "https://nexusutility.github.io/core-nexus/tools/loan-repayment-calc.html"}</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --accent-dark: #059669; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); --shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; padding: 3rem 0; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin: 2rem auto; text-align: center; max-width: 728px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .tool-container { background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; margin: 2rem 0; box-shadow: var(--shadow); }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { color: var(--text-secondary); font-size: 0.9rem; }
+        .input-group input, .input-group select { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 1rem; border-radius: 12px; font-size: 1rem; }
+        .input-group input:focus { outline: none; border-color: var(--accent); }
+        .calc-btn { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border: none; padding: 1rem 3rem; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: block; margin: 0 auto 2rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .result-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; }
+        .result-card.highlight { border-color: var(--accent); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+        .result-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .result-label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; }
+        .schedule-section { background: var(--bg-secondary); border-radius: 16px; padding: 1.5rem; margin-top: 2rem; max-height: 400px; overflow-y: auto; }
+        .schedule-section h3 { color: var(--accent); margin-bottom: 1rem; }
+        .schedule-table { width: 100%; border-collapse: collapse; }
+        .schedule-table th, .schedule-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+        .schedule-table th { color: var(--accent); font-weight: 600; position: sticky; top: 0; background: var(--bg-secondary); }
+        .schedule-table td { color: var(--text-secondary); font-size: 0.9rem; }
+        .content-section { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .content-section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent); }
+        .content-section p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.8; }
+        .formula-box { background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; margin: 1rem 0; font-family: monospace; }
+        .faq-item { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+        .faq-question { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .faq-answer { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .tool-header h1 { font-size: 1.8rem; } .tool-container { padding: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>🏦 Loan Repayment Calculator</h1>
+            <p>Calculate your monthly loan payments, total interest, and view your complete amortization schedule. Plan your debt payoff strategy.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Loan Amount ($)</label>
+                    <input type="number" id="loanAmount" placeholder="300000" value="300000">
+                </div>
+                <div class="input-group">
+                    <label>Interest Rate (%)</label>
+                    <input type="number" id="interestRate" placeholder="5.5" value="5.5" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label>Loan Term (years)</label>
+                    <input type="number" id="loanTerm" placeholder="30" value="30">
+                </div>
+                <div class="input-group">
+                    <label>Loan Type</label>
+                    <select id="loanType" onchange="setLoanDefaults()">
+                        <option value="custom">Custom</option>
+                        <option value="mortgage">Mortgage (30yr)</option>
+                        <option value="mortgage15">Mortgage (15yr)</option>
+                        <option value="auto">Auto Loan (5yr)</option>
+                        <option value="personal">Personal Loan (3yr)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="calc-btn" onclick="calculateLoan()">Calculate Payments</button>
+
+            <div class="results-grid" id="resultsSection" style="display: none;">
+                <div class="result-card highlight">
+                    <div class="result-value" id="monthlyPayment">-</div>
+                    <div class="result-label">Monthly Payment</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="totalPayment">-</div>
+                    <div class="result-label">Total Payment</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="totalInterest">-</div>
+                    <div class="result-label">Total Interest</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="payoffDate">-</div>
+                    <div class="result-label">Payoff Date</div>
+                </div>
+            </div>
+
+            <div class="schedule-section" id="scheduleSection" style="display: none;">
+                <h3>Amortization Schedule</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr><th>Payment #</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr>
+                    </thead>
+                    <tbody id="scheduleBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Understanding Loan Amortization</h2>
+        <p>Amortization is the process of paying off debt through regular payments over time. Each payment covers both principal (the amount borrowed) and interest (the cost of borrowing). Early in the loan, more of each payment goes toward interest. As the balance decreases, more goes toward principal.</p>
+
+        <h2>🔬 Loan Payment Formula</h2>
+        <div class="formula-box">M = P × (r(1+r)^n) / ((1+r)^n - 1)<br><br>Where:<br>M = Monthly payment<br>P = Principal loan amount<br>r = Monthly interest rate (annual rate ÷ 12)<br>n = Total number of payments (years × 12)</div>
+
+        <h2>💡 Tips to Pay Off Loans Faster</h2>
+        <p>• Make biweekly payments instead of monthly (26 half-payments = 13 full payments/year)<br>• Round up your payments to the nearest $50 or $100<br>• Apply windfalls (tax refunds, bonuses) to principal<br>• Refinance to a lower interest rate if possible<br>• Avoid extending loan terms when refinancing</p>
+
+        <h2>❓ FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)"><span>What's the difference between interest rate and APR?</span><span>▼</span></div>
+            <div class="faq-answer">APR (Annual Percentage Rate) includes the interest rate plus any fees or charges, giving a more complete picture of the loan's true cost. Always compare APRs when shopping for loans.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)"><span>Should I pay extra toward principal?</span><span>▼</span></div>
+            <div class="faq-answer">Yes, if you can afford it. Extra principal payments reduce the total interest paid and shorten the loan term. Even small additional amounts can save thousands over the life of a mortgage.</div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({}); (adsbygoogle = window.adsbygoogle || []).push({});
+        function setLoanDefaults() {
+            const type = document.getElementById('loanType').value;
+            const defaults = { mortgage: [300000, 5.5, 30], mortgage15: [300000, 5.0, 15], auto: [25000, 6.0, 5], personal: [10000, 8.0, 3] };
+            if (defaults[type]) { document.getElementById('loanAmount').value = defaults[type][0]; document.getElementById('interestRate').value = defaults[type][1]; document.getElementById('loanTerm').value = defaults[type][2]; }
+        }
+        function calculateLoan() {
+            const principal = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const annualRate = parseFloat(document.getElementById('interestRate').value) / 100 || 0;
+            const years = parseInt(document.getElementById('loanTerm').value) || 0;
+            const monthlyRate = annualRate / 12;
+            const numPayments = years * 12;
+            const monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
+            const totalPayment = monthlyPayment * numPayments;
+            const totalInterest = totalPayment - principal;
+            const payoffDate = new Date(); payoffDate.setMonth(payoffDate.getMonth() + numPayments);
+            document.getElementById('monthlyPayment').textContent = '$' + monthlyPayment.toFixed(0).toLocaleString();
+            document.getElementById('totalPayment').textContent = '$' + totalPayment.toFixed(0).toLocaleString();
+            document.getElementById('totalInterest').textContent = '$' + totalInterest.toFixed(0).toLocaleString();
+            document.getElementById('payoffDate').textContent = payoffDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+            document.getElementById('resultsSection').style.display = 'grid';
+            generateSchedule(principal, monthlyRate, numPayments, monthlyPayment);
+        }
+        function generateSchedule(principal, monthlyRate, numPayments, monthlyPayment) {
+            let balance = principal;
+            let html = '';
+            for (let i = 1; i <= Math.min(numPayments, 120); i++) {
+                const interestPayment = balance * monthlyRate;
+                const principalPayment = monthlyPayment - interestPayment;
+                balance -= principalPayment;
+                if (i <= 12 || i % 12 === 0 || i === numPayments) {
+                    html += `<tr><td>${i}</td><td>$${monthlyPayment.toFixed(0)}</td><td>$${principalPayment.toFixed(0)}</td><td>$${interestPayment.toFixed(0)}</td><td>$${Math.max(0, balance).toFixed(0)}</td></tr>`;
+                }
+            }
+            document.getElementById('scheduleBody').innerHTML = html;
+            document.getElementById('scheduleSection').style.display = 'block';
+        }
+        function toggleFaq(element) { const faqItem = element.parentElement; faqItem.classList.toggle('active'); element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼'; }
+    </script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Bio Styler | Cool Fonts & Symbols for TikTok Bio | NexusUtility</title>
+    <meta name="description" content="Free TikTok bio styler with cool fonts, symbols, and emojis. Create stylish, aesthetic, and unique TikTok bios with fancy text generators and copy-paste ready formatting.">
+    <meta name="keywords" content="tiktok bio styler, tiktok bio fonts, fancy text generator, aesthetic bio, cool symbols, tiktok bio ideas">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --accent: #10b981;
+            --accent-dim: #059669;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #27272a;
+            --error: #ef4444;
+            --success: #22c55e;
+            --tiktok-pink: #ff0050;
+            --tiktok-cyan: #00f2ea;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; margin-bottom: 2rem; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .tool-header h1 span { 
+            background: linear-gradient(90deg, var(--tiktok-cyan), var(--tiktok-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; }
+        .ad-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .input-section {
+            margin-bottom: 2rem;
+        }
+        .input-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+        .bio-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.2s;
+        }
+        .bio-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .char-count {
+            text-align: right;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .char-count.warning { color: var(--error); }
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .style-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .style-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .style-card.copied {
+            border-color: var(--success);
+        }
+        .style-card.copied::after {
+            content: 'Copied!';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .style-name {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .style-preview {
+            font-size: 1.1rem;
+            word-break: break-word;
+            min-height: 2rem;
+        }
+        .symbols-section {
+            margin-top: 2rem;
+        }
+        .symbols-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .symbols-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .symbol-btn {
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .symbol-btn:hover {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+        .templates-section {
+            margin-top: 2rem;
+        }
+        .templates-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .template-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .template-card:hover {
+            border-color: var(--accent);
+        }
+        .template-card p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        .info-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .info-section h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .info-section h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.2rem;
+        }
+        .info-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .info-section ul {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-section li { margin-bottom: 0.5rem; }
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .tip-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .tip-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        .tip-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .faq-item p {
+            color: var(--text-secondary);
+        }
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .processing-overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; padding: 1rem; }
+            .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .tool-header h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NexusUtility</div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#tools">Tools</a></li>
+            <li><a href="../about-us.html">About</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="tool-header">
+            <h1>TikTok Bio <span>Styler</span></h1>
+            <p>Create stylish, aesthetic TikTok bios with cool fonts and symbols</p>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="input-section">
+                <label for="bioInput">Enter your bio text:</label>
+                <textarea class="bio-input" id="bioInput" placeholder="Type your bio here... (e.g., Content Creator | Lifestyle | DM for collabs)" maxlength="80"></textarea>
+                <div class="char-count" id="charCount">0 / 80 characters</div>
+            </div>
+
+            <div class="styles-grid" id="stylesGrid"></div>
+
+            <div class="symbols-section">
+                <h3>Quick Symbols (Click to Add)</h3>
+                <div class="symbols-grid" id="symbolsGrid"></div>
+            </div>
+
+            <div class="templates-section">
+                <h3>Bio Templates (Click to Use)</h3>
+                <div class="templates-grid" id="templatesGrid"></div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="0987654321" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="info-section">
+            <h2>How to Create a Great TikTok Bio</h2>
+            <p>Your TikTok bio is one of the first things people see when they visit your profile. A well-crafted bio can help you attract followers, communicate your brand, and drive engagement. With our TikTok Bio Styler, you can create unique, eye-catching bios that stand out from the crowd using fancy fonts, symbols, and emojis.</p>
+            
+            <h3>TikTok Bio Character Limit</h3>
+            <p>TikTok bios have an 80-character limit, which means every character counts. This constraint forces you to be concise and creative. Our tool shows your character count in real-time so you know exactly how much space you have left.</p>
+
+            <h3>Elements of a Great TikTok Bio</h3>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>Clear Identity</h4>
+                    <p>Immediately communicate who you are and what content you create.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Call to Action</h4>
+                    <p>Tell visitors what to do: follow, check link, DM for collabs.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Personality</h4>
+                    <p>Show your unique style with creative fonts and symbols.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Keywords</h4>
+                    <p>Include relevant keywords to help people find you in search.</p>
+                </div>
+            </div>
+
+            <h3>Bio Ideas by Niche</h3>
+            <ul>
+                <li><strong>Fashion/Beauty:</strong> "Fashion lover | Daily outfits | Link to shop"</li>
+                <li><strong>Fitness:</strong> "Gym rat | Workout tips | Transform your body"</li>
+                <li><strong>Food:</strong> "Foodie | Easy recipes | New videos daily"</li>
+                <li><strong>Comedy:</strong> "Just here for laughs | New skits weekly"</li>
+                <li><strong>Business:</strong> "Entrepreneur | Business tips | Let's connect"</li>
+                <li><strong>Gaming:</strong> "Gamer | Stream highlights | Join the squad"</li>
+            </ul>
+
+            <h3>Using Fonts Effectively</h3>
+            <p>While fancy fonts can make your bio stand out, use them strategically. Some fonts may be harder to read, so balance style with readability. Test how your bio looks on both mobile and desktop before finalizing it.</p>
+        </div>
+
+        <div class="info-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h4>Will these fonts work on TikTok?</h4>
+                <p>Yes! Our tool uses Unicode characters that are supported by TikTok. Simply copy your styled text and paste it directly into your TikTok bio. The special characters will display correctly on all devices.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Why is there an 80-character limit?</h4>
+                <p>TikTok imposes an 80-character limit on bios to keep profiles concise and mobile-friendly. This is a platform restriction that applies to all users regardless of follower count.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I use emojis in my bio?</h4>
+                <p>Absolutely! Emojis are a great way to add personality and visual interest to your bio. They also count as characters, so use them wisely within the 80-character limit.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Are these fonts readable by everyone?</h4>
+                <p>Most Unicode fonts are widely supported, but some decorative fonts may appear differently depending on the device and operating system. We recommend testing your bio on multiple devices to ensure it looks good everywhere.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="processing-overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <p>Nexus Engine: Processing...</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 NexusUtility. All rights reserved. | <a href="../privacy-policy.html">Privacy Policy</a> | <a href="../about-us.html">About Us</a></p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TikTok Bio Styler",
+        "description": "Create stylish, aesthetic TikTok bios with cool fonts and symbols",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+
+    <script>
+        const bioInput = document.getElementById('bioInput');
+        const charCount = document.getElementById('charCount');
+        const stylesGrid = document.getElementById('stylesGrid');
+        const symbolsGrid = document.getElementById('symbolsGrid');
+        const templatesGrid = document.getElementById('templatesGrid');
+
+        const fontStyles = [
+            { name: 'Bold', transform: t => t.split('').map(c => {
+                const bold = {'a':'𝐚','b':'𝐛','c':'𝐜','d':'𝐝','e':'𝐞','f':'𝐟','g':'𝐠','h':'𝐡','i':'𝐢','j':'𝐣','k':'𝐤','l':'𝐥','m':'𝐦','n':'𝐧','o':'𝐨','p':'𝐩','q':'𝐪','r':'𝐫','s':'𝐬','t':'𝐭','u':'𝐮','v':'𝐯','w':'𝐰','x':'𝐱','y':'𝐲','z':'𝐳','A':'𝐀','B':'𝐁','C':'𝐂','D':'𝐃','E':'𝐄','F':'𝐅','G':'𝐆','H':'𝐇','I':'𝐈','J':'𝐉','K':'𝐊','L':'𝐋','M':'𝐌','N':'𝐍','O':'𝐎','P':'𝐏','Q':'𝐐','R':'𝐑','S':'𝐒','T':'𝐓','U':'𝐔','V':'𝐕','W':'𝐖','X':'𝐗','Y':'𝐘','Z':'𝐙','0':'𝟎','1':'𝟏','2':'𝟐','3':'𝟑','4':'𝟒','5':'𝟓','6':'𝟔','7':'𝟕','8':'𝟖','9':'𝟗'};
+                return bold[c] || c;
+            }).join('')},
+            { name: 'Italic', transform: t => t.split('').map(c => {
+                const italic = {'a':'𝘢','b':'𝘣','c':'𝘤','d':'𝘥','e':'𝘦','f':'𝘧','g':'𝘨','h':'𝘩','i':'𝘪','j':'𝘫','k':'𝘬','l':'𝘭','m':'𝘮','n':'𝘯','o':'𝘰','p':'𝘱','q':'𝘲','r':'𝘳','s':'𝘴','t':'𝘵','u':'𝘶','v':'𝘷','w':'𝘸','x':'𝘹','y':'𝘺','z':'𝘻','A':'𝘈','B':'𝘉','C':'𝘊','D':'𝘋','E':'𝘌','F':'𝘍','G':'𝘎','H':'𝘏','I':'𝘐','J':'𝘑','K':'𝘒','L':'𝘓','M':'𝘔','N':'𝘕','O':'𝘖','P':'𝘗','Q':'𝘘','R':'𝘙','S':'𝘚','T':'𝘛','U':'𝘜','V':'𝘝','W':'𝘞','X':'𝘟','Y':'𝘠','Z':'𝘡'};
+                return italic[c] || c;
+            }).join('')},
+            { name: 'Bold Italic', transform: t => t.split('').map(c => {
+                const bi = {'a':'𝙖','b':'𝙗','c':'𝙘','d':'𝙙','e':'𝙚','f':'𝙛','g':'𝙜','h':'𝙝','i':'𝙞','j':'𝙟','k':'𝙠','l':'𝙡','m':'𝙢','n':'𝙣','o':'𝙤','p':'𝙥','q':'𝙦','r':'𝙧','s':'𝙨','t':'𝙩','u':'𝙪','v':'𝙫','w':'𝙬','x':'𝙭','y':'𝙮','z':'𝙯','A':'𝘼','B':'𝘽','C':'𝘾','D':'𝘿','E':'𝙀','F':'𝙁','G':'𝙂','H':'𝙃','I':'𝙄','J':'𝙅','K':'𝙆','L':'𝙇','M':'𝙈','N':'𝙉','O':'𝙊','P':'𝙋','Q':'𝙌','R':'𝙍','S':'𝙎','T':'𝙏','U':'𝙐','V':'𝙑','W':'𝙒','X':'𝙓','Y':'𝙔','Z':'𝙕'};
+                return bi[c] || c;
+            }).join('')},
+            { name: 'Script', transform: t => t.split('').map(c => {
+                const script = {'a':'𝒶','b':'𝒷','c':'𝒸','d':'𝒹','e':'𝑒','f':'𝒻','g':'𝑔','h':'𝒽','i':'𝒾','j':'𝒿','k':'𝓀','l':'𝓁','m':'𝓂','n':'𝓃','o':'𝑜','p':'𝓅','q':'𝓆','r':'𝓇','s':'𝓈','t':'𝓉','u':'𝓊','v':'𝓋','w':'𝓌','x':'𝓍','y':'𝓎','z':'𝓏','A':'𝒜','B':'𝐵','C':'𝒞','D':'𝒟','E':'𝐸','F':'𝐹','G':'𝒢','H':'𝐻','I':'𝐼','J':'𝒥','K':'𝒦','L':'𝐿','M':'𝑀','N':'𝒩','O':'𝒪','P':'𝒫','Q':'𝒬','R':'𝑅','S':'𝒮','T':'𝒯','U':'𝒰','V':'𝒱','W':'𝒲','X':'𝒳','Y':'𝒴','Z':'𝒵'};
+                return script[c] || c;
+            }).join('')},
+            { name: 'Double-struck', transform: t => t.split('').map(c => {
+                const ds = {'a':'𝕒','b':'𝕓','c':'𝕔','d':'𝕕','e':'𝕖','f':'𝕗','g':'𝕘','h':'𝕙','i':'𝕚','j':'𝕛','k':'𝕜','l':'𝕝','m':'𝕞','n':'𝕟','o':'𝕠','p':'𝕡','q':'𝕢','r':'𝕣','s':'𝕤','t':'𝕥','u':'𝕦','v':'𝕧','w':'𝕨','x':'𝕩','y':'𝕪','z':'𝕫','A':'𝔸','B':'𝔹','C':'ℂ','D':'𝔻','E':'𝔼','F':'𝔽','G':'𝔾','H':'ℍ','I':'𝕀','J':'𝕁','K':'𝕂','L':'𝕃','M':'𝕄','N':'ℕ','O':'𝕆','P':'ℙ','Q':'ℚ','R':'ℝ','S':'𝕊','T':'𝕋','U':'𝕌','V':'𝕍','W':'𝕎','X':'𝕏','Y':'𝕐','Z':'ℤ','0':'𝟘','1':'𝟙','2':'𝟚','3':'𝟛','4':'𝟜','5':'𝟝','6':'𝟞','7':'𝟟','8':'𝟠','9':'𝟡'};
+                return ds[c] || c;
+            }).join('')},
+            { name: 'Gothic', transform: t => t.split('').map(c => {
+                const gothic = {'a':'𝔞','b':'𝔟','c':'𝔠','d':'𝔡','e':'𝔢','f':'𝔣','g':'𝔤','h':'𝔥','i':'𝔦','j':'𝔧','k':'𝔨','l':'𝔩','m':'𝔪','n':'𝔫','o':'𝔬','p':'𝔭','q':'𝔮','r':'𝔯','s':'𝔰','t':'𝔱','u':'𝔲','v':'𝔳','w':'𝔴','x':'𝔵','y':'𝔶','z':'𝔷','A':'𝔄','B':'𝔅','C':'ℭ','D':'𝔇','E':'𝔈','F':'𝔉','G':'𝔊','H':'ℌ','I':'ℑ','J':'𝔍','K':'𝔎','L':'𝔏','M':'𝔐','N':'𝔑','O':'𝔒','P':'𝔓','Q':'𝔔','R':'ℜ','S':'𝔖','T':'𝔗','U':'𝔘','V':'𝔙','W':'𝔚','X':'𝔛','Y':'𝔜','Z':'ℨ'};
+                return gothic[c] || c;
+            }).join('')},
+            { name: 'Small Caps', transform: t => t.split('').map(c => {
+                const sc = {'a':'ᴀ','b':'ʙ','c':'ᴄ','d':'ᴅ','e':'ᴇ','f':'ғ','g':'ɢ','h':'ʜ','i':'ɪ','j':'ᴊ','k':'ᴋ','l':'ʟ','m':'ᴍ','n':'ɴ','o':'ᴏ','p':'ᴘ','q':'q','r':'ʀ','s':'s','t':'ᴛ','u':'ᴜ','v':'ᴠ','w':'ᴡ','x':'x','y':'ʏ','z':'ᴢ','A':'ᴀ','B':'ʙ','C':'ᴄ','D':'ᴅ','E':'ᴇ','F':'ғ','G':'ɢ','H':'ʜ','I':'ɪ','J':'ᴊ','K':'ᴋ','L':'ʟ','M':'ᴍ','N':'ɴ','O':'ᴏ','P':'ᴘ','Q':'q','R':'ʀ','S':'s','T':'ᴛ','U':'ᴜ','V':'ᴠ','W':'ᴡ','X':'x','Y':'ʏ','Z':'ᴢ'};
+                return sc[c] || c;
+            }).join('')},
+            { name: 'Bubble', transform: t => t.split('').map(c => {
+                const bubble = {'a':'ⓐ','b':'ⓑ','c':'ⓒ','d':'ⓓ','e':'ⓔ','f':'ⓕ','g':'ⓖ','h':'ⓗ','i':'ⓘ','j':'ⓙ','k':'ⓚ','l':'ⓛ','m':'ⓜ','n':'ⓝ','o':'ⓞ','p':'ⓟ','q':'ⓠ','r':'ⓡ','s':'ⓢ','t':'ⓣ','u':'ⓤ','v':'ⓥ','w':'ⓦ','x':'ⓧ','y':'ⓨ','z':'ⓩ','A':'Ⓐ','B':'Ⓑ','C':'Ⓒ','D':'Ⓓ','E':'Ⓔ','F':'Ⓕ','G':'Ⓖ','H':'Ⓗ','I':'Ⓘ','J':'Ⓙ','K':'Ⓚ','L':'Ⓛ','M':'Ⓜ','N':'Ⓝ','O':'Ⓞ','P':'Ⓟ','Q':'Ⓠ','R':'Ⓡ','S':'Ⓢ','T':'Ⓣ','U':'Ⓤ','V':'Ⓥ','W':'Ⓦ','X':'Ⓧ','Y':'Ⓨ','Z':'Ⓩ','0':'⓪','1':'①','2':'②','3':'③','4':'④','5':'⑤','6':'⑥','7':'⑦','8':'⑧','9':'⑨'};
+                return bubble[c] || c;
+            }).join('')},
+            { name: 'Square', transform: t => t.split('').map(c => `[${c}]`).join('')},
+            { name: 'Strike', transform: t => t.split('').map(c => c + '\u0336').join('')},
+            { name: 'Underline', transform: t => t.split('').map(c => c + '\u0332').join('')},
+            { name: 'Reverse', transform: t => t.split('').reverse().join('')}
+        ];
+
+        const symbols = [
+            '✨', '🔥', '💫', '⭐', '🌟', '💎', '👑', '🎯', '🚀', '🌈',
+            '☀️', '🌙', '⚡', '💯', '❤️', '💜', '💙', '💚', '💛', '🧡',
+            '🖤', '🤍', '🤎', '💖', '💗', '💓', '💕', '💞', '💘', '💝',
+            '🎵', '🎶', '🎼', '🎸', '🎤', '🎬', '📸', '🎨', '✈️', '🌍',
+            '🌎', '🌏', '📍', '📌', '🔗', '☕', '🍕', '🍔', '🌮', '🍩',
+            '🍦', '🧁', '🍪', '🍫', '🍬', '🍭', '🎂', '🎁', '🎈', '🎉',
+            '🎊', '🎀', '🎗️', '🏆', '🥇', '🥈', '🥉', '🏅', '🎖️', '⬇️',
+            '⬆️', '➡️', '⬅️', '↗️', '↘️', '↙️', '↖️', '↕️', '↔️', '🔄',
+            '🔁', '🔂', '▶️', '⏸️', '⏯️', '⏹️', '⏺️', '⏭️', '⏮️', '⏩',
+            '⏪', '🔀', '🔃', '🎵', '🔔', '🔕', '✅', '❌', '⭕', '❓',
+            '❗', '‼️', '⁉️', '❕', '❔', '🔅', '🔆', '🔱', '〽️', '⚜️',
+            '✳️', '✴️', '❇️', '©️', '®️', '™️', '#️⃣', '*️⃣', '0️⃣', '1️⃣'
+        ];
+
+        const templates = [
+            "✨ Content Creator | Lifestyle | Link below ✨",
+            "🔥 Daily motivation | DM for collabs 🔥",
+            "💫 Spreading positivity | New videos daily 💫",
+            "👑 CEO of [your niche] | Follow for more 👑",
+            "🎯 Helping you [goal] | Tips & tricks 🎯",
+            "🚀 On a mission to [your mission] 🚀",
+            "💎 Quality content | Subscribe | Turn on 🔔",
+            "☕ Coffee addict | Content creator | DM me ☕",
+            "🎨 Artist | Creator | Link in bio 🎨",
+            "📸 Photographer | Capturing moments 📸",
+            "🎵 Music lover | New sounds daily 🎵",
+            "💯 Real talk | No filter | Just me 💯",
+            "🌈 Living my best life | Follow along 🌈",
+            "⚡ Energy | Vibes | Good times only ⚡",
+            "💖 Spreading love | Join the family 💖"
+        ];
+
+        function showProcessing() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => overlay.classList.remove('active'), 300);
+        }
+
+        function updateStyles() {
+            const text = bioInput.value || 'Preview Text';
+            stylesGrid.innerHTML = '';
+            
+            fontStyles.forEach(style => {
+                const card = document.createElement('div');
+                card.className = 'style-card';
+                card.innerHTML = `
+                    <div class="style-name">${style.name}</div>
+                    <div class="style-preview">${style.transform(text)}</div>
+                `;
+                card.onclick = () => copyToClipboard(style.transform(text), card);
+                stylesGrid.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text, element) {
+            showProcessing();
+            navigator.clipboard.writeText(text).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => element.classList.remove('copied'), 2000);
+            });
+        }
+
+        function renderSymbols() {
+            symbolsGrid.innerHTML = '';
+            symbols.forEach(symbol => {
+                const btn = document.createElement('button');
+                btn.className = 'symbol-btn';
+                btn.textContent = symbol;
+                btn.onclick = () => {
+                    bioInput.value += symbol;
+                    updateCharCount();
+                    updateStyles();
+                };
+                symbolsGrid.appendChild(btn);
+            });
+        }
+
+        function renderTemplates() {
+            templatesGrid.innerHTML = '';
+            templates.forEach(template => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                card.innerHTML = `<p>${template}</p>`;
+                card.onclick = () => {
+                    bioInput.value = template;
+                    updateCharCount();
+                    updateStyles();
+                };
+                templatesGrid.appendChild(card);
+            });
+        }
+
+        function updateCharCount() {
+            const len = bioInput.value.length;
+            charCount.textContent = `${len} / 80 characters`;
+            charCount.classList.toggle('warning', len > 80);
+        }
+
+        bioInput.addEventListener('input', () => {
+            updateCharCount();
+            updateStyles();
+        });
+
+        // Initialize
+        updateStyles();
+        renderSymbols();
+        renderTemplates();
+
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

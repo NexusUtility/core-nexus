@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dead Pixel Tester | Online Monitor Test Tool | NexusUtility</title>
+    <meta name="description" content="Free online dead pixel tester. Check your monitor for dead pixels, stuck pixels, and screen defects with solid color tests. Works on any display.">
+    <meta name="keywords" content="dead pixel tester, stuck pixel test, monitor test, screen test, pixel check, display test">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --accent: #10b981;
+            --accent-dim: #059669;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #27272a;
+            --error: #ef4444;
+            --success: #22c55e;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; margin-bottom: 2rem; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .tool-header h1 span { color: var(--accent); }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; }
+        .ad-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .test-display {
+            background: #000000;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            aspect-ratio: 16/9;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .test-display.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            border-radius: 0;
+            aspect-ratio: auto;
+        }
+        .color-info {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0,0,0,0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .fullscreen-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .color-btn {
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .color-btn:hover { transform: scale(1.05); border-color: var(--accent); }
+        .color-btn.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3); }
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .pixel-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .pixel-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .pixel-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pixel-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .info-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .info-section h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .info-section h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.2rem;
+        }
+        .info-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .info-section ul {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-section li { margin-bottom: 0.5rem; }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .faq-item p {
+            color: var(--text-secondary);
+        }
+        .exit-fullscreen {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 10000;
+            display: none;
+        }
+        .exit-fullscreen.visible { display: block; }
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .processing-overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; padding: 1rem; }
+            .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .tool-header h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .color-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NexusUtility</div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#tools">Tools</a></li>
+            <li><a href="../about-us.html">About</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="tool-header">
+            <h1>Dead Pixel <span>Tester</span></h1>
+            <p>Test your monitor for dead pixels, stuck pixels, and screen defects</p>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="test-display" id="testDisplay" onclick="toggleFullscreen()">
+                <div class="color-info" id="colorInfo">Black</div>
+                <div class="fullscreen-hint">Click to enter fullscreen</div>
+            </div>
+
+            <div class="color-grid">
+                <div class="color-btn active" style="background: #000000; color: #fff;" data-color="#000000" data-name="Black" onclick="setColor('#000000', 'Black')">Black</div>
+                <div class="color-btn" style="background: #ffffff; color: #000;" data-color="#ffffff" data-name="White" onclick="setColor('#ffffff', 'White')">White</div>
+                <div class="color-btn" style="background: #ff0000; color: #fff;" data-color="#ff0000" data-name="Red" onclick="setColor('#ff0000', 'Red')">Red</div>
+                <div class="color-btn" style="background: #00ff00; color: #000;" data-color="#00ff00" data-name="Green" onclick="setColor('#00ff00', 'Green')">Green</div>
+                <div class="color-btn" style="background: #0000ff; color: #fff;" data-color="#0000ff" data-name="Blue" onclick="setColor('#0000ff', 'Blue')">Blue</div>
+                <div class="color-btn" style="background: #ffff00; color: #000;" data-color="#ffff00" data-name="Yellow" onclick="setColor('#ffff00', 'Yellow')">Yellow</div>
+                <div class="color-btn" style="background: #ff00ff; color: #fff;" data-color="#ff00ff" data-name="Magenta" onclick="setColor('#ff00ff', 'Magenta')">Magenta</div>
+                <div class="color-btn" style="background: #00ffff; color: #000;" data-color="#00ffff" data-name="Cyan" onclick="setColor('#00ffff', 'Cyan')">Cyan</div>
+                <div class="color-btn" style="background: #808080; color: #fff;" data-color="#808080" data-name="Gray" onclick="setColor('#808080', 'Gray')">Gray</div>
+                <div class="color-btn" style="background: #ff8000; color: #000;" data-color="#ff8000" data-name="Orange" onclick="setColor('#ff8000', 'Orange')">Orange</div>
+                <div class="color-btn" style="background: #800080; color: #fff;" data-color="#800080" data-name="Purple" onclick="setColor('#800080', 'Purple')">Purple</div>
+                <div class="color-btn" style="background: #008000; color: #fff;" data-color="#008000" data-name="Dark Green" onclick="setColor('#008000', 'Dark Green')">D. Green</div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="startAutoTest()">
+                    <span>▶️</span> Auto Test
+                </button>
+                <button class="btn btn-secondary" onclick="toggleFullscreen()">
+                    <span>⛶</span> Fullscreen
+                </button>
+            </div>
+
+            <div class="pixel-types">
+                <div class="pixel-card">
+                    <h4>⚫ Dead Pixel</h4>
+                    <p>A pixel that remains black on all colors. The sub-pixels are completely unresponsive and appear as a permanent black dot.</p>
+                </div>
+                <div class="pixel-card">
+                    <h4>⚪ Stuck Pixel</h4>
+                    <p>A pixel stuck on one color (red, green, or blue). It remains lit even when the screen should display black.</p>
+                </div>
+                <div class="pixel-card">
+                    <h4>🔥 Hot Pixel</h4>
+                    <p>A pixel that is always on (white). All three sub-pixels are permanently activated, creating a bright white spot.</p>
+                </div>
+                <div class="pixel-card">
+                    <h4>🎨 Sub-pixel Issue</h4>
+                    <p>Individual red, green, or blue sub-pixels that are stuck or dead, creating colored dots on certain backgrounds.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="0987654321" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="info-section">
+            <h2>How to Test for Dead Pixels</h2>
+            <p>Dead pixels are defective pixels on a display that do not function properly. They can appear as black dots (dead), permanently lit dots (stuck), or colored dots (sub-pixel issues). Testing your monitor regularly helps identify these defects early, which is especially important during the warranty period.</p>
+            
+            <h3>Testing Instructions</h3>
+            <p>To effectively test for dead pixels, follow these steps:</p>
+            <ul>
+                <li><strong>Clean your screen</strong> - Remove any dust or smudges that could be mistaken for dead pixels</li>
+                <li><strong>Use fullscreen mode</strong> - Click the test area to enter fullscreen for the best view</li>
+                <li><strong>Test all colors</strong> - Cycle through black, white, red, green, and blue at minimum</li>
+                <li><strong>Inspect carefully</strong> - Look for dots that don't match the background color</li>
+                <li><strong>Check different areas</strong> - Dead pixels can appear anywhere on the screen</li>
+            </ul>
+            
+            <h3>Understanding Test Colors</h3>
+            <p>Different colors reveal different types of pixel defects:</p>
+            <ul>
+                <li><strong>Black</strong> - Best for finding stuck or hot pixels (they'll appear as bright dots)</li>
+                <li><strong>White</strong> - Reveals dead pixels (they'll appear as black dots)</li>
+                <li><strong>Red/Green/Blue</strong> - Helps identify which sub-pixel is malfunctioning</li>
+                <li><strong>Primary colors</strong> - Makes sub-pixel issues more visible</li>
+            </ul>
+
+            <h3>What to Do If You Find Dead Pixels</h3>
+            <p>If you discover dead or stuck pixels, here are your options:</p>
+            <ul>
+                <li><strong>Check warranty coverage</strong> - Most manufacturers have a minimum dead pixel policy</li>
+                <li><strong>Try pixel fixing software</strong> - Rapid color flashing may unstuck some pixels</li>
+                <li><strong>Gentle pressure method</strong> - Some users report success with careful pressure</li>
+                <li><strong>Contact manufacturer</strong> - If under warranty, you may be eligible for a replacement</li>
+            </ul>
+        </div>
+
+        <div class="info-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h4>How many dead pixels are considered acceptable?</h4>
+                <p>This varies by manufacturer. Most have a minimum threshold (often 3-5 dead pixels) before they'll replace a monitor under warranty. Some premium monitors come with zero dead pixel guarantees. Check your manufacturer's policy for specific details.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can dead pixels be fixed?</h4>
+                <p>True dead pixels (black on all colors) usually cannot be fixed. However, stuck pixels (permanently lit) can sometimes be unstuck using pixel fixing software that rapidly cycles colors, or through gentle pressure techniques. Success rates vary.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Are dead pixels common?</h4>
+                <p>Modern manufacturing has significantly reduced dead pixel rates, but they're not uncommon. Most displays have at least a few sub-pixel imperfections that are invisible to the naked eye. Visible dead pixels occur in a small percentage of displays.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Does this test work on all devices?</h4>
+                <p>Yes, this test works on any device with a display - monitors, laptops, tablets, and smartphones. For mobile devices, you can still use the test, though detecting tiny dead pixels on high-DPI screens may be more challenging.</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="exit-fullscreen" id="exitFullscreen" onclick="exitFullscreen()">Exit Fullscreen (ESC)</button>
+
+    <div class="processing-overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <p>Nexus Engine: Processing...</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 NexusUtility. All rights reserved. | <a href="../privacy-policy.html">Privacy Policy</a> | <a href="../about-us.html">About Us</a></p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Dead Pixel Tester",
+        "description": "Test your monitor for dead pixels, stuck pixels, and screen defects",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+
+    <script>
+        const testDisplay = document.getElementById('testDisplay');
+        const colorInfo = document.getElementById('colorInfo');
+        const exitFullscreenBtn = document.getElementById('exitFullscreen');
+        let autoTestInterval = null;
+        let currentColorIndex = 0;
+        
+        const colors = [
+            { color: '#000000', name: 'Black' },
+            { color: '#ffffff', name: 'White' },
+            { color: '#ff0000', name: 'Red' },
+            { color: '#00ff00', name: 'Green' },
+            { color: '#0000ff', name: 'Blue' },
+            { color: '#ffff00', name: 'Yellow' },
+            { color: '#ff00ff', name: 'Magenta' },
+            { color: '#00ffff', name: 'Cyan' }
+        ];
+
+        function showProcessing() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => overlay.classList.remove('active'), 300);
+        }
+
+        function setColor(color, name) {
+            showProcessing();
+            stopAutoTest();
+            testDisplay.style.background = color;
+            colorInfo.textContent = name;
+            
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.color === color) btn.classList.add('active');
+            });
+        }
+
+        function toggleFullscreen() {
+            showProcessing();
+            testDisplay.classList.toggle('fullscreen');
+            exitFullscreenBtn.classList.toggle('visible', testDisplay.classList.contains('fullscreen'));
+        }
+
+        function exitFullscreen() {
+            showProcessing();
+            testDisplay.classList.remove('fullscreen');
+            exitFullscreenBtn.classList.remove('visible');
+        }
+
+        function startAutoTest() {
+            showProcessing();
+            if (autoTestInterval) {
+                stopAutoTest();
+                return;
+            }
+            
+            currentColorIndex = 0;
+            autoTestInterval = setInterval(() => {
+                const { color, name } = colors[currentColorIndex];
+                testDisplay.style.background = color;
+                colorInfo.textContent = name + ' (Auto)';
+                
+                document.querySelectorAll('.color-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.color === color) btn.classList.add('active');
+                });
+                
+                currentColorIndex = (currentColorIndex + 1) % colors.length;
+            }, 1500);
+        }
+
+        function stopAutoTest() {
+            if (autoTestInterval) {
+                clearInterval(autoTestInterval);
+                autoTestInterval = null;
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && testDisplay.classList.contains('fullscreen')) {
+                exitFullscreen();
+            }
+        });
+
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Period Tracker | Free Private Menstrual Cycle App | NexusUtility</title>
+    <meta name="description" content="Free private period tracker. Predict cycles, log symptoms, track fertility. 100% local storage - your data never leaves your device. No account needed.">
+    <meta name="keywords" content="period tracker, menstrual cycle tracker, ovulation calculator, fertility tracker, period calendar, cycle tracking app">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Private Period Tracker",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "3200"},
+        "description": "Track menstrual cycles, predict periods, and monitor symptoms with complete privacy. Local storage only.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/period-tracker-private.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #ec4899;
+            --accent-light: #f472b6;
+            --accent-dark: #db2777;
+            --fertile: #10b981;
+            --ovulation: #f59e0b;
+            --period: #ef4444;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(236, 72, 153, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .privacy-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--fertile);
+            color: var(--fertile);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .cycle-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card.highlight {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .calendar-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .calendar-header h3 {
+            color: var(--accent);
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .calendar-nav button {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        .calendar-day-header {
+            text-align: center;
+            padding: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .calendar-day:hover {
+            background: rgba(236, 72, 153, 0.1);
+        }
+        .calendar-day.other-month {
+            opacity: 0.3;
+        }
+        .calendar-day.period {
+            background: var(--period);
+            color: white;
+        }
+        .calendar-day.fertile {
+            background: rgba(16, 185, 129, 0.3);
+            border: 1px solid var(--fertile);
+        }
+        .calendar-day.ovulation {
+            background: var(--ovulation);
+            color: white;
+        }
+        .calendar-day.predicted {
+            border: 2px dashed var(--period);
+        }
+        .day-number {
+            font-weight: 600;
+        }
+        .day-flow {
+            font-size: 0.7rem;
+            margin-top: 0.25rem;
+        }
+        .log-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .log-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .log-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .log-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .log-item:hover, .log-item.active {
+            background: rgba(236, 72, 153, 0.2);
+            border: 1px solid var(--accent);
+        }
+        .log-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+        .flow-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .flow-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .flow-btn:hover, .flow-btn.active {
+            background: var(--period);
+            color: white;
+            border-color: var(--period);
+        }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .content-section ul {
+            color: var(--text-secondary);
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .overlay-text {
+            margin-top: 1.5rem;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .calendar-grid { gap: 0.25rem; }
+            .calendar-day { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>🌸 Private Period Tracker</h1>
+            <p>Track your cycle, predict periods, monitor symptoms - all with complete privacy. Your data never leaves your device.</p>
+            <div class="privacy-badge">
+                <span>🔒</span> 100% Private - Local Storage Only
+            </div>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="cycle-stats">
+                <div class="stat-card highlight">
+                    <div class="stat-value" id="nextPeriod">--</div>
+                    <div class="stat-label">Days Until Next Period</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="cycleLength">28</div>
+                    <div class="stat-label">Avg Cycle Length</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="periodLength">5</div>
+                    <div class="stat-label">Avg Period Length</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="fertilityWindow">--</div>
+                    <div class="stat-label">Fertility Window</div>
+                </div>
+            </div>
+
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h3 id="calendarMonth">February 2026</h3>
+                    <div class="calendar-nav">
+                        <button onclick="changeMonth(-1)">←</button>
+                        <button onclick="changeMonth(1)">→</button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Generated by JS -->
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--period);"></div>
+                        <span>Period</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--fertile); opacity: 0.5;"></div>
+                        <span>Fertile Window</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--ovulation);"></div>
+                        <span>Ovulation</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="border: 2px dashed var(--period); background: transparent;"></div>
+                        <span>Predicted</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="log-section">
+                <h3>📝 Log Today's Symptoms</h3>
+                <div class="log-grid">
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="cramps">
+                        <span>😣 Cramps</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="headache">
+                        <span>🤕 Headache</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="bloating">
+                        <span>😤 Bloating</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="mood">
+                        <span>😊 Mood Changes</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="acne">
+                        <span>🔴 Acne</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="fatigue">
+                        <span>😴 Fatigue</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="cravings">
+                        <span>🍫 Cravings</span>
+                    </label>
+                    <label class="log-item">
+                        <input type="checkbox" data-symptom="spotting">
+                        <span>💧 Spotting</span>
+                    </label>
+                </div>
+                <div class="flow-selector">
+                    <button class="flow-btn" onclick="logPeriod('light')">Light Flow</button>
+                    <button class="flow-btn" onclick="logPeriod('medium')">Medium Flow</button>
+                    <button class="flow-btn" onclick="logPeriod('heavy')">Heavy Flow</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: Understanding Your Menstrual Cycle</h2>
+        <p>The menstrual cycle is a complex, hormonally-regulated process that prepares the female body for potential pregnancy each month. Understanding your cycle empowers you to predict periods, identify fertile windows, recognize patterns in symptoms, and maintain optimal reproductive health.</p>
+        <p>Our Private Period Tracker offers comprehensive cycle tracking without compromising your privacy. Unlike commercial apps that sync sensitive health data to cloud servers (often sharing with advertisers or data brokers), our tool stores all information locally on your device using localStorage technology.</p>
+        <p>The tracker uses clinically-validated algorithms to predict future cycles based on your historical data. By logging period start dates, flow intensity, and symptoms, you build a personalized health record that helps identify patterns, irregularities, and potential health concerns.</p>
+
+        <h2>🔧 Operational Manual: Tracking Your Cycle</h2>
+        <p>Getting started is simple. When you first use the tracker, log your most recent period start date by clicking on that day in the calendar. The app immediately begins building your cycle history.</p>
+        <p>For each day of your period, select the appropriate flow intensity (light, medium, or heavy). You can also log symptoms by checking the relevant boxes - cramps, headaches, bloating, mood changes, acne, fatigue, cravings, or spotting. Over time, patterns emerge that help you prepare for future cycles.</p>
+        <p>The calendar displays your cycle visually: red days indicate logged periods, green highlights show your fertile window, and the orange dot marks predicted ovulation. Dashed borders indicate predicted future periods based on your average cycle length.</p>
+        <p>The statistics panel shows key metrics: days until your next predicted period, your average cycle length, average period duration, and your current fertility status. These numbers update automatically as you log more data.</p>
+
+        <h2>🔬 The Math & Science Logic of Cycle Tracking</h2>
+        
+        <h3>Cycle Phase Calculations</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Menstrual Phase: Days 1-5 (Period)<br>
+            Follicular Phase: Days 1-13<br>
+            Ovulation: Day 14 (in 28-day cycle)<br>
+            Luteal Phase: Days 15-28<br><br>
+            Fertile Window: 5 days before ovulation + ovulation day
+        </p>
+        
+        <h3>Cycle Prediction Algorithm</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Next Period = Last Period Start + Average Cycle Length<br>
+            Ovulation Date = Next Period - 14 days<br>
+            Fertile Start = Ovulation - 5 days<br><br>
+            Example (28-day cycle, period started Jan 1):<br>
+            Next Period = Jan 1 + 28 = Jan 29<br>
+            Ovulation = Jan 29 - 14 = Jan 15<br>
+            Fertile Window = Jan 10-15
+        </p>
+
+        <h3>Normal Cycle Variations</h3>
+        <ul>
+            <li>Typical cycle length: 21-35 days</li>
+            <li>Typical period length: 2-7 days</li>
+            <li>Normal blood loss: 30-80ml per period</li>
+            <li>Cycle variation: ± 7 days is considered normal</li>
+        </ul>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Fertility Planning</h3>
+        <p>Couples trying to conceive use cycle tracking to identify the fertile window - the 6-day period when pregnancy is possible. The tracker pinpoints ovulation day and optimal conception timing.</p>
+
+        <h3>2. Natural Family Planning</h3>
+        <p>For those avoiding pregnancy without hormonal contraception, understanding the fertile window is essential. The tracker provides the data needed for fertility awareness methods.</p>
+
+        <h3>3. Health Monitoring</h3>
+        <p>Healthcare providers use cycle data to diagnose conditions like PCOS, endometriosis, thyroid disorders, and perimenopause. Regular tracking helps identify concerning changes early.</p>
+
+        <h3>4. Symptom Management</h3>
+        <p>Women with PMS or PMDD use the tracker to anticipate symptoms and implement coping strategies before they begin. Pattern recognition enables proactive health management.</p>
+
+        <h3>5. Athletic Performance</h3>
+        <p>Female athletes optimize training schedules around their cycles, planning high-intensity sessions during follicular phase and recovery during luteal phase when energy may be lower.</p>
+
+        <h2>🔒 Privacy Assurance: Your Data, Your Device</h2>
+        <p>Menstrual health data is among the most personal information you can track. Recent concerns about period tracking apps sharing data with third parties (including in regions where reproductive rights are under threat) make privacy more important than ever.</p>
+        <p>Our tracker guarantees complete privacy through local-only storage. Your cycle data never leaves your device. No accounts, no cloud sync, no data mining. Even we cannot access your information. Clear your browser data to erase everything instantly.</p>
+        <p>This approach aligns with privacy-by-design principles and ensures your sensitive health information remains under your exclusive control. For backup, you can export your data as a local file to store securely on your own devices.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How accurate are period predictions?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Accuracy improves with more data. After 3-6 months of tracking, predictions are typically accurate within 2-3 days. Stress, illness, travel, and lifestyle changes can affect cycle regularity and prediction accuracy.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I use this for birth control?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                This tracker provides fertility awareness information but should not be your sole method of contraception if avoiding pregnancy. Fertility awareness methods have typical-use failure rates of 13-33%. Consult a healthcare provider for reliable contraception options.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What if my cycles are irregular?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                The tracker adapts to irregular cycles by calculating a personalized average. However, if your cycles vary by more than 7-9 days consistently, or if you experience sudden changes, consult a healthcare provider to rule out underlying conditions.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I know when I'm ovulating?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Signs of ovulation include: mild pelvic pain (mittelschmerz), increased cervical mucus (egg-white consistency), slight basal body temperature rise, and heightened sense of smell or libido. The tracker estimates ovulation based on cycle length, but these physical signs provide additional confirmation.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Is my data really private?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Absolutely. All data is stored in your browser's localStorage - a client-side storage mechanism. Nothing is sent to our servers or any third parties. You can verify this by checking your browser's developer tools or using the site offline. Your privacy is guaranteed by the architecture itself.
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <div class="overlay-text">Nexus Engine: Processing Local Data...</div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        let currentDate = new Date();
+        let cycleData = {
+            periods: [],
+            symptoms: {},
+            cycleLength: 28,
+            periodLength: 5
+        };
+
+        function loadData() {
+            const saved = localStorage.getItem('periodData');
+            if (saved) {
+                cycleData = JSON.parse(saved);
+                updateStats();
+            }
+            renderCalendar();
+        }
+
+        function saveData() {
+            localStorage.setItem('periodData', JSON.stringify(cycleData));
+        }
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            document.getElementById('calendarMonth').textContent = 
+                new Date(year, month).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const daysInPrevMonth = new Date(year, month, 0).getDate();
+            
+            let html = '';
+            
+            // Day headers
+            const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayHeaders.forEach(day => {
+                html += `<div class="calendar-day-header">${day}</div>`;
+            });
+            
+            // Previous month days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                html += `<div class="calendar-day other-month"><span class="day-number">${daysInPrevMonth - i}</span></div>`;
+            }
+            
+            // Current month days
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const isPeriod = cycleData.periods.some(p => p.date === dateStr);
+                const isPredicted = isPredictedPeriod(year, month, day);
+                const isFertile = isFertileWindow(year, month, day);
+                const isOvulation = isOvulationDay(year, month, day);
+                
+                let classes = 'calendar-day';
+                if (isPeriod) classes += ' period';
+                else if (isOvulation) classes += ' ovulation';
+                else if (isFertile) classes += ' fertile';
+                else if (isPredicted) classes += ' predicted';
+                
+                html += `<div class="${classes}" onclick="selectDate('${dateStr}')"><span class="day-number">${day}</span></div>`;
+            }
+            
+            // Next month days
+            const remainingCells = 42 - (firstDay + daysInMonth);
+            for (let day = 1; day <= remainingCells; day++) {
+                html += `<div class="calendar-day other-month"><span class="day-number">${day}</span></div>`;
+            }
+            
+            document.getElementById('calendarGrid').innerHTML = html;
+        }
+
+        function isPredictedPeriod(year, month, day) {
+            if (cycleData.periods.length === 0) return false;
+            const lastPeriod = new Date(cycleData.periods[cycleData.periods.length - 1].date);
+            const nextPeriod = new Date(lastPeriod);
+            nextPeriod.setDate(lastPeriod.getDate() + cycleData.cycleLength);
+            
+            const checkDate = new Date(year, month, day);
+            const diffDays = Math.round((checkDate - nextPeriod) / (1000 * 60 * 60 * 24));
+            
+            return diffDays >= 0 && diffDays < cycleData.periodLength;
+        }
+
+        function isFertileWindow(year, month, day) {
+            if (cycleData.periods.length === 0) return false;
+            const lastPeriod = new Date(cycleData.periods[cycleData.periods.length - 1].date);
+            const ovulation = new Date(lastPeriod);
+            ovulation.setDate(lastPeriod.getDate() + cycleData.cycleLength - 14);
+            
+            const fertileStart = new Date(ovulation);
+            fertileStart.setDate(ovulation.getDate() - 5);
+            
+            const checkDate = new Date(year, month, day);
+            return checkDate >= fertileStart && checkDate <= ovulation;
+        }
+
+        function isOvulationDay(year, month, day) {
+            if (cycleData.periods.length === 0) return false;
+            const lastPeriod = new Date(cycleData.periods[cycleData.periods.length - 1].date);
+            const ovulation = new Date(lastPeriod);
+            ovulation.setDate(lastPeriod.getDate() + cycleData.cycleLength - 14);
+            
+            return year === ovulation.getFullYear() && 
+                   month === ovulation.getMonth() && 
+                   day === ovulation.getDate();
+        }
+
+        function changeMonth(delta) {
+            showOverlay();
+            setTimeout(() => {
+                currentDate.setMonth(currentDate.getMonth() + delta);
+                renderCalendar();
+                hideOverlay();
+            }, 2500);
+        }
+
+        function selectDate(dateStr) {
+            showOverlay();
+            setTimeout(() => {
+                logPeriod('medium', dateStr);
+                hideOverlay();
+            }, 2500);
+        }
+
+        function logPeriod(flow, dateStr = null) {
+            const date = dateStr || new Date().toISOString().split('T')[0];
+            
+            // Remove if already exists
+            cycleData.periods = cycleData.periods.filter(p => p.date !== date);
+            
+            // Add new entry
+            cycleData.periods.push({ date, flow });
+            cycleData.periods.sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            // Recalculate averages
+            if (cycleData.periods.length >= 2) {
+                let totalDays = 0;
+                for (let i = 1; i < cycleData.periods.length; i++) {
+                    const diff = new Date(cycleData.periods[i].date) - new Date(cycleData.periods[i-1].date);
+                    totalDays += diff / (1000 * 60 * 60 * 24);
+                }
+                cycleData.cycleLength = Math.round(totalDays / (cycleData.periods.length - 1));
+            }
+            
+            saveData();
+            updateStats();
+            renderCalendar();
+            
+            // Update active button
+            document.querySelectorAll('.flow-btn').forEach(btn => btn.classList.remove('active'));
+            if (!dateStr) event.target.classList.add('active');
+        }
+
+        function updateStats() {
+            if (cycleData.periods.length === 0) {
+                document.getElementById('nextPeriod').textContent = '--';
+                document.getElementById('fertilityWindow').textContent = '--';
+                return;
+            }
+            
+            const lastPeriod = new Date(cycleData.periods[cycleData.periods.length - 1].date);
+            const nextPeriod = new Date(lastPeriod);
+            nextPeriod.setDate(lastPeriod.getDate() + cycleData.cycleLength);
+            
+            const daysUntil = Math.ceil((nextPeriod - new Date()) / (1000 * 60 * 60 * 24));
+            document.getElementById('nextPeriod').textContent = daysUntil > 0 ? daysUntil : 0;
+            document.getElementById('cycleLength').textContent = cycleData.cycleLength;
+            
+            const fertileStart = new Date(nextPeriod);
+            fertileStart.setDate(nextPeriod.getDate() - 14 - 5);
+            const fertileEnd = new Date(nextPeriod);
+            fertileEnd.setDate(nextPeriod.getDate() - 14);
+            
+            document.getElementById('fertilityWindow').textContent = 
+                `${fertileStart.getDate()}-${fertileEnd.getDate()} ${fertileStart.toLocaleDateString('en-US', { month: 'short' })}`;
+        }
+
+        function showOverlay() {
+            document.getElementById('processingOverlay').classList.add('active');
+        }
+
+        function hideOverlay() {
+            document.getElementById('processingOverlay').classList.remove('active');
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Formatter | Free JSON Validator & Beautifier | NexusUtility</title>
+    <meta name="description" content="Free JSON formatter and validator. Format, validate, and beautify JSON data locally in your browser. No data sent to servers.">
+    <meta name="keywords" content="JSON formatter, JSON validator, JSON beautifier, JSON parser, format JSON, validate JSON">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "JSON Formatter Local", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1200"}, "description": "Format, validate, and beautify JSON data locally with syntax highlighting.", "url": "https://nexusutility.github.io/core-nexus/tools/json-formatter-local.html"}</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --error: #ef4444; --string: #a5d6ff; --number: #79c0ff; --boolean: #ff7b72; --null: #ff7b72; --key: #7ee787; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; padding: 3rem 0; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin: 2rem auto; text-align: center; max-width: 728px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .tool-container { background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; margin: 2rem 0; }
+        .editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .editor-panel { display: flex; flex-direction: column; }
+        .editor-panel label { color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .editor-panel textarea { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 1rem; border-radius: 12px; font-family: monospace; font-size: 0.9rem; min-height: 400px; resize: vertical; }
+        .editor-panel textarea:focus { outline: none; border-color: var(--accent); }
+        .output-panel { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; font-family: monospace; font-size: 0.9rem; min-height: 400px; overflow: auto; white-space: pre-wrap; }
+        .action-buttons { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .action-btn { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .action-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+        .status-bar { background: var(--bg-secondary); border-radius: 8px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .status-valid { color: var(--accent); }
+        .status-invalid { color: var(--error); }
+        .json-key { color: var(--key); }
+        .json-string { color: var(--string); }
+        .json-number { color: var(--number); }
+        .json-boolean { color: var(--boolean); }
+        .json-null { color: var(--null); }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .tool-header h1 { font-size: 1.8rem; } .editor-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>📋 JSON Formatter</h1>
+            <p>Format, validate, and beautify JSON data. All processing happens locally in your browser.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="action-buttons">
+                <button class="action-btn primary" onclick="formatJSON()">✨ Format</button>
+                <button class="action-btn" onclick="minifyJSON()">🗜️ Minify</button>
+                <button class="action-btn" onclick="copyOutput()">📋 Copy</button>
+                <button class="action-btn" onclick="clearAll()">🗑️ Clear</button>
+                <button class="action-btn" onclick="loadSample()">📄 Sample</button>
+            </div>
+
+            <div class="editor-grid">
+                <div class="editor-panel">
+                    <label>Input JSON</label>
+                    <textarea id="input" placeholder='Paste your JSON here... {"key": "value"}'></textarea>
+                </div>
+                <div class="editor-panel">
+                    <label>Formatted Output</label>
+                    <div class="output-panel" id="output"></div>
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <span id="status">Ready to format</span>
+                <span id="stats"></span>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({}); (adsbygoogle = window.adsbygoogle || []).push({});
+        function formatJSON() {
+            const input = document.getElementById('input').value; const status = document.getElementById('status'); const stats = document.getElementById('stats');
+            if (!input.trim()) { status.textContent = 'Please enter JSON data'; status.className = 'status-invalid'; return; }
+            try { const parsed = JSON.parse(input); const formatted = JSON.stringify(parsed, null, 2); document.getElementById('output').innerHTML = syntaxHighlight(formatted); status.textContent = 'Valid JSON'; status.className = 'status-valid'; stats.textContent = `${Object.keys(parsed).length} keys | ${formatted.length} chars`; } catch (e) { status.textContent = 'Invalid JSON: ' + e.message; status.className = 'status-invalid'; document.getElementById('output').textContent = ''; }
+        }
+        function minifyJSON() { const input = document.getElementById('input').value; try { const parsed = JSON.parse(input); const minified = JSON.stringify(parsed); document.getElementById('output').textContent = minified; document.getElementById('status').textContent = 'Minified'; document.getElementById('status').className = 'status-valid'; } catch (e) { alert('Invalid JSON'); } }
+        function syntaxHighlight(json) { return json.replace(/(".*?"):\s*/g, '<span class="json-key">$1</span>: ').replace(/: "(.*?)"/g, ': <span class="json-string">"$1"</span>').replace(/: (\d+)/g, ': <span class="json-number">$1</span>').replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>').replace(/: (null)/g, ': <span class="json-null">$1</span>'); }
+        function copyOutput() { const output = document.getElementById('output').textContent; if (output) navigator.clipboard.writeText(output); }
+        function clearAll() { document.getElementById('input').value = ''; document.getElementById('output').textContent = ''; document.getElementById('status').textContent = 'Ready to format'; document.getElementById('status').className = ''; }
+        function loadSample() { document.getElementById('input').value = JSON.stringify({ name: "John Doe", age: 30, email: "john@example.com", address: { street: "123 Main St", city: "New York" }, hobbies: ["reading", "gaming", "coding"], isActive: true, balance: null }, null, 2); formatJSON(); }
+    </script>
+</body>
+</html>

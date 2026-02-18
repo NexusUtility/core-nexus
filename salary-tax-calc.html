@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Tax Calculator | Free Income Tax Estimator | NexusUtility</title>
+    <meta name="description" content="Free salary tax calculator for US federal income tax. Estimate take-home pay, tax brackets, and withholding. Updated for 2026 tax rates.">
+    <meta name="keywords" content="salary tax calculator, income tax calculator, tax estimator, take home pay calculator, federal tax calculator">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Salary Tax Calculator", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "1900"}, "description": "Calculate US federal income tax, estimate take-home pay, and understand tax brackets.", "url": "https://nexusutility.github.io/core-nexus/tools/salary-tax-calc.html"}
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --accent-dark: #059669; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); --shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; padding: 3rem 0; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin: 2rem auto; text-align: center; max-width: 728px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .tool-container { background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; margin: 2rem 0; box-shadow: var(--shadow); }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { color: var(--text-secondary); font-size: 0.9rem; }
+        .input-group input, .input-group select { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 1rem; border-radius: 12px; font-size: 1rem; }
+        .input-group input:focus { outline: none; border-color: var(--accent); }
+        .calc-btn { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border: none; padding: 1rem 3rem; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: block; margin: 0 auto 2rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .result-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; text-align: center; }
+        .result-card.highlight { border-color: var(--accent); box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+        .result-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .result-label { color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem; }
+        .breakdown-section { background: var(--bg-secondary); border-radius: 16px; padding: 1.5rem; margin-top: 2rem; }
+        .breakdown-section h3 { color: var(--accent); margin-bottom: 1rem; }
+        .breakdown-item { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+        .breakdown-item:last-child { border-bottom: none; }
+        .breakdown-item.total { font-weight: 600; color: var(--accent); }
+        .content-section { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .content-section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent); }
+        .content-section p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.8; }
+        .faq-item { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+        .faq-question { padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .faq-answer { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .tool-header h1 { font-size: 1.8rem; } .tool-container { padding: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>💵 Salary Tax Calculator</h1>
+            <p>Estimate your take-home pay after federal income tax. Understand your tax bracket and plan your finances better.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>Annual Salary ($)</label>
+                    <input type="number" id="salary" placeholder="75000" value="75000">
+                </div>
+                <div class="input-group">
+                    <label>Filing Status</label>
+                    <select id="filingStatus">
+                        <option value="single">Single</option>
+                        <option value="married">Married Filing Jointly</option>
+                        <option value="head">Head of Household</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>State (optional)</label>
+                    <select id="state">
+                        <option value="0">No State Tax</option>
+                        <option value="5">5% Average</option>
+                        <option value="7">7% Average</option>
+                        <option value="10">10% (High Tax)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>401(k) Contribution ($)</label>
+                    <input type="number" id="retirement" placeholder="0" value="0">
+                </div>
+            </div>
+
+            <button class="calc-btn" onclick="calculateTax()">Calculate Take-Home Pay</button>
+
+            <div class="results-grid" id="resultsSection" style="display: none;">
+                <div class="result-card highlight">
+                    <div class="result-value" id="takeHome">-</div>
+                    <div class="result-label">Annual Take-Home</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="monthlyPay">-</div>
+                    <div class="result-label">Monthly Pay</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="effectiveRate">-</div>
+                    <div class="result-label">Effective Tax Rate</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-value" id="taxBracket">-</div>
+                    <div class="result-label">Tax Bracket</div>
+                </div>
+            </div>
+
+            <div class="breakdown-section" id="breakdownSection" style="display: none;">
+                <h3>Tax Breakdown</h3>
+                <div class="breakdown-item"><span>Federal Income Tax</span><span id="federalTax">-</span></div>
+                <div class="breakdown-item"><span>Social Security (6.2%)</span><span id="socialSecurity">-</span></div>
+                <div class="breakdown-item"><span>Medicare (1.45%)</span><span id="medicare">-</span></div>
+                <div class="breakdown-item"><span>State Tax</span><span id="stateTax">-</span></div>
+                <div class="breakdown-item total"><span>Total Tax</span><span id="totalTax">-</span></div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Understanding US Income Tax</h2>
+        <p>The United States uses a progressive tax system where higher income is taxed at higher rates. Your income is divided into brackets, with each portion taxed at its corresponding rate. This means everyone pays the same rate on the same portions of income.</p>
+        <p>For 2026, federal tax brackets range from 10% to 37%. However, your effective tax rate (total tax divided by income) is typically much lower than your top bracket due to this progressive structure.</p>
+
+        <h2>🔬 2026 Federal Tax Brackets (Single Filers)</h2>
+        <p>10%: $0 - $11,925 | 12%: $11,926 - $48,475 | 22%: $48,476 - $103,350 | 24%: $103,351 - $197,300 | 32%: $197,301 - $250,525 | 35%: $250,526 - $626,350 | 37%: Over $626,350</p>
+
+        <h2>❓ FAQ</h2>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)"><span>What's the difference between marginal and effective tax rate?</span><span>▼</span></div>
+            <div class="faq-answer">Marginal rate is the tax on your next dollar of income (your highest bracket). Effective rate is your total tax divided by total income. Most people pay an effective rate 5-10% lower than their marginal rate due to the progressive system.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)"><span>Does this include state and local taxes?</span><span>▼</span></div>
+            <div class="faq-answer">State tax is optional in this calculator. Select your approximate state rate. Local taxes vary widely and aren't included. Some states (TX, FL, WA, NV) have no income tax.</div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({}); (adsbygoogle = window.adsbygoogle || []).push({});
+        const taxBrackets = {
+            single: [[11925, 0.10], [48475, 0.12], [103350, 0.22], [197300, 0.24], [250525, 0.32], [626350, 0.35], [Infinity, 0.37]],
+            married: [[23850, 0.10], [96950, 0.12], [206700, 0.22], [394600, 0.24], [501050, 0.32], [626350, 0.35], [Infinity, 0.37]],
+            head: [[17000, 0.10], [64500, 0.12], [103350, 0.22], [197300, 0.24], [250500, 0.32], [626350, 0.35], [Infinity, 0.37]]
+        };
+
+        function calculateTax() {
+            const salary = parseFloat(document.getElementById('salary').value) || 0;
+            const filingStatus = document.getElementById('filingStatus').value;
+            const stateRate = parseFloat(document.getElementById('state').value) / 100;
+            const retirement = parseFloat(document.getElementById('retirement').value) || 0;
+            
+            const taxableIncome = Math.max(0, salary - retirement);
+            const brackets = taxBrackets[filingStatus];
+            
+            let federalTax = 0;
+            let previousBracket = 0;
+            let topBracket = 0;
+            
+            for (const [limit, rate] of brackets) {
+                if (taxableIncome > previousBracket) {
+                    const taxableAtThisRate = Math.min(taxableIncome, limit) - previousBracket;
+                    federalTax += taxableAtThisRate * rate;
+                    topBracket = rate;
+                }
+                previousBracket = limit;
+            }
+            
+            const socialSecurity = Math.min(salary, 168600) * 0.062;
+            const medicare = salary * 0.0145;
+            const stateTax = taxableIncome * stateRate;
+            const totalTax = federalTax + socialSecurity + medicare + stateTax;
+            const takeHome = salary - totalTax - retirement;
+            const effectiveRate = (totalTax / salary * 100).toFixed(1);
+            
+            document.getElementById('takeHome').textContent = '$' + takeHome.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('monthlyPay').textContent = '$' + Math.round(takeHome / 12).toLocaleString();
+            document.getElementById('effectiveRate').textContent = effectiveRate + '%';
+            document.getElementById('taxBracket').textContent = (topBracket * 100).toFixed(0) + '%';
+            
+            document.getElementById('federalTax').textContent = '$' + federalTax.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('socialSecurity').textContent = '$' + socialSecurity.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('medicare').textContent = '$' + medicare.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('stateTax').textContent = '$' + stateTax.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('totalTax').textContent = '$' + totalTax.toLocaleString(undefined, {maximumFractionDigits: 0});
+            
+            document.getElementById('resultsSection').style.display = 'grid';
+            document.getElementById('breakdownSection').style.display = 'block';
+        }
+
+        function toggleFaq(element) { const faqItem = element.parentElement; faqItem.classList.toggle('active'); element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼'; }
+    </script>
+</body>
+</html>

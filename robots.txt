@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nexusutility.github.io/core-nexus/sitemap.xml

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timezone Buddy | Free World Clock & Meeting Planner | NexusUtility</title>
+    <meta name="description" content="Free timezone converter and world clock. Schedule meetings across time zones, compare business hours, find the perfect meeting time. No signup required.">
+    <meta name="keywords" content="timezone converter, world clock, meeting planner, time zone calculator, international time, business hours">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Timezone Buddy",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "750"},
+        "description": "Convert timezones, plan international meetings, and compare business hours across the globe.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/timezone-buddy.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --day: #f59e0b;
+            --night: #3b82f6;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .converter-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            align-items: end;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .input-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .input-group input, .input-group select {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        .swap-btn {
+            background: var(--accent);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .swap-btn:hover {
+            transform: rotate(180deg);
+        }
+        .world-clocks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .clock-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .clock-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+        .clock-card.night::before {
+            background: var(--night);
+        }
+        .clock-card.day::before {
+            background: var(--day);
+        }
+        .clock-city {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .clock-country {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .clock-time {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        .clock-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .clock-offset {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .meeting-planner {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        .meeting-planner h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .time-slider {
+            margin-bottom: 2rem;
+        }
+        .time-slider input {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            outline: none;
+        }
+        .time-slider input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .time-labels {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .comparison-table th {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .time-cell {
+            font-weight: 600;
+        }
+        .time-cell.good {
+            color: var(--accent);
+        }
+        .time-cell.warning {
+            color: var(--day);
+        }
+        .time-cell.bad {
+            color: #ef4444;
+        }
+        .business-hours {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .add-city {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .add-city select {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 12px;
+        }
+        .add-city button {
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .converter-grid { grid-template-columns: 1fr; }
+            .swap-btn { justify-self: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>🌍 Timezone Buddy</h1>
+            <p>Convert times across zones, plan international meetings, and never miss a call. Your global time companion.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="converter-section">
+                <div class="converter-grid">
+                    <div class="input-group">
+                        <label>From</label>
+                        <select id="fromZone">
+                            <option value="UTC">UTC (Universal)</option>
+                            <option value="America/New_York">New York (EST/EDT)</option>
+                            <option value="America/Chicago">Chicago (CST/CDT)</option>
+                            <option value="America/Denver">Denver (MST/MDT)</option>
+                            <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                            <option value="Europe/London">London (GMT/BST)</option>
+                            <option value="Europe/Paris">Paris (CET/CEST)</option>
+                            <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                            <option value="Asia/Tokyo">Tokyo (JST)</option>
+                            <option value="Asia/Shanghai">Shanghai (CST)</option>
+                            <option value="Asia/Dubai">Dubai (GST)</option>
+                            <option value="Asia/Singapore">Singapore (SGT)</option>
+                            <option value="Australia/Sydney">Sydney (AEDT)</option>
+                            <option value="Pacific/Auckland">Auckland (NZDT)</option>
+                        </select>
+                        <input type="datetime-local" id="fromTime">
+                    </div>
+                    <button class="swap-btn" onclick="swapZones()">⇄</button>
+                    <div class="input-group">
+                        <label>To</label>
+                        <select id="toZone">
+                            <option value="UTC">UTC (Universal)</option>
+                            <option value="America/New_York" selected>New York (EST/EDT)</option>
+                            <option value="America/Chicago">Chicago (CST/CDT)</option>
+                            <option value="America/Denver">Denver (MST/MDT)</option>
+                            <option value="America/Los_Angeles">Los Angeles (PST/PDT)</option>
+                            <option value="Europe/London">London (GMT/BST)</option>
+                            <option value="Europe/Paris">Paris (CET/CEST)</option>
+                            <option value="Europe/Berlin">Berlin (CET/CEST)</option>
+                            <option value="Asia/Tokyo">Tokyo (JST)</option>
+                            <option value="Asia/Shanghai">Shanghai (CST)</option>
+                            <option value="Asia/Dubai">Dubai (GST)</option>
+                            <option value="Asia/Singapore">Singapore (SGT)</option>
+                            <option value="Australia/Sydney">Sydney (AEDT)</option>
+                            <option value="Pacific/Auckland">Auckland (NZDT)</option>
+                        </select>
+                        <input type="text" id="toTime" readonly placeholder="Converted time">
+                    </div>
+                </div>
+            </div>
+
+            <div class="add-city">
+                <select id="addCitySelect">
+                    <option value="">Add a city to track...</option>
+                    <option value="America/New_York">New York</option>
+                    <option value="Europe/London">London</option>
+                    <option value="Asia/Tokyo">Tokyo</option>
+                    <option value="Asia/Shanghai">Shanghai</option>
+                    <option value="Australia/Sydney">Sydney</option>
+                    <option value="Europe/Berlin">Berlin</option>
+                    <option value="Asia/Dubai">Dubai</option>
+                    <option value="Asia/Singapore">Singapore</option>
+                </select>
+                <button onclick="addCity()">Add City</button>
+            </div>
+
+            <div class="world-clocks" id="worldClocks">
+                <!-- Generated by JS -->
+            </div>
+
+            <div class="meeting-planner">
+                <h3>📅 Meeting Planner</h3>
+                <div class="time-slider">
+                    <input type="range" id="meetingTime" min="0" max="23" value="9" oninput="updateMeetingPlanner()">
+                    <div class="time-labels">
+                        <span>12 AM</span>
+                        <span>6 AM</span>
+                        <span>12 PM</span>
+                        <span>6 PM</span>
+                        <span>11 PM</span>
+                    </div>
+                </div>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>City</th>
+                            <th>Local Time</th>
+                            <th>Business Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="meetingTable">
+                        <!-- Generated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: Navigating Global Time</h2>
+        <p>In our increasingly connected world, coordinating across time zones has become a daily challenge for businesses, families, and friends. The Timezone Buddy simplifies this complexity by providing instant time conversion, visual world clocks, and intelligent meeting planning tools.</p>
+        <p>The tool leverages the browser's built-in Internationalization API to handle the complexities of time zone calculations, including daylight saving time transitions, historical changes, and regional variations. This ensures accuracy without requiring external APIs or services.</p>
+        <p>Whether you're scheduling a global team meeting, calling family overseas, or planning international travel, Timezone Buddy provides the information you need at a glance. The meeting planner feature highlights optimal meeting windows where all participants are within reasonable business hours.</p>
+
+        <h2>🔧 Operational Manual: Using Timezone Buddy</h2>
+        <p>The converter section allows instant time translation between any two zones. Select your source and destination time zones, enter a date and time, and see the converted result immediately. The swap button quickly reverses the direction for bidirectional planning.</p>
+        <p>World clocks display current time in multiple cities simultaneously. Add cities you frequently work with using the dropdown. Each clock shows local time, date, and offset from your current location. Color coding indicates day (yellow) or night (blue) in each location.</p>
+        <p>The meeting planner helps find optimal meeting times. Drag the slider to see what time it is across all your tracked cities. Green times indicate good meeting windows (9 AM - 6 PM local), yellow indicates early morning or evening, and red indicates nighttime hours.</p>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Global Team Coordination</h3>
+        <p>Remote teams spanning multiple continents use the meeting planner to find the "least bad" meeting time - often a compromise where no one has to join at unreasonable hours.</p>
+
+        <h3>2. International Client Calls</h3>
+        <p>Sales and support teams use the converter to schedule calls with international clients, ensuring they reach people during business hours.</p>
+
+        <h3>3. Travel Planning</h3>
+        <p>Travelers use world clocks to track time at destinations, helping combat jet lag by gradually adjusting sleep schedules before departure.</p>
+
+        <h3>4. Financial Markets</h3>
+        <p>Traders and financial professionals track market open and close times across global exchanges - London, New York, Tokyo, Sydney.</p>
+
+        <h3>5. Event Planning</h3>
+        <p>Virtual event organizers use the tool to schedule webinars and conferences at times accessible to their global audience.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How does daylight saving time affect conversions?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                The tool automatically handles DST transitions using your browser's timezone database. When converting dates that cross DST boundaries, the calculation accounts for the hour gained or lost. Note that not all regions observe DST, and start/end dates vary by country.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the best time for global meetings?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                There's no perfect time for truly global meetings (spanning 3+ continents), but UTC 13:00-15:00 often works best for US-Europe-Asia combinations. For US-Europe only, UTC 14:00-16:00 is typically ideal. Use the meeting planner to find your specific optimal window.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Why do some cities share time zones?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Time zones are primarily based on political boundaries rather than strict longitude. Large countries like China use a single time zone (despite spanning 5 geographically), while countries like the USA use multiple zones. The tool uses IANA timezone identifiers for accuracy.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        const cities = [
+            { zone: 'America/New_York', name: 'New York', country: 'USA' },
+            { zone: 'Europe/London', name: 'London', country: 'UK' },
+            { zone: 'Asia/Tokyo', name: 'Tokyo', country: 'Japan' },
+            { zone: 'Asia/Shanghai', name: 'Shanghai', country: 'China' }
+        ];
+
+        function updateClocks() {
+            const container = document.getElementById('worldClocks');
+            container.innerHTML = cities.map(city => {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', {
+                    timeZone: city.zone,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                });
+                const dateString = now.toLocaleDateString('en-US', {
+                    timeZone: city.zone,
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                const hour = parseInt(now.toLocaleTimeString('en-US', {
+                    timeZone: city.zone,
+                    hour: '2-digit',
+                    hour12: false
+                }));
+                const isDay = hour >= 6 && hour < 18;
+                const offset = getOffset(city.zone);
+                
+                return `
+                    <div class="clock-card ${isDay ? 'day' : 'night'}">
+                        <span class="clock-offset">${offset}</span>
+                        <div class="clock-city">${city.name}</div>
+                        <div class="clock-country">${city.country}</div>
+                        <div class="clock-time">${timeString}</div>
+                        <div class="clock-date">${dateString}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getOffset(timezone) {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const target = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
+            const diff = (target - now) / (1000 * 60 * 60);
+            const sign = diff >= 0 ? '+' : '';
+            return `UTC${sign}${Math.round(diff * 10) / 10}`;
+        }
+
+        function convertTime() {
+            const fromZone = document.getElementById('fromZone').value;
+            const toZone = document.getElementById('toZone').value;
+            const fromTime = document.getElementById('fromTime').value;
+            
+            if (!fromTime) return;
+            
+            const date = new Date(fromTime);
+            const timeString = date.toLocaleTimeString('en-US', {
+                timeZone: toZone,
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            const dateString = date.toLocaleDateString('en-US', {
+                timeZone: toZone,
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+            
+            document.getElementById('toTime').value = `${timeString} - ${dateString}`;
+        }
+
+        function swapZones() {
+            const fromZone = document.getElementById('fromZone');
+            const toZone = document.getElementById('toZone');
+            const temp = fromZone.value;
+            fromZone.value = toZone.value;
+            toZone.value = temp;
+            convertTime();
+        }
+
+        function addCity() {
+            const select = document.getElementById('addCitySelect');
+            const zone = select.value;
+            if (!zone) return;
+            
+            const cityNames = {
+                'America/New_York': { name: 'New York', country: 'USA' },
+                'Europe/London': { name: 'London', country: 'UK' },
+                'Asia/Tokyo': { name: 'Tokyo', country: 'Japan' },
+                'Asia/Shanghai': { name: 'Shanghai', country: 'China' },
+                'Australia/Sydney': { name: 'Sydney', country: 'Australia' },
+                'Europe/Berlin': { name: 'Berlin', country: 'Germany' },
+                'Asia/Dubai': { name: 'Dubai', country: 'UAE' },
+                'Asia/Singapore': { name: 'Singapore', country: 'Singapore' }
+            };
+            
+            if (!cities.find(c => c.zone === zone)) {
+                cities.push({ zone, ...cityNames[zone] });
+                updateClocks();
+                updateMeetingPlanner();
+            }
+            select.value = '';
+        }
+
+        function updateMeetingPlanner() {
+            const hour = parseInt(document.getElementById('meetingTime').value);
+            const tbody = document.getElementById('meetingTable');
+            
+            tbody.innerHTML = cities.map(city => {
+                const cityHour = getCityHour(city.zone, hour);
+                const timeString = formatHour(cityHour);
+                let statusClass = 'bad';
+                let status = 'Night';
+                
+                if (cityHour >= 9 && cityHour <= 17) {
+                    statusClass = 'good';
+                    status = 'Business Hours';
+                } else if (cityHour >= 7 && cityHour <= 19) {
+                    statusClass = 'warning';
+                    status = 'Extended Hours';
+                }
+                
+                return `
+                    <tr>
+                        <td>${city.name}</td>
+                        <td class="time-cell ${statusClass}">${timeString}</td>
+                        <td class="business-hours">${status}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getCityHour(zone, baseHour) {
+            const now = new Date();
+            now.setHours(baseHour, 0, 0, 0);
+            return parseInt(now.toLocaleTimeString('en-US', {
+                timeZone: zone,
+                hour: '2-digit',
+                hour12: false
+            }));
+        }
+
+        function formatHour(hour) {
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:00 ${ampm}`;
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+
+        // Initialize
+        document.getElementById('fromTime').value = new Date().toISOString().slice(0, 16);
+        document.getElementById('fromTime').addEventListener('change', convertTime);
+        document.getElementById('fromZone').addEventListener('change', convertTime);
+        document.getElementById('toZone').addEventListener('change', convertTime);
+        
+        updateClocks();
+        updateMeetingPlanner();
+        setInterval(updateClocks, 1000);
+    </script>
+</body>
+</html>

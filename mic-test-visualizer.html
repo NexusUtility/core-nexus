@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mic Test & Audio Visualizer | Online Microphone Tester | NexusUtility</title>
+    <meta name="description" content="Free online microphone test with real-time audio visualizer. Test your mic, check audio levels, and visualize sound waves instantly. Works in your browser with no downloads.">
+    <meta name="keywords" content="mic test, microphone tester, audio visualizer, sound test, mic check, online microphone test">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --accent: #10b981;
+            --accent-dim: #059669;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #27272a;
+            --error: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; margin-bottom: 2rem; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .tool-header h1 span { color: var(--accent); }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; }
+        .ad-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .visualizer-container {
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        #visualizer {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-radius: 8px;
+        }
+        .mic-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+        .status-indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        .status-indicator.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .status-indicator.error { background: var(--error); box-shadow: 0 0 10px var(--error); }
+        .status-text { font-weight: 600; color: var(--text-secondary); }
+        .status-text.active { color: var(--success); }
+        .status-text.error { color: var(--error); }
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3); }
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .volume-meter {
+            margin-top: 1.5rem;
+        }
+        .volume-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .volume-bar {
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        .volume-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--success) 0%, var(--warning) 70%, var(--error) 100%);
+            border-radius: 12px;
+            transition: width 0.1s ease-out;
+        }
+        .volume-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .device-selector {
+            margin-bottom: 1.5rem;
+        }
+        .device-selector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+        .device-selector select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .info-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .info-section h2 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .info-section h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem;
+            font-size: 1.2rem;
+        }
+        .info-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .info-section ul {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-section li { margin-bottom: 0.5rem; }
+        .troubleshoot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .troubleshoot-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .troubleshoot-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .troubleshoot-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 0;
+        }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-item h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .faq-item p {
+            color: var(--text-secondary);
+        }
+        .processing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .processing-overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 1rem; padding: 1rem; }
+            .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .tool-header h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            #visualizer { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">NexusUtility</div>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html#tools">Tools</a></li>
+            <li><a href="../about-us.html">About</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="tool-header">
+            <h1>Mic Test & <span>Audio Visualizer</span></h1>
+            <p>Test your microphone with real-time audio visualization</p>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="device-selector">
+                <label for="micSelect">Select Microphone:</label>
+                <select id="micSelect">
+                    <option value="">Default Microphone</option>
+                </select>
+            </div>
+
+            <div class="visualizer-container">
+                <canvas id="visualizer"></canvas>
+                <div class="mic-status">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span class="status-text" id="statusText">Click "Start Test" to begin</span>
+                </div>
+            </div>
+
+            <div class="volume-meter">
+                <div class="volume-label">
+                    <span>Input Level</span>
+                    <span id="volumeDb">-∞ dB</span>
+                </div>
+                <div class="volume-bar">
+                    <div class="volume-fill" id="volumeFill"></div>
+                    <span class="volume-value" id="volumeValue">0%</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="startBtn" onclick="startMicTest()">
+                    <span>🎤</span> Start Test
+                </button>
+                <button class="btn btn-secondary" id="stopBtn" onclick="stopMicTest()" disabled>
+                    <span>⏹️</span> Stop Test
+                </button>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="0987654321" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="info-section">
+            <h2>How to Test Your Microphone</h2>
+            <p>Testing your microphone is essential before joining online meetings, recording audio, or streaming. Our online mic test tool provides a simple, browser-based solution that requires no downloads or installations. Simply click "Start Test" and speak into your microphone to see real-time audio visualization.</p>
+            
+            <h3>Understanding the Visualizer</h3>
+            <p>The audio visualizer displays your microphone input in real-time. The waveform shows the amplitude of your voice, while the volume meter indicates your input level as a percentage. Green indicates good levels, yellow suggests you might be too loud, and red means your audio is clipping and may sound distorted.</p>
+            
+            <h3>Optimal Microphone Levels</h3>
+            <p>For the best audio quality, aim for your microphone input to peak between 70-85% on the volume meter. This range provides clear audio without distortion. If your levels are consistently below 50%, try speaking closer to the microphone or increasing your system microphone volume in your operating system settings.</p>
+
+            <h3>Troubleshooting Common Issues</h3>
+            <div class="troubleshoot-grid">
+                <div class="troubleshoot-card">
+                    <h4>No Audio Detected</h4>
+                    <p>Check that your microphone is properly connected and not muted. Ensure you've granted browser permission to access your microphone.</p>
+                </div>
+                <div class="troubleshoot-card">
+                    <h4>Low Volume</h4>
+                    <p>Increase your microphone boost in system settings. Speak closer to the mic and check for any physical volume controls.</p>
+                </div>
+                <div class="troubleshoot-card">
+                    <h4>Background Noise</h4>
+                    <p>Use a noise-canceling microphone or apply noise reduction in your recording software. Minimize ambient sounds in your environment.</p>
+                </div>
+                <div class="troubleshoot-card">
+                    <h4>Echo or Feedback</h4>
+                    <p>Use headphones to prevent your microphone from picking up speaker output. Lower your speaker volume if not using headphones.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h4>Is this mic test completely private?</h4>
+                <p>Yes, absolutely. All audio processing happens locally in your browser. No audio data is sent to any server or stored anywhere. We cannot hear or access your microphone input.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Why do I need to grant microphone permission?</h4>
+                <p>Browser security requires explicit permission to access your microphone. This is a standard security measure to protect your privacy. You can revoke this permission at any time through your browser settings.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Does this tool work on mobile devices?</h4>
+                <p>Yes, our mic test works on both iOS and Android devices. However, mobile browsers may have additional restrictions on microphone access. Make sure you're using a modern browser like Chrome, Safari, or Firefox.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I test multiple microphones?</h4>
+                <p>Yes, if you have multiple microphones connected, you can select which one to test from the dropdown menu. This is useful for comparing built-in microphones with external USB or Bluetooth microphones.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="processing-overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <p>Nexus Engine: Processing...</p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 NexusUtility. All rights reserved. | <a href="../privacy-policy.html">Privacy Policy</a> | <a href="../about-us.html">About Us</a></p>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Mic Test & Audio Visualizer",
+        "description": "Test your microphone with real-time audio visualization",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    }
+    </script>
+
+    <script>
+        let audioContext = null;
+        let analyser = null;
+        let microphone = null;
+        let dataArray = null;
+        let animationId = null;
+        let isTesting = false;
+
+        const canvas = document.getElementById('visualizer');
+        const canvasCtx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const volumeFill = document.getElementById('volumeFill');
+        const volumeValue = document.getElementById('volumeValue');
+        const volumeDb = document.getElementById('volumeDb');
+        const micSelect = document.getElementById('micSelect');
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        async function enumerateDevices() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioInputs = devices.filter(d => d.kind === 'audioinput');
+                micSelect.innerHTML = '<option value="">Default Microphone</option>';
+                audioInputs.forEach((device, i) => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Microphone ${i + 1}`;
+                    micSelect.appendChild(option);
+                });
+            } catch (err) {
+                console.error('Error enumerating devices:', err);
+            }
+        }
+
+        if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+            enumerateDevices();
+        }
+
+        function showProcessing() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.add('active');
+            setTimeout(() => overlay.classList.remove('active'), 500);
+        }
+
+        function updateStatus(state, message) {
+            statusIndicator.className = 'status-indicator' + (state ? ' ' + state : '');
+            statusText.className = 'status-text' + (state ? ' ' + state : '');
+            statusText.textContent = message;
+        }
+
+        function drawVisualizer() {
+            if (!analyser) return;
+            
+            animationId = requestAnimationFrame(drawVisualizer);
+            analyser.getByteTimeDomainData(dataArray);
+
+            canvasCtx.fillStyle = 'rgba(17, 17, 17, 0.2)';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvasCtx.lineWidth = 2;
+            canvasCtx.strokeStyle = '#10b981';
+            canvasCtx.beginPath();
+
+            const sliceWidth = canvas.width / dataArray.length;
+            let x = 0;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                const v = dataArray[i] / 128.0;
+                const y = v * canvas.height / 2;
+
+                if (i === 0) canvasCtx.moveTo(x, y);
+                else canvasCtx.lineTo(x, y);
+
+                x += sliceWidth;
+            }
+
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+
+            // Calculate volume
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += Math.abs(dataArray[i] - 128);
+            }
+            const average = sum / dataArray.length;
+            const volume = Math.min(100, (average / 128) * 200);
+            
+            volumeFill.style.width = volume + '%';
+            volumeValue.textContent = Math.round(volume) + '%';
+            
+            const db = volume > 0 ? Math.round(20 * Math.log10(volume / 100)) : -Infinity;
+            volumeDb.textContent = db > -60 ? db + ' dB' : '-∞ dB';
+        }
+
+        async function startMicTest() {
+            showProcessing();
+            
+            try {
+                const constraints = {
+                    audio: {
+                        deviceId: micSelect.value ? { exact: micSelect.value } : undefined,
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    }
+                };
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                
+                microphone = audioContext.createMediaStreamSource(stream);
+                microphone.connect(analyser);
+                
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                
+                isTesting = true;
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                updateStatus('active', 'Microphone active - Speak now!');
+                
+                drawVisualizer();
+                
+            } catch (err) {
+                console.error('Error accessing microphone:', err);
+                updateStatus('error', 'Error: ' + (err.message || 'Could not access microphone'));
+            }
+        }
+
+        function stopMicTest() {
+            showProcessing();
+            
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+            
+            if (microphone) {
+                microphone.disconnect();
+                microphone = null;
+            }
+            
+            if (audioContext) {
+                audioContext.close();
+                audioContext = null;
+            }
+            
+            if (analyser) {
+                analyser = null;
+            }
+            
+            isTesting = false;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            updateStatus('', 'Click "Start Test" to begin');
+            
+            volumeFill.style.width = '0%';
+            volumeValue.textContent = '0%';
+            volumeDb.textContent = '-∞ dB';
+            
+            canvasCtx.fillStyle = '#111111';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

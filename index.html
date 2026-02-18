@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusUtility | Free Online Tools for Everyone</title>
+    <meta name="description" content="Free online tools for productivity, finance, health, and more. 25+ utilities with no signup required. Privacy-first, fast, and reliable.">
+    <meta name="keywords" content="free online tools, utility tools, productivity tools, calculator, converter, tracker">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "NexusUtility", "url": "https://nexusutility.github.io/core-nexus/", "potentialAction": {"@type": "SearchAction", "target": "https://nexusutility.github.io/core-nexus/?q={search_term}", "query-input": "required name=search_term"}}</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --accent-dark: #059669; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); --shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .hero { text-align: center; padding: 5rem 2rem; background: linear-gradient(180deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%); }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-secondary); font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem; }
+        .hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; flex-wrap: wrap; }
+        .hero-stat { text-align: center; }
+        .hero-stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .hero-stat-label { color: var(--text-secondary); font-size: 0.9rem; }
+        .search-bar { max-width: 600px; margin: 0 auto 3rem; padding: 0 2rem; }
+        .search-bar input { width: 100%; background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 1rem 1.5rem; border-radius: 50px; font-size: 1rem; }
+        .search-bar input:focus { outline: none; border-color: var(--accent); }
+        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin: 2rem auto; text-align: center; max-width: 728px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .section-title { font-size: 2rem; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .tool-card { background: var(--bg-glass); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; transition: all 0.3s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .tool-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2); }
+        .tool-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .tool-name { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .tool-desc { color: var(--text-secondary); font-size: 0.9rem; flex-grow: 1; }
+        .tool-tag { display: inline-block; background: rgba(16, 185, 129, 0.1); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.75rem; margin-top: 1rem; }
+        .features-section { background: var(--bg-secondary); border-radius: 24px; padding: 3rem; margin: 3rem 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature { text-align: center; }
+        .feature-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .feature h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .feature p { color: var(--text-secondary); font-size: 0.95rem; }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-section h4 { color: var(--accent); margin-bottom: 1rem; }
+        .footer-section a { display: block; color: var(--text-secondary); text-decoration: none; margin-bottom: 0.5rem; }
+        .footer-section a:hover { color: var(--accent); }
+        .footer-bottom { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .hero h1 { font-size: 2.5rem; } .hero-stats { gap: 1.5rem; } .tools-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about-us.html">About</a></li>
+                <li><a href="privacy-policy.html">Privacy</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>⚡ NexusUtility</h1>
+        <p>25+ free online tools for productivity, finance, health, and more. No signup required. Privacy-first. Always free.</p>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="hero-stat-value">25+</div><div class="hero-stat-label">Free Tools</div></div>
+            <div class="hero-stat"><div class="hero-stat-value">100%</div><div class="hero-stat-label">Free Forever</div></div>
+            <div class="hero-stat"><div class="hero-stat-value">0</div><div class="hero-stat-label">Signups Needed</div></div>
+        </div>
+    </section>
+
+    <div class="ad-banner">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">🏥 Health & Daily</h2>
+        <div class="tools-grid">
+            <a href="tools/fasting-timer.html" class="tool-card"><div class="tool-icon">⏱️</div><div class="tool-name">Fasting Timer</div><div class="tool-desc">Track intermittent fasting with 16:8, 5:2, and OMAD protocols</div><span class="tool-tag">Health</span></a>
+            <a href="tools/daily-water-tracker.html" class="tool-card"><div class="tool-icon">💧</div><div class="tool-name">Water Tracker</div><div class="tool-desc">Monitor daily hydration and reach your water intake goals</div><span class="tool-tag">Health</span></a>
+            <a href="tools/bmi-health-tracker.html" class="tool-card"><div class="tool-icon">⚖️</div><div class="tool-name">BMI Calculator</div><div class="tool-desc">Calculate Body Mass Index with health insights</div><span class="tool-tag">Health</span></a>
+            <a href="tools/calorie-deficit-calc.html" class="tool-card"><div class="tool-icon">🔥</div><div class="tool-name">Calorie Calculator</div><div class="tool-desc">Calculate TDEE, BMR, and optimal calorie deficit for weight loss</div><span class="tool-tag">Health</span></a>
+            <a href="tools/period-tracker-private.html" class="tool-card"><div class="tool-icon">🌸</div><div class="tool-name">Period Tracker</div><div class="tool-desc">Private menstrual cycle tracking with fertility predictions</div><span class="tool-tag">Health</span></a>
+        </div>
+
+        <h2 class="section-title">⚡ Productivity</h2>
+        <div class="tools-grid">
+            <a href="tools/pomodoro-focus-hub.html" class="tool-card"><div class="tool-icon">🍅</div><div class="tool-name">Pomodoro Timer</div><div class="tool-desc">Boost focus with customizable work intervals and breaks</div><span class="tool-tag">Productivity</span></a>
+            <a href="tools/eye-strain-202020.html" class="tool-card"><div class="tool-icon">👁️</div><div class="tool-name">20-20-20 Eye Care</div><div class="tool-desc">Prevent digital eye strain with timed break reminders</div><span class="tool-tag">Health</span></a>
+            <a href="tools/white-noise-generator.html" class="tool-card"><div class="tool-icon">🎵</div><div class="tool-name">White Noise</div><div class="tool-desc">Generate sleep sounds, pink noise, and ambient audio</div><span class="tool-tag">Focus</span></a>
+            <a href="tools/timezone-buddy.html" class="tool-card"><div class="tool-icon">🌍</div><div class="tool-name">Timezone Buddy</div><div class="tool-desc">Convert time zones and plan international meetings</div><span class="tool-tag">Productivity</span></a>
+            <a href="tools/word-counter-pro.html" class="tool-card"><div class="tool-icon">📝</div><div class="tool-name">Word Counter</div><div class="tool-desc">Count words, characters, and analyze text</div><span class="tool-tag">Writing</span></a>
+        </div>
+
+        <h2 class="section-title">💰 Finance</h2>
+        <div class="tools-grid">
+            <a href="tools/percentage-calculator.html" class="tool-card"><div class="tool-icon">📊</div><div class="tool-name">Percentage Calculator</div><div class="tool-desc">Calculate discounts, tips, and percentage changes</div><span class="tool-tag">Finance</span></a>
+            <a href="tools/compound-interest-calc.html" class="tool-card"><div class="tool-icon">💰</div><div class="tool-name">Compound Interest</div><div class="tool-desc">See the power of compound interest on investments</div><span class="tool-tag">Finance</span></a>
+            <a href="tools/salary-tax-calc.html" class="tool-card"><div class="tool-icon">💵</div><div class="tool-name">Salary Tax Calculator</div><div class="tool-desc">Estimate take-home pay after federal taxes</div><span class="tool-tag">Finance</span></a>
+            <a href="tools/inflation-calculator.html" class="tool-card"><div class="tool-icon">📈</div><div class="tool-name">Inflation Calculator</div><div class="tool-desc">Calculate purchasing power over time</div><span class="tool-tag">Finance</span></a>
+            <a href="tools/loan-repayment-calc.html" class="tool-card"><div class="tool-icon">🏦</div><div class="tool-name">Loan Calculator</div><div class="tool-desc">Calculate payments and view amortization schedule</div><span class="tool-tag">Finance</span></a>
+        </div>
+
+        <h2 class="section-title">🎮 Gaming & Dev</h2>
+        <div class="tools-grid">
+            <a href="tools/cps-test.html" class="tool-card"><div class="tool-icon">🖱️</div><div class="tool-name">CPS Test</div><div class="tool-desc">Test your clicks per second speed</div><span class="tool-tag">Gaming</span></a>
+            <a href="tools/reaction-time-test.html" class="tool-card"><div class="tool-icon">⚡</div><div class="tool-name">Reaction Time</div><div class="tool-desc">Measure your reflexes in milliseconds</div><span class="tool-tag">Gaming</span></a>
+            <a href="tools/mic-test-visualizer.html" class="tool-card"><div class="tool-icon">🎤</div><div class="tool-name">Mic Test</div><div class="tool-desc">Test microphone with visual audio waveform</div><span class="tool-tag">Audio</span></a>
+            <a href="tools/dead-pixel-tester.html" class="tool-card"><div class="tool-icon">🖥️</div><div class="tool-name">Dead Pixel Tester</div><div class="tool-desc">Check your screen for dead or stuck pixels</div><span class="tool-tag">Display</span></a>
+            <a href="tools/json-formatter-local.html" class="tool-card"><div class="tool-icon">📋</div><div class="tool-name">JSON Formatter</div><div class="tool-desc">Format and validate JSON data locally</div><span class="tool-tag">Developer</span></a>
+            <a href="tools/binary-to-decimal.html" class="tool-card"><div class="tool-icon">🔢</div><div class="tool-name">Binary Converter</div><div class="tool-desc">Convert between binary, decimal, and hex</div><span class="tool-tag">Developer</span></a>
+            <a href="tools/password-vault-offline.html" class="tool-card"><div class="tool-icon">🔐</div><div class="tool-name">Password Vault</div><div class="tool-desc">Generate and store passwords locally</div><span class="tool-tag">Security</span></a>
+        </div>
+
+        <h2 class="section-title">📱 Social & Utility</h2>
+        <div class="tools-grid">
+            <a href="tools/youtube-thumbnail-grabber.html" class="tool-card"><div class="tool-icon">🎬</div><div class="tool-name">YouTube Thumbnail</div><div class="tool-desc">Download YouTube video thumbnails in HD</div><span class="tool-tag">Social</span></a>
+            <a href="tools/tiktok-bio-styler.html" class="tool-card"><div class="tool-icon">✨</div><div class="tool-name">TikTok Bio Styler</div><div class="tool-desc">Create stylish text for social media bios</div><span class="tool-tag">Social</span></a>
+            <a href="tools/qr-code-generator.html" class="tool-card"><div class="tool-icon">📱</div><div class="tool-name">QR Generator</div><div class="tool-desc">Create QR codes for URLs, WiFi, and more</div><span class="tool-tag">Utility</span></a>
+        </div>
+
+        <div class="features-section">
+            <div class="features-grid">
+                <div class="feature"><div class="feature-icon">🔒</div><h3>100% Private</h3><p>All data stays on your device. No servers, no tracking, no accounts needed.</p></div>
+                <div class="feature"><div class="feature-icon">⚡</div><h3>Instant & Fast</h3><p>No downloads, no waiting. Tools work instantly in your browser.</p></div>
+                <div class="feature"><div class="feature-icon">💯</div><h3>Always Free</h3><p>All tools are completely free. No hidden fees, no premium tiers.</p></div>
+                <div class="feature"><div class="feature-icon">📱</div><h3>Mobile Friendly</h3><p>Works perfectly on phones, tablets, and desktop computers.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ad-banner">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>NexusUtility</h4>
+                <a href="about-us.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+            </div>
+            <div class="footer-section">
+                <h4>Categories</h4>
+                <a href="index.html#health">Health Tools</a>
+                <a href="index.html#finance">Finance Tools</a>
+                <a href="index.html#productivity">Productivity</a>
+            </div>
+            <div class="footer-section">
+                <h4>Popular Tools</h4>
+                <a href="tools/bmi-health-tracker.html">BMI Calculator</a>
+                <a href="tools/percentage-calculator.html">Percentage Calc</a>
+                <a href="tools/qr-code-generator.html">QR Generator</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NexusUtility. All rights reserved. | Privacy-first utility tools.</p>
+        </div>
+    </footer>
+
+    <script>(adsbygoogle = window.adsbygoogle || []).push({}); (adsbygoogle = window.adsbygoogle || []).push({});</script>
+</body>
+</html>

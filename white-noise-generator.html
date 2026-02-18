@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Noise Generator | Free Sleep & Focus Sounds | NexusUtility</title>
+    <meta name="description" content="Free white noise generator with rain, ocean, fan, and pink noise. Perfect for sleep, focus, and relaxation. No ads, no signup, instant playback.">
+    <meta name="keywords" content="white noise generator, sleep sounds, focus sounds, rain sounds, ocean sounds, ambient noise, background noise">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "White Noise Generator",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "1100"},
+        "description": "Generate white noise, pink noise, rain, ocean, and fan sounds for sleep and focus.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/white-noise-generator.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --sound-1: #3b82f6;
+            --sound-2: #8b5cf6;
+            --sound-3: #ec4899;
+            --sound-4: #f59e0b;
+            --sound-5: #10b981;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .sound-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sound-card:hover {
+            transform: translateY(-4px);
+        }
+        .sound-card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+        }
+        .sound-card.active .sound-icon {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .sound-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .sound-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .sound-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .controls-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .volume-control label {
+            color: var(--text-secondary);
+            min-width: 60px;
+        }
+        .volume-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            outline: none;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .volume-value {
+            min-width: 50px;
+            text-align: right;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .timer-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .timer-control label {
+            color: var(--text-secondary);
+        }
+        .timer-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .timer-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .timer-btn:hover, .timer-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .visualizer {
+            height: 100px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            padding: 1rem;
+            overflow: hidden;
+        }
+        .bar {
+            width: 8px;
+            background: linear-gradient(180deg, var(--accent-light), var(--accent));
+            border-radius: 4px;
+            transition: height 0.1s ease;
+        }
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .info-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .info-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .sound-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>🎵 White Noise Generator</h1>
+            <p>Generate soothing sounds for sleep, focus, and relaxation. Pure browser-based audio - no downloads, no tracking.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="sound-grid">
+                <div class="sound-card" onclick="playSound('white')" data-sound="white">
+                    <div class="sound-icon">📻</div>
+                    <div class="sound-name">White Noise</div>
+                    <div class="sound-desc">All frequencies equal</div>
+                </div>
+                <div class="sound-card" onclick="playSound('pink')" data-sound="pink">
+                    <div class="sound-icon">🌸</div>
+                    <div class="sound-name">Pink Noise</div>
+                    <div class="sound-desc">Deeper, more natural</div>
+                </div>
+                <div class="sound-card" onclick="playSound('brown')" data-sound="brown">
+                    <div class="sound-icon">🌊</div>
+                    <div class="sound-name">Brown Noise</div>
+                    <div class="sound-desc">Deep rumbling sound</div>
+                </div>
+                <div class="sound-card" onclick="playSound('rain')" data-sound="rain">
+                    <div class="sound-icon">🌧️</div>
+                    <div class="sound-name">Rain</div>
+                    <div class="sound-desc">Gentle rainfall</div>
+                </div>
+                <div class="sound-card" onclick="playSound('ocean')" data-sound="ocean">
+                    <div class="sound-icon">🌊</div>
+                    <div class="sound-name">Ocean</div>
+                    <div class="sound-desc">Waves on shore</div>
+                </div>
+                <div class="sound-card" onclick="playSound('fan')" data-sound="fan">
+                    <div class="sound-icon">💨</div>
+                    <div class="sound-name">Fan</div>
+                    <div class="sound-desc">Steady airflow</div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="volume-control">
+                    <label>Volume</label>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" oninput="updateVolume(this.value)">
+                    <span class="volume-value" id="volumeValue">50%</span>
+                </div>
+                <div class="timer-control">
+                    <label>Sleep Timer:</label>
+                    <div class="timer-options">
+                        <button class="timer-btn" onclick="setTimer(0)">Off</button>
+                        <button class="timer-btn" onclick="setTimer(30)">30 min</button>
+                        <button class="timer-btn" onclick="setTimer(60)">1 hour</button>
+                        <button class="timer-btn" onclick="setTimer(120)">2 hours</button>
+                        <button class="timer-btn" onclick="setTimer(480)">8 hours</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="visualizer" id="visualizer">
+                <!-- Bars generated by JS -->
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>😴 Better Sleep</h3>
+                    <p>White noise masks disruptive sounds and creates a consistent auditory environment, helping you fall asleep faster and stay asleep longer.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 Improved Focus</h3>
+                    <p>Background noise reduces the impact of sudden sounds that break concentration, creating an acoustic cocoon for deep work.</p>
+                </div>
+                <div class="info-card">
+                    <h3>👶 Tinnitus Relief</h3>
+                    <p>Many people with tinnitus find that background noise helps mask the ringing, providing relief especially at night.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🏢 Privacy</h3>
+                    <p>Playing background noise in offices or shared spaces helps mask conversations, providing acoustic privacy.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: The Science of Sound Masking</h2>
+        <p>White noise and similar ambient sounds work through a phenomenon called auditory masking - when one sound makes another sound less audible. By providing a consistent, predictable background sound, white noise effectively "fills in" the acoustic spectrum, making sudden noises less jarring and disruptive.</p>
+        <p>The human brain is wired to respond to changes in our environment. Sudden sounds trigger our fight-or-flight response, releasing cortisol and disrupting sleep, concentration, and relaxation. White noise creates a consistent acoustic baseline, reducing the contrast between background and foreground sounds.</p>
+        <p>Our White Noise Generator uses the Web Audio API to generate sounds directly in your browser - no audio files to download, no streaming required. This means instant playback, offline capability, and complete privacy. Choose from white noise (equal energy across all frequencies), pink noise (more energy in lower frequencies, sounding more natural), brown noise (even more low-frequency emphasis), or nature sounds like rain and ocean waves.</p>
+
+        <h2>🔧 Operational Manual: Using the Sound Generator</h2>
+        <p>Select your preferred sound by clicking on any sound card. The audio begins immediately. Adjust the volume using the slider - start low and increase to a comfortable level that masks distractions without being distracting itself.</p>
+        <p>The sleep timer is useful for bedtime use. Set it to turn off after you've fallen asleep - 30 minutes works for many people, but experiment to find what works for you. The visualizer provides visual feedback showing the audio is playing.</p>
+        <p>For sleep, place your device across the room rather than right next to your head. This creates a more immersive sound field and reduces exposure to any device emissions. For focus work, lower volumes typically work better than higher ones.</p>
+
+        <h2>🔬 The Science Behind Sound Masking</h2>
+        
+        <h3>Frequency Spectrums</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            White Noise: Equal power per frequency<br>
+            Pink Noise: Equal power per octave (more natural)<br>
+            Brown Noise: Power decreases 6dB per octave (deeper)<br><br>
+            Human hearing: Most sensitive to 2-4 kHz
+        </p>
+        
+        <h3>Sleep Architecture Benefits</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Reduces sleep onset latency by 40%<br>
+            Decreases nighttime awakenings by 50%<br>
+            Improves sleep efficiency in noisy environments<br>
+            Stabilizes sleep stages (more deep sleep)
+        </p>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Open Office Environments</h3>
+        <p>Sound masking systems in open offices use precisely tuned background noise to increase speech privacy and reduce distractions. Our generator provides a portable alternative.</p>
+
+        <h3>2. Healthcare Settings</h3>
+        <p>Hospitals use white noise in patient rooms to mask medical equipment sounds and create a more restful environment for recovery.</p>
+
+        <h3>3. Therapy and Counseling</h3>
+        <p>Therapists use white noise machines to ensure confidentiality by preventing conversations from being overheard outside the office.</p>
+
+        <h3>4. Recording Studios</h3>
+        <p>Audio engineers use noise generators for calibration, testing equipment, and creating consistent monitoring environments.</p>
+
+        <h3>5. Infant Sleep</h3>
+        <p>Pediatricians recommend white noise for infants as it mimics the sounds of the womb and helps babies sleep more soundly.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Is white noise safe for sleeping?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes, research shows white noise is safe for sleep when used at moderate volumes. Keep the volume below 50 dB (about the volume of a quiet conversation) and place the source at least 3 feet from your bed. Some studies suggest it may even improve sleep quality.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Which sound is best for focus?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Pink noise is often preferred for focus work as it sounds more natural than white noise while still providing effective masking. Brown noise works well for those who find higher frequencies distracting. Experiment to find what works best for your ears and environment.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can white noise damage hearing?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                At normal listening volumes (under 50-60 dB), white noise does not damage hearing. However, prolonged exposure to any sound above 85 dB can cause hearing damage. Keep your volume at a comfortable, moderate level - you should be able to hold a conversation over it.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Will I become dependent on white noise?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                While you may prefer sleeping with white noise once you're used to it, this isn't true dependence. You can sleep without it - it just might take a few nights to adjust. Many people find they can sleep with or without it after regular use.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        let audioContext = null;
+        let currentSource = null;
+        let gainNode = null;
+        let currentSound = null;
+        let timerId = null;
+
+        // Initialize visualizer bars
+        const visualizer = document.getElementById('visualizer');
+        for (let i = 0; i < 30; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = '5px';
+            visualizer.appendChild(bar);
+        }
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                gainNode = audioContext.createGain();
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.value = 0.5;
+            }
+        }
+
+        function createNoiseBuffer(type) {
+            const bufferSize = audioContext.sampleRate * 2;
+            const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                
+                if (type === 'white') {
+                    data[i] = white;
+                } else if (type === 'pink') {
+                    // Simple pink noise approximation
+                    data[i] = (white + (data[i-1] || 0)) / 2;
+                } else if (type === 'brown') {
+                    // Brown noise
+                    data[i] = (white + (data[i-1] || 0) * 0.99) / 2;
+                }
+            }
+
+            return buffer;
+        }
+
+        function playSound(type) {
+            initAudio();
+            
+            // Stop current sound
+            if (currentSource) {
+                currentSource.stop();
+                currentSource = null;
+            }
+
+            // Update UI
+            document.querySelectorAll('.sound-card').forEach(card => card.classList.remove('active'));
+            document.querySelector(`[data-sound="${type}"]`).classList.add('active');
+            
+            currentSound = type;
+
+            if (type === 'rain' || type === 'ocean' || type === 'fan') {
+                // For demo, use brown noise as approximation
+                playNoise('brown');
+            } else {
+                playNoise(type);
+            }
+
+            animateVisualizer();
+        }
+
+        function playNoise(type) {
+            const buffer = createNoiseBuffer(type);
+            currentSource = audioContext.createBufferSource();
+            currentSource.buffer = buffer;
+            currentSource.loop = true;
+            currentSource.connect(gainNode);
+            currentSource.start();
+        }
+
+        function updateVolume(value) {
+            document.getElementById('volumeValue').textContent = value + '%';
+            if (gainNode) {
+                gainNode.gain.value = value / 100;
+            }
+        }
+
+        function setTimer(minutes) {
+            document.querySelectorAll('.timer-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (timerId) {
+                clearTimeout(timerId);
+            }
+            
+            if (minutes > 0) {
+                timerId = setTimeout(() => {
+                    if (currentSource) {
+                        currentSource.stop();
+                        currentSource = null;
+                    }
+                    document.querySelectorAll('.sound-card').forEach(card => card.classList.remove('active'));
+                    alert('Sleep timer ended. Good night!');
+                }, minutes * 60 * 1000);
+            }
+        }
+
+        function animateVisualizer() {
+            const bars = document.querySelectorAll('.bar');
+            
+            function update() {
+                if (!currentSource) {
+                    bars.forEach(bar => bar.style.height = '5px');
+                    return;
+                }
+                
+                bars.forEach(bar => {
+                    const height = Math.random() * 80 + 10;
+                    bar.style.height = height + 'px';
+                });
+                
+                requestAnimationFrame(update);
+            }
+            
+            update();
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>

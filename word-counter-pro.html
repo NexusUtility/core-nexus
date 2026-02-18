@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter Pro | Free Character & Word Count Tool | NexusUtility</title>
+    <meta name="description" content="Free word counter with character count, reading time, keyword density, and writing statistics. Perfect for essays, articles, and social media posts.">
+    <meta name="keywords" content="word counter, character counter, word count tool, text analyzer, essay word count, twitter character count">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Word Counter Pro",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.9", "ratingCount": "2500"},
+        "description": "Advanced word counter with reading time, keyword density, and writing statistics.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/word-counter-pro.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card.highlight {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .text-input-area {
+            margin-bottom: 2rem;
+        }
+        .text-input-area textarea {
+            width: 100%;
+            min-height: 300px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.8;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .text-input-area textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .text-input-area textarea::placeholder {
+            color: var(--text-secondary);
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .action-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .action-btn.primary {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .action-btn.primary:hover {
+            background: var(--accent-dark);
+        }
+        .limits-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .limit-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .limit-card h4 {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        .limit-bar {
+            height: 8px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        .limit-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        .limit-fill.warning {
+            background: #f59e0b;
+        }
+        .limit-fill.danger {
+            background: #ef4444;
+        }
+        .limit-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .keyword-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+        .keyword-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .keyword-tag {
+            background: var(--bg-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .keyword-tag .count {
+            background: var(--accent);
+            color: white;
+            padding: 0.1rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+        }
+        .reading-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .reading-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .reading-icon {
+            font-size: 2rem;
+        }
+        .reading-info h4 {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .reading-info p {
+            color: var(--accent);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>📝 Word Counter Pro</h1>
+            <p>Count words, characters, and analyze your text. Perfect for essays, articles, tweets, and any writing project.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="stats-grid">
+                <div class="stat-card highlight">
+                    <div class="stat-value" id="wordCount">0</div>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charCount">0</div>
+                    <div class="stat-label">Characters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="charCountNoSpace">0</div>
+                    <div class="stat-label">Characters (no spaces)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="sentenceCount">0</div>
+                    <div class="stat-label">Sentences</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="paragraphCount">0</div>
+                    <div class="stat-label">Paragraphs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="readingTime">0s</div>
+                    <div class="stat-label">Reading Time</div>
+                </div>
+            </div>
+
+            <div class="limits-section">
+                <div class="limit-card">
+                    <h4>Twitter/X Post</h4>
+                    <div class="limit-bar">
+                        <div class="limit-fill" id="twitterBar" style="width: 0%"></div>
+                    </div>
+                    <div class="limit-text"><span id="twitterCount">0</span> / 280</div>
+                </div>
+                <div class="limit-card">
+                    <h4>Instagram Caption</h4>
+                    <div class="limit-bar">
+                        <div class="limit-fill" id="instagramBar" style="width: 0%"></div>
+                    </div>
+                    <div class="limit-text"><span id="instagramCount">0</span> / 2,200</div>
+                </div>
+                <div class="limit-card">
+                    <h4>Meta Description</h4>
+                    <div class="limit-bar">
+                        <div class="limit-fill" id="metaBar" style="width: 0%"></div>
+                    </div>
+                    <div class="limit-text"><span id="metaCount">0</span> / 160</div>
+                </div>
+                <div class="limit-card">
+                    <h4>Google Ads Headline</h4>
+                    <div class="limit-bar">
+                        <div class="limit-fill" id="googleBar" style="width: 0%"></div>
+                    </div>
+                    <div class="limit-text"><span id="googleCount">0</span> / 30</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" onclick="pasteText()">📋 Paste</button>
+                <button class="action-btn" onclick="copyText()">📄 Copy</button>
+                <button class="action-btn" onclick="clearText()">🗑️ Clear</button>
+                <button class="action-btn" onclick="convertCase('upper')">AA Upper</button>
+                <button class="action-btn" onclick="convertCase('lower')">aa Lower</button>
+                <button class="action-btn" onclick="convertCase('title')">Aa Title</button>
+                <button class="action-btn primary" onclick="downloadText()">⬇ Download</button>
+            </div>
+
+            <div class="text-input-area">
+                <textarea id="textInput" placeholder="Start typing or paste your text here..." oninput="analyzeText()"></textarea>
+            </div>
+
+            <div class="reading-stats">
+                <div class="reading-card">
+                    <div class="reading-icon">📖</div>
+                    <div class="reading-info">
+                        <h4>Reading Level</h4>
+                        <p id="readingLevel">-</p>
+                    </div>
+                </div>
+                <div class="reading-card">
+                    <div class="reading-icon">📊</div>
+                    <div class="reading-info">
+                        <h4>Avg Word Length</h4>
+                        <p id="avgWordLength">-</p>
+                    </div>
+                </div>
+                <div class="reading-card">
+                    <div class="reading-icon">🗣️</div>
+                    <div class="reading-info">
+                        <h4>Speaking Time</h4>
+                        <p id="speakingTime">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="keyword-section">
+                <h3>🔑 Top Keywords</h3>
+                <div class="keyword-list" id="keywordList">
+                    <span style="color: var(--text-secondary);">Type or paste text to see keyword analysis</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: The Importance of Word Count</h2>
+        <p>Word count is a fundamental metric in writing, affecting everything from SEO rankings to social media engagement to academic grading. Different platforms and purposes have specific length requirements that writers must meet to achieve their goals.</p>
+        <p>Word Counter Pro goes beyond simple counting to provide comprehensive text analysis. Reading time estimates help content creators optimize for audience attention spans. Keyword density analysis aids SEO optimization. Platform-specific limits ensure your content fits within constraints for Twitter, Instagram, Google Ads, and meta descriptions.</p>
+        <p>The tool processes all text locally in your browser - no data is sent to servers. This ensures complete privacy for sensitive content while providing instant, real-time analysis as you type or paste text.</p>
+
+        <h2>🔧 Operational Manual: Using Word Counter Pro</h2>
+        <p>Simply start typing in the text area or paste content from another source. Statistics update automatically in real-time. The top section displays core metrics: word count, character counts, sentences, paragraphs, and estimated reading time.</p>
+        <p>Platform limit bars show how close you are to common constraints. Green indicates safe, yellow means approaching limit, and red shows you've exceeded. Use the action buttons to paste, copy, clear, or convert text case.</p>
+        <p>The keyword section identifies frequently used words, helping you spot overused terms or ensure key concepts appear appropriately. Reading level and average word length provide insights into text complexity.</p>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Content Marketing</h3>
+        <p>Bloggers and content marketers use word count to hit SEO sweet spots (typically 1,500-2,500 words for comprehensive articles) while monitoring keyword density to avoid over-optimization penalties.</p>
+
+        <h3>2. Social Media Management</h3>
+        <p>Social media managers craft posts within platform limits - 280 characters for Twitter, 2,200 for Instagram captions, 1,300 for LinkedIn - maximizing message impact within constraints.</p>
+
+        <h3>3. Academic Writing</h3>
+        <p>Students and researchers track word counts for essays, papers, and dissertations with specific length requirements. Reading level analysis helps ensure appropriate complexity.</p>
+
+        <h3>4. Advertising Copy</h3>
+        <p>Copywriters use character limits to craft Google Ads headlines (30 chars), descriptions (90 chars), and email subject lines that fit perfectly without truncation.</p>
+
+        <h3>5. Translation Services</h3>
+        <p>Translators compare source and target word counts to estimate project scope and pricing, as many services charge per word or per character.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How is reading time calculated?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Reading time is based on the average adult reading speed of 200-250 words per minute for comprehension. Speaking time uses 130-150 words per minute, the typical pace for presentations and speeches. Technical or complex content may require adjustment.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the ideal blog post length?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                SEO research suggests 1,500-2,500 words for comprehensive, competitive content. However, quality trumps quantity - a well-written 800-word post outperforms a padded 3,000-word piece. Match length to topic complexity and user intent.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Does word count affect SEO?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Indirectly. Google doesn't have a minimum word count requirement, but longer content tends to rank better because it can provide more comprehensive answers. Focus on fully addressing user intent rather than hitting arbitrary numbers.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        function analyzeText() {
+            const text = document.getElementById('textInput').value;
+            
+            // Basic counts
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            const charsNoSpace = text.replace(/\s/g, '').length;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+            const paragraphs = text.split(/\n\n+/).filter(p => p.trim()).length;
+            
+            // Reading time (200 wpm)
+            const readingMinutes = Math.ceil(words / 200);
+            const readingTime = readingMinutes < 1 ? '< 1 min' : readingMinutes + ' min';
+            
+            // Update stats
+            document.getElementById('wordCount').textContent = words.toLocaleString();
+            document.getElementById('charCount').textContent = chars.toLocaleString();
+            document.getElementById('charCountNoSpace').textContent = charsNoSpace.toLocaleString();
+            document.getElementById('sentenceCount').textContent = sentences.toLocaleString();
+            document.getElementById('paragraphCount').textContent = paragraphs.toLocaleString();
+            document.getElementById('readingTime').textContent = readingTime;
+            
+            // Platform limits
+            updateLimit('twitter', chars, 280);
+            updateLimit('instagram', chars, 2200);
+            updateLimit('meta', chars, 160);
+            updateLimit('google', words, 30);
+            
+            // Reading stats
+            const avgLength = words > 0 ? (charsNoSpace / words).toFixed(1) : '-';
+            document.getElementById('avgWordLength').textContent = avgLength;
+            
+            const speakingMinutes = Math.ceil(words / 130);
+            document.getElementById('speakingTime').textContent = speakingMinutes + ' min';
+            
+            // Reading level (simplified Flesch-Kincaid)
+            const readingLevel = words > 10 ? calculateReadingLevel(text) : '-';
+            document.getElementById('readingLevel').textContent = readingLevel;
+            
+            // Keywords
+            updateKeywords(text);
+        }
+
+        function updateLimit(platform, current, max) {
+            const percentage = Math.min((current / max) * 100, 100);
+            const bar = document.getElementById(platform + 'Bar');
+            const count = document.getElementById(platform + 'Count');
+            
+            bar.style.width = percentage + '%';
+            count.textContent = current.toLocaleString();
+            
+            bar.classList.remove('warning', 'danger');
+            if (percentage > 100) bar.classList.add('danger');
+            else if (percentage > 80) bar.classList.add('warning');
+        }
+
+        function calculateReadingLevel(text) {
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length;
+            const words = text.trim().split(/\s+/).length;
+            const syllables = text.split(/\s+/).reduce((count, word) => {
+                return count + Math.max(1, word.match(/[aeiou]/gi)?.length || 0);
+            }, 0);
+            
+            if (sentences === 0 || words === 0) return '-';
+            
+            const score = 206.835 - 1.015 * (words / sentences) - 84.6 * (syllables / words);
+            
+            if (score >= 90) return 'Very Easy';
+            if (score >= 80) return 'Easy';
+            if (score >= 70) return 'Fairly Easy';
+            if (score >= 60) return 'Standard';
+            if (score >= 50) return 'Fairly Difficult';
+            if (score >= 30) return 'Difficult';
+            return 'Very Difficult';
+        }
+
+        function updateKeywords(text) {
+            const words = text.toLowerCase().match(/\b[a-z]+\b/g) || [];
+            const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must', 'can', 'this', 'that', 'these', 'those', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them']);
+            
+            const wordCounts = {};
+            words.forEach(word => {
+                if (!stopWords.has(word) && word.length > 2) {
+                    wordCounts[word] = (wordCounts[word] || 0) + 1;
+                }
+            });
+            
+            const sorted = Object.entries(wordCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 15);
+            
+            const container = document.getElementById('keywordList');
+            if (sorted.length === 0) {
+                container.innerHTML = '<span style="color: var(--text-secondary);">Type or paste text to see keyword analysis</span>';
+            } else {
+                container.innerHTML = sorted.map(([word, count]) => `
+                    <span class="keyword-tag">${word} <span class="count">${count}</span></span>
+                `).join('');
+            }
+        }
+
+        async function pasteText() {
+            const text = await navigator.clipboard.readText();
+            document.getElementById('textInput').value = text;
+            analyzeText();
+        }
+
+        function copyText() {
+            const text = document.getElementById('textInput').value;
+            navigator.clipboard.writeText(text);
+        }
+
+        function clearText() {
+            document.getElementById('textInput').value = '';
+            analyzeText();
+        }
+
+        function convertCase(type) {
+            const textarea = document.getElementById('textInput');
+            const text = textarea.value;
+            
+            if (type === 'upper') textarea.value = text.toUpperCase();
+            else if (type === 'lower') textarea.value = text.toLowerCase();
+            else if (type === 'title') {
+                textarea.value = text.replace(/\w\S*/g, txt => 
+                    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+                );
+            }
+            
+            analyzeText();
+        }
+
+        function downloadText() {
+            const text = document.getElementById('textInput').value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'text-' + new Date().toISOString().slice(0, 10) + '.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>

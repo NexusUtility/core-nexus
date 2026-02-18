@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percentage Calculator | Free Online Percent Tool | NexusUtility</title>
+    <meta name="description" content="Free percentage calculator for discounts, tips, tax, and percentage change. Fast, accurate calculations with step-by-step explanations.">
+    <meta name="keywords" content="percentage calculator, percent calculator, discount calculator, tip calculator, percentage change, percentage increase">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Percentage Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "3200"},
+        "description": "Calculate percentages, discounts, tips, and percentage change with step-by-step explanations.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/percentage-calculator.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-dark: #059669;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .calc-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .calc-tab {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .calc-tab:hover, .calc-tab.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .calc-tab.active {
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .calc-panel {
+            display: none;
+        }
+        .calc-panel.active {
+            display: block;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .input-group input, .input-group select {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .calc-formula {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        .formula-input {
+            width: 120px;
+            text-align: center;
+        }
+        .formula-text {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        .calc-btn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .calc-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        .result-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .result-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .result-steps {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            text-align: left;
+        }
+        .result-steps h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .result-steps code {
+            display: block;
+            background: var(--bg-primary);
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-family: monospace;
+            margin-bottom: 0.5rem;
+        }
+        .quick-calcs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .quick-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quick-card:hover {
+            border: 1px solid var(--accent);
+        }
+        .quick-card h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .quick-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .formula-box {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .calc-formula { flex-direction: column; }
+            .result-value { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>📊 Percentage Calculator</h1>
+            <p>Calculate percentages, discounts, tips, and percentage changes instantly. Perfect for shopping, finance, and everyday math.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="calc-tabs">
+                <button class="calc-tab active" onclick="showTab('percent-of')">% of Number</button>
+                <button class="calc-tab" onclick="showTab('percent-change')">% Change</button>
+                <button class="calc-tab" onclick="showTab('find-percent')">Find %</button>
+                <button class="calc-tab" onclick="showTab('discount')">Discount</button>
+                <button class="calc-tab" onclick="showTab('tip')">Tip Calculator</button>
+            </div>
+
+            <div class="calc-panel active" id="panel-percent-of">
+                <h3>What is <input type="number" class="formula-input" id="p1-percent" placeholder="%"> % of <input type="number" class="formula-input" id="p1-number" placeholder="number">?</h3>
+                <button class="calc-btn" onclick="calcPercentOf()">Calculate</button>
+                <div class="result-box" id="result-percent-of" style="display: none;">
+                    <div class="result-value" id="r1-value">-</div>
+                    <div class="result-label">Result</div>
+                    <div class="result-steps" id="r1-steps"></div>
+                </div>
+            </div>
+
+            <div class="calc-panel" id="panel-percent-change">
+                <h3>What is the percentage change from <input type="number" class="formula-input" id="p2-from" placeholder="from"> to <input type="number" class="formula-input" id="p2-to" placeholder="to">?</h3>
+                <button class="calc-btn" onclick="calcPercentChange()">Calculate</button>
+                <div class="result-box" id="result-percent-change" style="display: none;">
+                    <div class="result-value" id="r2-value">-</div>
+                    <div class="result-label">Percentage Change</div>
+                    <div class="result-steps" id="r2-steps"></div>
+                </div>
+            </div>
+
+            <div class="calc-panel" id="panel-find-percent">
+                <h3><input type="number" class="formula-input" id="p3-part" placeholder="part"> is what % of <input type="number" class="formula-input" id="p3-whole" placeholder="whole">?</h3>
+                <button class="calc-btn" onclick="calcFindPercent()">Calculate</button>
+                <div class="result-box" id="result-find-percent" style="display: none;">
+                    <div class="result-value" id="r3-value">-</div>
+                    <div class="result-label">Percentage</div>
+                    <div class="result-steps" id="r3-steps"></div>
+                </div>
+            </div>
+
+            <div class="calc-panel" id="panel-discount">
+                <h3>Price: $<input type="number" class="formula-input" id="p4-price" placeholder="price">, Discount: <input type="number" class="formula-input" id="p4-discount" placeholder="%">%</h3>
+                <button class="calc-btn" onclick="calcDiscount()">Calculate</button>
+                <div class="result-box" id="result-discount" style="display: none;">
+                    <div class="result-value" id="r4-value">-</div>
+                    <div class="result-label">Final Price</div>
+                    <div class="result-steps" id="r4-steps"></div>
+                </div>
+            </div>
+
+            <div class="calc-panel" id="panel-tip">
+                <h3>Bill: $<input type="number" class="formula-input" id="p5-bill" placeholder="amount">, Tip: <input type="number" class="formula-input" id="p5-tip" placeholder="%" value="15">%</h3>
+                <button class="calc-btn" onclick="calcTip()">Calculate</button>
+                <div class="result-box" id="result-tip" style="display: none;">
+                    <div class="result-value" id="r5-value">-</div>
+                    <div class="result-label">Total with Tip</div>
+                    <div class="result-steps" id="r5-steps"></div>
+                </div>
+            </div>
+
+            <div class="quick-calcs">
+                <div class="quick-card" onclick="quickCalc(10)">
+                    <h4>10%</h4>
+                    <p>Move decimal one place left</p>
+                </div>
+                <div class="quick-card" onclick="quickCalc(20)">
+                    <h4>20%</h4>
+                    <p>Divide by 5</p>
+                </div>
+                <div class="quick-card" onclick="quickCalc(25)">
+                    <h4>25%</h4>
+                    <p>Divide by 4</p>
+                </div>
+                <div class="quick-card" onclick="quickCalc(50)">
+                    <h4>50%</h4>
+                    <p>Divide by 2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Understanding Percentages</h2>
+        <p>Percentages are one of the most practical mathematical concepts in everyday life. From calculating discounts while shopping to understanding interest rates on loans, percentages help us make informed financial decisions.</p>
+        <p>The word "percent" comes from the Latin "per centum," meaning "by the hundred." A percentage is simply a fraction with 100 as the denominator. For example, 50% means 50/100 or 1/2.</p>
+
+        <h2>🔬 Percentage Formulas</h2>
+        <div class="formula-box">
+            <strong>Percentage of a number:</strong><br>
+            Result = (Percentage ÷ 100) × Number<br><br>
+            <strong>Percentage change:</strong><br>
+            Change = ((New - Old) ÷ Old) × 100<br><br>
+            <strong>Finding what percentage:</strong><br>
+            Percentage = (Part ÷ Whole) × 100<br><br>
+            <strong>Discount calculation:</strong><br>
+            Final Price = Original × (1 - Discount% ÷ 100)
+        </div>
+
+        <h2>💼 Common Use Cases</h2>
+        <p><strong>Shopping Discounts:</strong> A $80 item with 25% off costs $60. You save $20.</p>
+        <p><strong>Restaurant Tips:</strong> On a $50 bill, 15% tip is $7.50, making the total $57.50.</p>
+        <p><strong>Salary Increases:</strong> A 5% raise on $60,000 adds $3,000 to annual income.</p>
+        <p><strong>Investment Returns:</strong> A stock rising from $100 to $120 represents a 20% gain.</p>
+
+        <h2>❓ FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I calculate percentage quickly in my head?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                For 10%, move the decimal one place left ($50 → $5). For 5%, take half of 10%. For 20%, double 10%. For 25%, divide by 4. For 50%, divide by 2. These shortcuts handle most everyday calculations.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the difference between percentage and percentage points?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Percentage is a ratio (50% of 100 = 50). Percentage points measure absolute difference between percentages. If interest rises from 5% to 7%, that's a 2 percentage point increase, but a 40% relative increase.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        function showTab(tab) {
+            document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('panel-' + tab).classList.add('active');
+        }
+
+        function calcPercentOf() {
+            const percent = parseFloat(document.getElementById('p1-percent').value);
+            const number = parseFloat(document.getElementById('p1-number').value);
+            
+            if (isNaN(percent) || isNaN(number)) return;
+            
+            const result = (percent / 100) * number;
+            document.getElementById('r1-value').textContent = result.toFixed(2);
+            document.getElementById('r1-steps').innerHTML = `
+                <h4>Calculation Steps:</h4>
+                <code>${percent}% of ${number} = (${percent} ÷ 100) × ${number}</code>
+                <code>= ${(percent/100).toFixed(4)} × ${number}</code>
+                <code>= ${result.toFixed(2)}</code>
+            `;
+            document.getElementById('result-percent-of').style.display = 'block';
+        }
+
+        function calcPercentChange() {
+            const from = parseFloat(document.getElementById('p2-from').value);
+            const to = parseFloat(document.getElementById('p2-to').value);
+            
+            if (isNaN(from) || isNaN(to) || from === 0) return;
+            
+            const change = ((to - from) / from) * 100;
+            const sign = change >= 0 ? '+' : '';
+            document.getElementById('r2-value').textContent = sign + change.toFixed(2) + '%';
+            document.getElementById('r2-steps').innerHTML = `
+                <h4>Calculation Steps:</h4>
+                <code>Change = ((${to} - ${from}) ÷ ${from}) × 100</code>
+                <code>= (${to - from} ÷ ${from}) × 100</code>
+                <code>= ${(change/100).toFixed(4)} × 100</code>
+                <code>= ${sign}${change.toFixed(2)}%</code>
+            `;
+            document.getElementById('result-percent-change').style.display = 'block';
+        }
+
+        function calcFindPercent() {
+            const part = parseFloat(document.getElementById('p3-part').value);
+            const whole = parseFloat(document.getElementById('p3-whole').value);
+            
+            if (isNaN(part) || isNaN(whole) || whole === 0) return;
+            
+            const result = (part / whole) * 100;
+            document.getElementById('r3-value').textContent = result.toFixed(2) + '%';
+            document.getElementById('r3-steps').innerHTML = `
+                <h4>Calculation Steps:</h4>
+                <code>${part} is what % of ${whole} = (${part} ÷ ${whole}) × 100</code>
+                <code>= ${(part/whole).toFixed(4)} × 100</code>
+                <code>= ${result.toFixed(2)}%</code>
+            `;
+            document.getElementById('result-find-percent').style.display = 'block';
+        }
+
+        function calcDiscount() {
+            const price = parseFloat(document.getElementById('p4-price').value);
+            const discount = parseFloat(document.getElementById('p4-discount').value);
+            
+            if (isNaN(price) || isNaN(discount)) return;
+            
+            const discountAmount = (discount / 100) * price;
+            const finalPrice = price - discountAmount;
+            document.getElementById('r4-value').textContent = '$' + finalPrice.toFixed(2);
+            document.getElementById('r4-steps').innerHTML = `
+                <h4>Calculation Steps:</h4>
+                <code>Discount = ${discount}% of $${price} = $${discountAmount.toFixed(2)}</code>
+                <code>Final Price = $${price} - $${discountAmount.toFixed(2)}</code>
+                <code>= $${finalPrice.toFixed(2)}</code>
+                <code style="color: var(--accent);">You save: $${discountAmount.toFixed(2)}</code>
+            `;
+            document.getElementById('result-discount').style.display = 'block';
+        }
+
+        function calcTip() {
+            const bill = parseFloat(document.getElementById('p5-bill').value);
+            const tip = parseFloat(document.getElementById('p5-tip').value);
+            
+            if (isNaN(bill) || isNaN(tip)) return;
+            
+            const tipAmount = (tip / 100) * bill;
+            const total = bill + tipAmount;
+            document.getElementById('r5-value').textContent = '$' + total.toFixed(2);
+            document.getElementById('r5-steps').innerHTML = `
+                <h4>Calculation Steps:</h4>
+                <code>Tip = ${tip}% of $${bill} = $${tipAmount.toFixed(2)}</code>
+                <code>Total = $${bill} + $${tipAmount.toFixed(2)}</code>
+                <code>= $${total.toFixed(2)}</code>
+                <code style="color: var(--accent);">Tip amount: $${tipAmount.toFixed(2)}</code>
+            `;
+            document.getElementById('result-tip').style.display = 'block';
+        }
+
+        function quickCalc(percent) {
+            document.getElementById('p1-percent').value = percent;
+            showTab('percent-of');
+            document.querySelector('.calc-tab').classList.add('active');
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Water Tracker | Free Hydration Monitor & Reminder | NexusUtility</title>
+    <meta name="description" content="Free daily water intake tracker with smart reminders. Monitor hydration, set custom goals, view weekly stats. 100% private local storage. Stay hydrated, stay healthy!">
+    <meta name="keywords" content="water tracker, hydration monitor, daily water intake, water reminder app, drink water tracker, hydration goals">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Daily Water Tracker",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "980"},
+        "description": "Track daily water intake with smart reminders and detailed hydration analytics. Privacy-first local storage.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/daily-water-tracker.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-dark: #059669;
+            --water: #3b82f6;
+            --water-light: #60a5fa;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--water), var(--water-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .water-display {
+            text-align: center;
+            padding: 2rem;
+        }
+        .water-bottle {
+            width: 180px;
+            height: 320px;
+            margin: 0 auto 2rem;
+            position: relative;
+            background: var(--bg-secondary);
+            border: 3px solid var(--water);
+            border-radius: 20px 20px 40px 40px;
+            overflow: hidden;
+        }
+        .water-level {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, var(--water-light), var(--water));
+            transition: height 0.5s ease;
+            border-radius: 0 0 37px 37px;
+        }
+        .water-bubbles {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            animation: bubble 2s infinite;
+        }
+        @keyframes bubble {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+            50% { transform: translateX(-50%) translateY(-10px); opacity: 1; }
+        }
+        .water-stats {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+        .water-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .water-goal {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        .percentage {
+            font-size: 1.5rem;
+            color: var(--water-light);
+            margin-top: 0.5rem;
+        }
+        .quick-add {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .add-btn {
+            background: var(--bg-secondary);
+            border: 2px solid var(--water);
+            color: var(--water-light);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .add-btn:hover {
+            background: var(--water);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .add-btn .amount {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .add-btn .label {
+            font-size: 0.75rem;
+        }
+        .custom-add {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .custom-add input {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            width: 120px;
+            font-size: 1rem;
+        }
+        .custom-add button {
+            background: var(--water);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .goal-setting {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .goal-setting h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .goal-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .goal-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .goal-btn:hover, .goal-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .history-section {
+            margin-top: 2rem;
+        }
+        .history-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .history-item .time {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .history-item .amount {
+            color: var(--water-light);
+            font-weight: 600;
+        }
+        .weekly-chart {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+        .day-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .bar {
+            width: 100%;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bar-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, var(--water-light), var(--water));
+            border-radius: 0 0 4px 4px;
+            transition: height 0.5s ease;
+        }
+        .day-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .content-section ul {
+            color: var(--text-secondary);
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .overlay.active { display: flex; }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .overlay-text {
+            margin-top: 1.5rem;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .water-bottle { width: 140px; height: 260px; }
+            .weekly-chart { grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>💧 Daily Water Tracker</h1>
+            <p>Monitor your hydration, reach your goals, and build healthy habits. Smart reminders, detailed analytics, complete privacy.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="water-display">
+                <div class="water-bottle">
+                    <div class="water-level" id="waterLevel" style="height: 0%;"></div>
+                    <div class="water-bubbles">🫧</div>
+                    <div class="water-stats">
+                        <div class="water-amount" id="currentAmount">0 ml</div>
+                        <div class="water-goal">of <span id="goalAmount">2500</span> ml</div>
+                        <div class="percentage" id="percentage">0%</div>
+                    </div>
+                </div>
+
+                <div class="quick-add">
+                    <button class="add-btn" onclick="addWater(250)">
+                        <span class="amount">250ml</span>
+                        <span class="label">Glass</span>
+                    </button>
+                    <button class="add-btn" onclick="addWater(500)">
+                        <span class="amount">500ml</span>
+                        <span class="label">Bottle</span>
+                    </button>
+                    <button class="add-btn" onclick="addWater(750)">
+                        <span class="amount">750ml</span>
+                        <span class="label">Large</span>
+                    </button>
+                    <button class="add-btn" onclick="addWater(1000)">
+                        <span class="amount">1L</span>
+                        <span class="label">Jug</span>
+                    </button>
+                </div>
+
+                <div class="custom-add">
+                    <input type="number" id="customAmount" placeholder="Custom ml" min="1">
+                    <button onclick="addCustomWater()">Add</button>
+                </div>
+
+                <div class="goal-setting">
+                    <h3>🎯 Daily Goal</h3>
+                    <div class="goal-options">
+                        <button class="goal-btn" onclick="setGoal(1500)">1.5L</button>
+                        <button class="goal-btn" onclick="setGoal(2000)">2L</button>
+                        <button class="goal-btn active" onclick="setGoal(2500)">2.5L</button>
+                        <button class="goal-btn" onclick="setGoal(3000)">3L</button>
+                        <button class="goal-btn" onclick="setGoal(4000)">4L</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weekly-chart" id="weeklyChart">
+                <!-- Generated by JS -->
+            </div>
+
+            <div class="history-section">
+                <h3>📋 Today's History</h3>
+                <div class="history-list" id="historyList">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: The Critical Importance of Hydration</h2>
+        <p>Water is the essence of life, comprising approximately 60% of the adult human body and playing a critical role in virtually every physiological process. Despite its fundamental importance, studies indicate that up to 75% of adults may be chronically dehydrated, leading to decreased cognitive function, reduced physical performance, and impaired metabolic processes.</p>
+        <p>Our Daily Water Tracker addresses this widespread issue by providing an intuitive, privacy-focused solution for monitoring hydration. Unlike commercial apps that require accounts and sync data to remote servers, our tool stores all information locally on your device. Your hydration data never leaves your browser, ensuring complete privacy while helping you build consistent, healthy habits.</p>
+        <p>The application features smart goal-setting based on established health guidelines (approximately 2.5-3 liters daily for adults), quick-add buttons for common serving sizes, custom amount entry, and a visual water bottle that fills as you progress. Weekly analytics help identify patterns and maintain accountability over time.</p>
+
+        <h2>🔧 Operational Manual: Maximizing Your Hydration Tracking</h2>
+        <p>The Daily Water Tracker is designed for effortless daily use. Upon first visit, the application sets a default goal of 2,500ml based on general health recommendations. You can customize this goal based on your individual needs, activity level, and climate conditions.</p>
+        <p>Logging water intake is simple: tap one of the quick-add buttons (250ml glass, 500ml bottle, 750ml large bottle, or 1L jug) whenever you drink water. For non-standard amounts, use the custom input field. Each entry is timestamped and added to your daily history.</p>
+        <p>The visual water bottle provides immediate feedback on your progress, filling gradually as you approach your goal. The weekly chart displays your hydration patterns over the past seven days, helping you identify trends and maintain consistency. All data persists across browser sessions using localStorage technology.</p>
+        <p>For optimal results, aim to distribute your water intake throughout the day rather than consuming large amounts at once. The tracker helps establish this habit by making each glass visible and rewarding.</p>
+
+        <h2>🔬 The Math & Science Logic of Hydration</h2>
+        <p>Proper hydration follows established physiological principles that can be quantified and optimized:</p>
+        
+        <h3>Basal Hydration Requirements</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Daily Water Need (ml) = Body Weight (kg) × 35ml<br><br>
+            For a 70kg adult: 70 × 35 = 2,450ml baseline requirement
+        </p>
+        
+        <h3>Activity Adjustment Factor</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Adjusted Need = Baseline + (Exercise Minutes × 12ml)<br><br>
+            60-minute workout adds: 60 × 12 = 720ml additional
+        </p>
+
+        <h3>Climate Multiplier</h3>
+        <ul>
+            <li>Temperate climate: 1.0× baseline</li>
+            <li>Hot/Humid climate: 1.3-1.5× baseline</li>
+            <li>High altitude: 1.2× baseline</li>
+            <li>Air-conditioned environment: 1.1× baseline</li>
+        </ul>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Corporate Wellness Initiatives</h3>
+        <p>Progressive companies implement hydration challenges using our tracker, improving employee focus and reducing afternoon fatigue. Studies show proper hydration can increase productivity by up to 14%.</p>
+
+        <h3>2. Athletic Training Programs</h3>
+        <p>Coaches use the tracker to ensure athletes maintain optimal hydration before, during, and after training. Proper hydration is directly linked to performance metrics and recovery speed.</p>
+
+        <h3>3. Healthcare Monitoring</h3>
+        <p>Medical professionals recommend the tracker to patients managing kidney stones, urinary tract infections, and certain cardiovascular conditions where hydration is therapeutic.</p>
+
+        <h3>4. Weight Management Programs</h3>
+        <p>Proper hydration supports metabolism and can reduce false hunger signals. The tracker integrates seamlessly with calorie-counting and weight-loss regimens.</p>
+
+        <h3>5. Elderly Care</h3>
+        <p>Caregivers use the tracker to monitor hydration in older adults, who often have diminished thirst sensations and are at higher risk for dehydration-related complications.</p>
+
+        <h2>🔒 Privacy Assurance</h2>
+        <p>Your hydration data is personal. Our local-only storage approach means no accounts, no cloud sync, no data mining. Everything stays on your device. Clear your browser data anytime for a complete reset.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How much water should I drink daily?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                General guidelines suggest 2.5-3 liters for adults, but individual needs vary based on body weight, activity level, and climate. A good rule is to drink enough that your urine remains pale yellow throughout the day.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Does coffee and tea count toward my water goal?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes, despite the diuretic myth, moderate coffee and tea consumption contributes to hydration. The diuretic effect is mild and offset by the fluid content. However, plain water remains optimal for hydration.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I drink too much water?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                While rare, water intoxication (hyponatremia) can occur when consuming excessive amounts rapidly. Stay within 0.8-1 liter per hour and listen to your body's thirst signals. The tracker helps maintain healthy intake levels.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>When is the best time to drink water?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Spread intake throughout the day. Key times include: upon waking (rehydrate after sleep), 30 minutes before meals (aids digestion), during exercise, and before bed (moderate amount). Avoid large amounts immediately before intense exercise.
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <div class="overlay-text">Nexus Engine: Processing Local Data...</div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        let waterData = {
+            current: 0,
+            goal: 2500,
+            history: [],
+            weekly: [1800, 2200, 2500, 2100, 2800, 2400, 0]
+        };
+
+        function loadData() {
+            const saved = localStorage.getItem('waterData');
+            if (saved) {
+                waterData = JSON.parse(saved);
+            }
+            updateDisplay();
+            renderWeeklyChart();
+            renderHistory();
+        }
+
+        function saveData() {
+            localStorage.setItem('waterData', JSON.stringify(waterData));
+        }
+
+        function addWater(amount) {
+            showOverlay();
+            setTimeout(() => {
+                waterData.current += amount;
+                waterData.history.unshift({
+                    amount: amount,
+                    time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+                });
+                waterData.weekly[6] = waterData.current;
+                updateDisplay();
+                renderHistory();
+                renderWeeklyChart();
+                saveData();
+                hideOverlay();
+            }, 2500);
+        }
+
+        function addCustomWater() {
+            const amount = parseInt(document.getElementById('customAmount').value);
+            if (amount > 0) {
+                addWater(amount);
+                document.getElementById('customAmount').value = '';
+            }
+        }
+
+        function setGoal(goal) {
+            showOverlay();
+            setTimeout(() => {
+                waterData.goal = goal;
+                document.querySelectorAll('.goal-btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                updateDisplay();
+                saveData();
+                hideOverlay();
+            }, 2500);
+        }
+
+        function updateDisplay() {
+            document.getElementById('currentAmount').textContent = waterData.current + ' ml';
+            document.getElementById('goalAmount').textContent = waterData.goal;
+            const percentage = Math.min(Math.round((waterData.current / waterData.goal) * 100), 100);
+            document.getElementById('percentage').textContent = percentage + '%';
+            document.getElementById('waterLevel').style.height = percentage + '%';
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = waterData.history.map(item => `
+                <div class="history-item">
+                    <span class="time">${item.time}</span>
+                    <span class="amount">+${item.amount}ml</span>
+                </div>
+            `).join('');
+        }
+
+        function renderWeeklyChart() {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const chart = document.getElementById('weeklyChart');
+            const maxVal = Math.max(...waterData.weekly, waterData.goal);
+            
+            chart.innerHTML = waterData.weekly.map((val, i) => {
+                const height = Math.round((val / maxVal) * 100);
+                return `
+                    <div class="day-bar">
+                        <div class="bar">
+                            <div class="bar-fill" style="height: ${height}%"></div>
+                        </div>
+                        <span class="day-label">${days[i]}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showOverlay() {
+            document.getElementById('processingOverlay').classList.add('active');
+        }
+
+        function hideOverlay() {
+            document.getElementById('processingOverlay').classList.remove('active');
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

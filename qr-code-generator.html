@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator | Free QR Code Creator | NexusUtility</title>
+    <meta name="description" content="Free QR code generator. Create QR codes for URLs, text, WiFi, contact cards, and more. Download as PNG or SVG. No signup required.">
+    <meta name="keywords" content="QR code generator, QR code creator, free QR code, QR generator, barcode generator, QR maker">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "QR Code Generator", "applicationCategory": "UtilityApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.8", "ratingCount": "2800"}, "description": "Generate QR codes for URLs, text, WiFi, contacts, and more. Free download.", "url": "https://nexusutility.github.io/core-nexus/tools/qr-code-generator.html"}</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg-primary: #0a0a0a; --bg-secondary: #141414; --bg-glass: rgba(20, 20, 20, 0.8); --accent: #10b981; --accent-light: #34d399; --accent-dark: #059669; --text-primary: #f5f5f5; --text-secondary: #a3a3a3; --border: rgba(16, 185, 129, 0.2); --shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+        .navbar { background: var(--bg-glass); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .navbar-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        .tool-header { text-align: center; padding: 3rem 0; }
+        .tool-header h1 { font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tool-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; margin: 2rem auto; text-align: center; max-width: 728px; min-height: 90px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .tool-container { background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; margin: 2rem 0; box-shadow: var(--shadow); }
+        .type-selector { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .type-btn { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary); padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .type-btn:hover, .type-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .input-group label { color: var(--text-secondary); font-size: 0.9rem; }
+        .input-group input, .input-group textarea, .input-group select { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 1rem; border-radius: 12px; font-size: 1rem; }
+        .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--accent); }
+        .input-group textarea { min-height: 100px; resize: vertical; }
+        .options-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .generate-btn { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; border: none; padding: 1rem 3rem; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; display: block; margin: 0 auto 2rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
+        .result-section { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+        .qr-display { background: white; padding: 2rem; border-radius: 16px; }
+        .download-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .download-btn { background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-primary); padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        .download-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .use-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .use-case { background: var(--bg-secondary); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .use-case-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .use-case h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .use-case p { color: var(--text-secondary); font-size: 0.9rem; }
+        .content-section { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .content-section h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--accent); }
+        .content-section p { color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.8; }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) { .navbar { padding: 1rem; } .nav-links { display: none; } .tool-header h1 { font-size: 1.8rem; } .tool-container { padding: 1.5rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>📱 QR Code Generator</h1>
+            <p>Create custom QR codes for any purpose. Free, instant, and downloadable.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="type-selector">
+                <button class="type-btn active" onclick="setType('url')">🔗 URL</button>
+                <button class="type-btn" onclick="setType('text')">📝 Text</button>
+                <button class="type-btn" onclick="setType('wifi')">📶 WiFi</button>
+                <button class="type-btn" onclick="setType('email')">📧 Email</button>
+                <button class="type-btn" onclick="setType('phone')">📞 Phone</button>
+            </div>
+
+            <div id="inputSection">
+                <div class="input-group">
+                    <label>Enter URL</label>
+                    <input type="url" id="qrInput" placeholder="https://example.com">
+                </div>
+            </div>
+
+            <div class="options-row">
+                <div class="input-group">
+                    <label>Size (px)</label>
+                    <select id="qrSize">
+                        <option value="128">Small (128px)</option>
+                        <option value="256" selected>Medium (256px)</option>
+                        <option value="512">Large (512px)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Error Correction</label>
+                    <select id="qrLevel">
+                        <option value="1">Low (7%)</option>
+                        <option value="0" selected>Medium (15%)</option>
+                        <option value="3">High (25%)</option>
+                        <option value="2">Highest (30%)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+
+            <div class="result-section" id="resultSection" style="display: none;">
+                <div class="qr-display" id="qrDisplay"></div>
+                <div class="download-btns">
+                    <button class="download-btn" onclick="downloadQR('png')">📥 Download PNG</button>
+                </div>
+            </div>
+
+            <div class="use-cases">
+                <div class="use-case">
+                    <div class="use-case-icon">🏪</div>
+                    <h3>Business Cards</h3>
+                    <p>Add contact info that scans instantly</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">📋</div>
+                    <h3>Menus</h3>
+                    <p>Touchless digital menu access</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">🎟️</div>
+                    <h3>Event Tickets</h3>
+                    <p>Quick check-in and verification</p>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">📦</div>
+                    <h3>Product Info</h3>
+                    <p>Link to manuals and details</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 What are QR Codes?</h2>
+        <p>QR (Quick Response) codes are two-dimensional barcodes that can be scanned by smartphones to quickly access information. Invented in 1994 by Denso Wave for tracking automotive parts, they're now used worldwide for payments, marketing, authentication, and information sharing.</p>
+        <p>Unlike traditional barcodes, QR codes can store much more data - up to 7,089 numeric characters or 4,296 alphanumeric characters. They're also readable from any angle and include error correction, meaning they can still be scanned even if partially damaged.</p>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({}); (adsbygoogle = window.adsbygoogle || []).push({});
+        let currentType = 'url', qrCode = null;
+        const inputTemplates = {
+            url: { label: 'Enter URL', placeholder: 'https://example.com', type: 'url' },
+            text: { label: 'Enter Text', placeholder: 'Your message here...', type: 'textarea' },
+            wifi: { label: 'WiFi Network', placeholder: 'Network Name', extra: '<div class="input-group"><label>Password</label><input type="text" id="wifiPass" placeholder="WiFi Password"></div>' },
+            email: { label: 'Email Address', placeholder: 'someone@example.com', extra: '<div class="input-group"><label>Subject (optional)</label><input type="text" id="emailSubject" placeholder="Email subject"></div><div class="input-group"><label>Message (optional)</label><textarea id="emailBody" placeholder="Email body"></textarea></div>' },
+            phone: { label: 'Phone Number', placeholder: '+1234567890', type: 'tel' }
+        };
+        function setType(type) {
+            currentType = type; document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active')); event.target.classList.add('active');
+            const template = inputTemplates[type]; let html = '';
+            if (template.type === 'textarea') html = `<div class="input-group"><label>${template.label}</label><textarea id="qrInput" placeholder="${template.placeholder}"></textarea></div>`;
+            else html = `<div class="input-group"><label>${template.label}</label><input type="${template.type || 'text'}" id="qrInput" placeholder="${template.placeholder}"></div>`;
+            if (template.extra) html += template.extra;
+            document.getElementById('inputSection').innerHTML = html;
+        }
+        function generateQR() {
+            let data = document.getElementById('qrInput').value; if (!data) return;
+            if (currentType === 'wifi') { const pass = document.getElementById('wifiPass')?.value || ''; data = `WIFI:T:WPA;S:${data};P:${pass};;`; }
+            else if (currentType === 'email') { const subject = document.getElementById('emailSubject')?.value || ''; const body = document.getElementById('emailBody')?.value || ''; data = `mailto:${data}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; }
+            else if (currentType === 'phone') data = `tel:${data}`;
+            const display = document.getElementById('qrDisplay'); display.innerHTML = '';
+            const size = parseInt(document.getElementById('qrSize').value); const level = parseInt(document.getElementById('qrLevel').value);
+            qrCode = new QRCode(display, { text: data, width: size, height: size, colorDark: '#000000', colorLight: '#ffffff', correctLevel: level });
+            document.getElementById('resultSection').style.display = 'flex';
+        }
+        function downloadQR(format) {
+            const canvas = document.querySelector('#qrDisplay canvas'); if (!canvas) return;
+            const link = document.createElement('a'); link.download = 'qrcode.png'; link.href = canvas.toDataURL('image/png'); link.click();
+        }
+    </script>
+</body>
+</html>

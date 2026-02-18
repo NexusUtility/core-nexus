@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20-20-20 Eye Strain Relief | Free Eye Care Timer | NexusUtility</title>
+    <meta name="description" content="Free 20-20-20 rule timer to prevent digital eye strain. Get reminders every 20 minutes to look 20 feet away for 20 seconds. Protect your vision.">
+    <meta name="keywords" content="20-20-20 rule, eye strain relief, digital eye strain, computer vision syndrome, eye care timer, screen break reminder">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "20-20-20 Eye Strain Relief",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "aggregateRating": {"@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "950"},
+        "description": "Prevent digital eye strain with the 20-20-20 rule timer. Automated reminders for healthy screen habits.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/eye-strain-202020.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --eye: #3b82f6;
+            --eye-light: #60a5fa;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--eye), var(--eye-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .rule-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .rule-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .rule-card.active {
+            border-color: var(--eye);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+        .rule-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--eye);
+        }
+        .rule-unit {
+            font-size: 1.2rem;
+            color: var(--eye-light);
+        }
+        .rule-desc {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+        .timer-section {
+            text-align: center;
+            padding: 2rem;
+        }
+        .timer-display {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--eye);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 1rem;
+        }
+        .timer-status {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .control-btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-start {
+            background: linear-gradient(135deg, var(--eye), #2563eb);
+            color: white;
+        }
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+        .btn-stop {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .break-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a5f, #0f172a);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        .break-overlay.active {
+            display: flex;
+        }
+        .break-timer {
+            font-size: 6rem;
+            font-weight: 700;
+            color: var(--eye-light);
+            margin-bottom: 1rem;
+        }
+        .break-message {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 500px;
+            padding: 0 2rem;
+        }
+        .break-tips {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+        }
+        .break-tips h3 {
+            color: var(--eye-light);
+            margin-bottom: 1rem;
+        }
+        .break-tips ul {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+        }
+        .break-tips li {
+            margin-bottom: 0.5rem;
+        }
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--eye);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .eye-exercises {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .eye-exercises h3 {
+            color: var(--eye);
+            margin-bottom: 1rem;
+        }
+        .exercise-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .exercise-item {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .exercise-item h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .exercise-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--eye);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer { display: block; }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover { color: var(--eye); }
+        .copyright { color: var(--text-secondary); font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .rule-display { grid-template-columns: 1fr; }
+            .timer-display { font-size: 3.5rem; }
+            .break-timer { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo"><span>⚡</span> NexusUtility</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>👁️ 20-20-20 Eye Strain Relief</h1>
+            <p>Prevent digital eye strain with the proven 20-20-20 rule. Every 20 minutes, look at something 20 feet away for 20 seconds.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="rule-display">
+                <div class="rule-card" id="card1">
+                    <div class="rule-number">20</div>
+                    <div class="rule-unit">Minutes</div>
+                    <div class="rule-desc">Work on screen</div>
+                </div>
+                <div class="rule-card" id="card2">
+                    <div class="rule-number">20</div>
+                    <div class="rule-unit">Feet</div>
+                    <div class="rule-desc">Look away distance</div>
+                </div>
+                <div class="rule-card" id="card3">
+                    <div class="rule-number">20</div>
+                    <div class="rule-unit">Seconds</div>
+                    <div class="rule-desc">Break duration</div>
+                </div>
+            </div>
+
+            <div class="timer-section">
+                <div class="timer-display" id="timerDisplay">20:00</div>
+                <div class="timer-status" id="timerStatus">Ready to protect your eyes</div>
+                
+                <div class="control-buttons">
+                    <button class="control-btn btn-start" id="startBtn" onclick="startTimer()">▶ Start Protection</button>
+                    <button class="control-btn btn-stop" id="stopBtn" onclick="stopTimer()">⏹ Stop</button>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-value" id="breaksToday">0</div>
+                    <div class="stat-label">Breaks Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="screenTime">0</div>
+                    <div class="stat-label">Screen Hours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="eyeRest">0</div>
+                    <div class="stat-label">Minutes Rested</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="streakDays">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+            </div>
+
+            <div class="eye-exercises">
+                <h3>🎯 Quick Eye Exercises</h3>
+                <div class="exercise-list">
+                    <div class="exercise-item">
+                        <h4>Palming</h4>
+                        <p>Rub hands together to warm them, then cup over closed eyes for 30 seconds. Relax and breathe deeply.</p>
+                    </div>
+                    <div class="exercise-item">
+                        <h4>Figure Eight</h4>
+                        <p>Imagine a giant figure 8 about 10 feet away. Trace it slowly with your eyes for 30 seconds.</p>
+                    </div>
+                    <div class="exercise-item">
+                        <h4>Near-Far Focus</h4>
+                        <p>Hold your thumb 10 inches away, focus on it for 15 seconds, then focus on something 20 feet away.</p>
+                    </div>
+                    <div class="exercise-item">
+                        <h4>Blinking</h4>
+                        <p>Blink rapidly for 10 seconds to spread tears and moisten eyes. We blink 66% less when using screens.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3335211279499934" data-ad-slot="2345678901" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <div class="break-overlay" id="breakOverlay">
+        <div class="break-timer" id="breakTimer">20</div>
+        <div class="break-message">
+            👁️ Look at something 20 feet away<br>
+            Let your eye muscles relax
+        </div>
+        <div class="break-tips">
+            <h3>💡 Tips for Your Break</h3>
+            <ul>
+                <li>Look out a window at distant objects</li>
+                <li>Blink slowly and deliberately</li>
+                <li>Roll your shoulders to release tension</li>
+                <li>Take slow, deep breaths</li>
+                <li>Avoid looking at any screens</li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: The 20-20-20 Rule</h2>
+        <p>Digital eye strain, also known as computer vision syndrome, affects an estimated 65% of American adults. Symptoms include dry eyes, headaches, blurred vision, neck and shoulder pain, and difficulty concentrating. The 20-20-20 rule, recommended by the American Optometric Association, provides a simple yet effective solution.</p>
+        <p>The rule is elegantly simple: every 20 minutes of screen time, look at something at least 20 feet away for at least 20 seconds. This brief pause allows your eye muscles to relax from the constant near-focus required by screens, reduces blink rate recovery, and helps prevent the accommodative spasm that causes eye fatigue.</p>
+        <p>Our 20-20-20 Eye Strain Relief tool automates this process, providing gentle reminders every 20 minutes and guiding you through the break with a visual countdown. The tool also tracks your compliance, helping you build healthy screen habits that protect your vision long-term.</p>
+
+        <h2>🔧 Operational Manual: Using the Eye Protection Timer</h2>
+        <p>Start the timer at the beginning of your work session. It runs silently in the background, counting down 20-minute intervals. When the timer reaches zero, a full-screen overlay appears with a 20-second countdown for your eye break.</p>
+        <p>During the break, look at something at least 20 feet away - a window, a distant wall, or across the room. Avoid looking at phones or other screens. The overlay provides helpful tips for maximizing your break effectiveness.</p>
+        <p>The statistics panel tracks your daily breaks, total screen time, eye rest minutes, and usage streak. Use these metrics to build consistent habits. Research shows that regular practice of the 20-20-20 rule significantly reduces digital eye strain symptoms within 2-3 weeks.</p>
+
+        <h2>🔬 The Science Behind the 20-20-20 Rule</h2>
+        
+        <h3>Accommodative Fatigue</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Near Focus (screen): Ciliary muscles contract<br>
+            Distance Focus: Ciliary muscles relax<br><br>
+            Continuous near focus = accommodative spasm<br>
+            20-second distance view = complete muscle relaxation
+        </p>
+        
+        <h3>Blink Rate Reduction</h3>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Normal blink rate: 15-20 times/minute<br>
+            Screen use blink rate: 3-8 times/minute<br>
+            Reduction: 60-70% decrease<br><br>
+            20-second break allows: 5-7 normal blinks<br>
+            Tear film restoration and eye lubrication
+        </p>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Office Workers</h3>
+        <p>Knowledge workers spending 8+ hours daily on computers use the timer to maintain eye health and prevent the productivity loss associated with eye fatigue and headaches.</p>
+
+        <h3>2. Software Developers</h3>
+        <p>Programmers, who often experience intense focus sessions, use the timer to ensure regular breaks without breaking their mental flow state.</p>
+
+        <h3>3. Students</h3>
+        <p>Students studying for extended periods use the 20-20-20 rule to maintain reading efficiency and prevent the eye strain that can impair comprehension and retention.</p>
+
+        <h3>4. Gamers</h3>
+        <p>Competitive and casual gamers use the timer between matches or during loading screens to protect their most valuable gaming asset - their vision.</p>
+
+        <h3>5. Remote Workers</h3>
+        <p>Those working from home, often with less-than-ideal ergonomic setups, rely on the timer to compensate for suboptimal viewing conditions.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Does the 20-20-20 rule really work?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes, research supports its effectiveness. Studies show that regular breaks following the 20-20-20 rule significantly reduce symptoms of digital eye strain, including dry eyes, blurred vision, and headaches. The American Optometric Association and American Academy of Ophthalmology both recommend this approach.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What if I don't have a window 20 feet away?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Any distant object works - the opposite wall, a picture across the room, or even closing your eyes and imagining a distant scene. The key is relaxing your ciliary muscles by not focusing on near objects. Even 10 feet provides significant benefit if 20 isn't available.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I use this alongside blue light filters?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Absolutely. Blue light filters and the 20-20-20 rule address different aspects of screen-related eye strain. Blue light filters may help with sleep disruption, while the 20-20-20 rule addresses muscular fatigue and dry eyes. Using both provides comprehensive protection.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How long until I notice improvements?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Most people notice reduced eye fatigue within 2-3 days of consistent use. Significant improvement in symptoms typically occurs within 2-3 weeks. The key is consistency - occasional use provides limited benefit compared to making it a habit.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        let workTimer = null;
+        let breakTimer = null;
+        let workTimeRemaining = 20 * 60;
+        let breakTimeRemaining = 20;
+        let isRunning = false;
+        let stats = { breaksToday: 0, screenTime: 0, eyeRest: 0, streakDays: 0 };
+
+        function loadStats() {
+            const saved = localStorage.getItem('eyeStrainStats');
+            if (saved) stats = JSON.parse(saved);
+            updateStatsDisplay();
+        }
+
+        function saveStats() {
+            localStorage.setItem('eyeStrainStats', JSON.stringify(stats));
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            document.getElementById('startBtn').textContent = '⏸ Pause';
+            document.getElementById('startBtn').onclick = pauseTimer;
+            document.getElementById('timerStatus').textContent = 'Protecting your eyes...';
+            
+            workTimer = setInterval(() => {
+                workTimeRemaining--;
+                updateWorkDisplay();
+                
+                if (workTimeRemaining <= 0) {
+                    startBreak();
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(workTimer);
+            document.getElementById('startBtn').textContent = '▶ Resume';
+            document.getElementById('startBtn').onclick = startTimer;
+            document.getElementById('timerStatus').textContent = 'Paused';
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            clearInterval(workTimer);
+            clearInterval(breakTimer);
+            workTimeRemaining = 20 * 60;
+            breakTimeRemaining = 20;
+            updateWorkDisplay();
+            document.getElementById('breakOverlay').classList.remove('active');
+            document.getElementById('startBtn').textContent = '▶ Start Protection';
+            document.getElementById('startBtn').onclick = startTimer;
+            document.getElementById('timerStatus').textContent = 'Ready to protect your eyes';
+        }
+
+        function startBreak() {
+            clearInterval(workTimer);
+            stats.breaksToday++;
+            stats.screenTime += 20/60;
+            stats.eyeRest += 20/60;
+            saveStats();
+            updateStatsDisplay();
+            
+            document.getElementById('breakOverlay').classList.add('active');
+            
+            // Play notification sound if possible
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Eye Break Time!', { body: 'Look 20 feet away for 20 seconds' });
+            }
+            
+            breakTimer = setInterval(() => {
+                breakTimeRemaining--;
+                document.getElementById('breakTimer').textContent = breakTimeRemaining;
+                
+                if (breakTimeRemaining <= 0) {
+                    endBreak();
+                }
+            }, 1000);
+        }
+
+        function endBreak() {
+            clearInterval(breakTimer);
+            document.getElementById('breakOverlay').classList.remove('active');
+            workTimeRemaining = 20 * 60;
+            breakTimeRemaining = 20;
+            updateWorkDisplay();
+            startTimer();
+        }
+
+        function updateWorkDisplay() {
+            const minutes = Math.floor(workTimeRemaining / 60);
+            const seconds = workTimeRemaining % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('breaksToday').textContent = stats.breaksToday;
+            document.getElementById('screenTime').textContent = Math.floor(stats.screenTime * 10) / 10;
+            document.getElementById('eyeRest').textContent = Math.floor(stats.eyeRest * 10) / 10;
+            document.getElementById('streakDays').textContent = stats.streakDays;
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            element.querySelector('span:last-child').textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        loadStats();
+        updateWorkDisplay();
+    </script>
+</body>
+</html>

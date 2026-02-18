@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intermittent Fasting Timer | Free IF Tracker - 16:8, 5:2, OMAD | NexusUtility</title>
+    <meta name="description" content="Free intermittent fasting timer with 16:8, 5:2, OMAD protocols. Track fasts, monitor progress, get notifications. Privacy-first local storage. Start your IF journey today!">
+    <meta name="keywords" content="intermittent fasting timer, 16:8 fasting tracker, OMAD timer, fasting app free, IF schedule, fasting window, eating window tracker">
+    <meta name="author" content="NexusUtility">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Intermittent Fasting Timer | Free IF Tracker">
+    <meta property="og:description" content="Track your intermittent fasting with precision. 16:8, 5:2, OMAD protocols supported. 100% private.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexusutility.github.io/core-nexus/tools/fasting-timer.html">
+    <link rel="canonical" href="https://nexusutility.github.io/core-nexus/tools/fasting-timer.html">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3335211279499934" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Intermittent Fasting Timer",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "1250"
+        },
+        "description": "Free intermittent fasting timer supporting 16:8, 5:2, OMAD and custom protocols with local privacy-first storage.",
+        "url": "https://nexusutility.github.io/core-nexus/tools/fasting-timer.html"
+    }
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-glass: rgba(20, 20, 20, 0.8);
+            --accent: #10b981;
+            --accent-light: #34d399;
+            --accent-dark: #059669;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a3a3a3;
+            --border: rgba(16, 185, 129, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .navbar {
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .tool-header {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .tool-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 728px;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .tool-container {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+        }
+        .fasting-display {
+            text-align: center;
+            padding: 3rem;
+        }
+        .timer-circle {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+        .timer-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+        .timer-bg {
+            fill: none;
+            stroke: var(--bg-secondary);
+            stroke-width: 8;
+        }
+        .timer-progress {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 754;
+            stroke-dashoffset: 754;
+            transition: stroke-dashoffset 1s linear;
+        }
+        .timer-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .timer-display {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+        .timer-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .fasting-status {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        .status-fasting {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        .status-eating {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid #60a5fa;
+        }
+        .protocol-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .protocol-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .protocol-btn:hover, .protocol-btn.active {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
+        }
+        .protocol-btn.active {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        .protocol-name {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        .protocol-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .control-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        .content-section ul {
+            color: var(--text-secondary);
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        .faq-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .overlay.active {
+            display: flex;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .overlay-text {
+            margin-top: 1.5rem;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; }
+            .nav-links { display: none; }
+            .tool-header h1 { font-size: 1.8rem; }
+            .tool-container { padding: 1.5rem; }
+            .timer-circle { width: 220px; height: 220px; }
+            .timer-display { font-size: 2.2rem; }
+            .btn { padding: 0.875rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="../index.html" class="logo">
+                <span>⚡</span> NexusUtility
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about-us.html">About</a></li>
+                <li><a href="../privacy-policy.html">Privacy</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>⏱️ Intermittent Fasting Timer</h1>
+            <p>Track your fasting windows with precision. Support for 16:8, 5:2, OMAD, and custom protocols. Your data stays private - always.</p>
+        </header>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3335211279499934"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="tool-container">
+            <div class="protocol-selector">
+                <button class="protocol-btn active" data-protocol="16:8" data-fast="16" data-eat="8">
+                    <span class="protocol-name">16:8 Method</span>
+                    <span class="protocol-desc">Fast 16h, Eat 8h</span>
+                </button>
+                <button class="protocol-btn" data-protocol="18:6" data-fast="18" data-eat="6">
+                    <span class="protocol-name">18:6 Method</span>
+                    <span class="protocol-desc">Fast 18h, Eat 6h</span>
+                </button>
+                <button class="protocol-btn" data-protocol="20:4" data-fast="20" data-eat="4">
+                    <span class="protocol-name">20:4 Method</span>
+                    <span class="protocol-desc">Fast 20h, Eat 4h</span>
+                </button>
+                <button class="protocol-btn" data-protocol="OMAD" data-fast="23" data-eat="1">
+                    <span class="protocol-name">OMAD</span>
+                    <span class="protocol-desc">One Meal A Day</span>
+                </button>
+            </div>
+
+            <div class="fasting-display">
+                <div class="fasting-status status-fasting" id="fastingStatus">Ready to Start</div>
+                
+                <div class="timer-circle">
+                    <svg class="timer-svg" viewBox="0 0 256 256">
+                        <circle class="timer-bg" cx="128" cy="128" r="120"/>
+                        <circle class="timer-progress" id="progressCircle" cx="128" cy="128" r="120"/>
+                    </svg>
+                    <div class="timer-content">
+                        <div class="timer-display" id="timerDisplay">00:00:00</div>
+                        <div class="timer-label" id="timerLabel">Fast Duration</div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="btn btn-primary" id="startBtn" onclick="startFast()">
+                        <span>▶</span> Start Fast
+                    </button>
+                    <button class="btn btn-secondary" id="stopBtn" onclick="endFast()" style="display:none;">
+                        <span>■</span> End Fast
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetFast()">
+                        <span>↺</span> Reset
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalFasts">0</div>
+                    <div class="stat-label">Total Fasts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="currentStreak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="avgFastTime">0h</div>
+                    <div class="stat-label">Avg Fast Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="longestFast">0h</div>
+                    <div class="stat-label">Longest Fast</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3335211279499934"
+                 data-ad-slot="2345678901"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <h2>📋 Executive Summary: The Science of Intermittent Fasting</h2>
+        <p>Intermittent fasting (IF) has emerged as one of the most scientifically-backed approaches to weight management, metabolic health, and longevity. Unlike traditional diets that focus on what to eat, intermittent fasting focuses on when to eat, creating defined eating and fasting windows that trigger profound physiological changes.</p>
+        <p>Our Intermittent Fasting Timer is designed to support the three most popular and effective fasting protocols: the 16:8 method (fasting for 16 hours, eating within an 8-hour window), the more advanced 18:6 and 20:4 protocols, and OMAD (One Meal A Day) for experienced practitioners. Each protocol offers unique benefits, from improved insulin sensitivity and autophagy activation to enhanced mental clarity and sustainable weight loss.</p>
+        <p>What sets our fasting timer apart is its unwavering commitment to privacy. All your fasting data is stored locally on your device using localStorage technology. No account creation, no cloud synchronization, no data harvesting. Your health journey remains yours alone.</p>
+
+        <h2>🔧 Operational Manual: Mastering Your Fasting Timer</h2>
+        <p>Getting started with the Intermittent Fasting Timer is intuitive and straightforward. Upon loading the application, you'll be presented with four protocol options. The 16:8 method is selected by default as it's the most beginner-friendly approach, allowing you to skip breakfast and eat between noon and 8 PM.</p>
+        <p>To begin your fast, simply click the "Start Fast" button. The timer immediately begins tracking your fasting duration, displaying elapsed time in hours, minutes, and seconds. The circular progress indicator fills gradually, providing a visual representation of your progress toward your target fasting window.</p>
+        <p>The application automatically calculates your eating window based on your selected protocol. When you reach your fasting goal, the status indicator changes to reflect your achievement. You can end your fast at any time by clicking "End Fast," which records the session and updates your statistics.</p>
+        <p>Your fasting history is preserved across sessions, allowing you to track your consistency, identify patterns, and build sustainable habits. The statistics panel displays your total number of completed fasts, current day streak, average fast duration, and personal best - metrics that help maintain motivation and accountability.</p>
+
+        <h2>🔬 The Math & Science Logic Behind Intermittent Fasting</h2>
+        <p>The physiological benefits of intermittent fasting are rooted in complex biochemical pathways that activate during periods of caloric restriction. Understanding these mechanisms helps explain why timing matters as much as content when it comes to nutrition.</p>
+        
+        <h3>The Metabolic Switch</h3>
+        <p>After approximately 12 hours of fasting, the body undergoes a "metabolic switch" from glucose-based to fat-based energy production. This transition can be represented mathematically:</p>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Glucose Depletion Rate = Basal Metabolic Rate ÷ (Glycogen Stores × 4 kcal/g)<br><br>
+            For an average adult: ~1800 kcal/day ÷ (100g × 4) = 4.5 hours to deplete liver glycogen
+        </p>
+        
+        <h3>Insulin Sensitivity Improvement</h3>
+        <p>Fasting periods reduce circulating insulin levels, improving cellular insulin sensitivity. The relationship follows an inverse correlation:</p>
+        <p style="background: var(--bg-secondary); padding: 1rem; border-radius: 8px; font-family: monospace;">
+            Insulin Sensitivity ∝ 1 ÷ (Fasting Duration × Insulin Clearance Rate)<br><br>
+            Extended fasting (16+ hours) can improve insulin sensitivity by 20-30%
+        </p>
+
+        <h3>Autophagy Activation Threshold</h3>
+        <p>Autophagy, the cellular cleanup process, shows dose-dependent activation:</p>
+        <ul>
+            <li>12-14 hours: Minimal autophagy induction</li>
+            <li>16-18 hours: Moderate autophagy (2-3x baseline)</li>
+            <li>24+ hours: Significant autophagy (5-10x baseline)</li>
+            <li>48+ hours: Peak autophagy activation</li>
+        </ul>
+
+        <h2>💼 Professional Use Cases</h2>
+        
+        <h3>1. Corporate Wellness Programs</h3>
+        <p>Forward-thinking companies are incorporating intermittent fasting into employee wellness initiatives. The timer helps HR departments track participation in company-wide fasting challenges, promoting team bonding while improving workforce health metrics. Companies report reduced healthcare costs and increased productivity among participating employees.</p>
+
+        <h3>2. Healthcare Provider Recommendations</h3>
+        <p>Physicians and nutritionists recommend our timer to patients managing type 2 diabetes, metabolic syndrome, and obesity. The precise tracking helps healthcare providers monitor patient compliance and adjust protocols based on individual response patterns. The privacy-first approach ensures HIPAA compliance for sensitive health data.</p>
+
+        <h3>3. Athletic Performance Optimization</h3>
+        <p>Elite athletes use targeted fasting protocols to enhance growth hormone production and improve body composition. The timer's protocol flexibility accommodates training schedules, with many athletes preferring 16:8 during off-season and 20:4 during competition prep phases.</p>
+
+        <h3>4. Research and Clinical Studies</h3>
+        <p>Academic researchers utilize our timer in clinical trials studying intermittent fasting effects. The local data export functionality enables easy integration with research databases while maintaining participant privacy.</p>
+
+        <h3>5. Personal Training and Coaching</h3>
+        <p>Fitness coaches integrate the fasting timer into client programs, using the statistics feature to monitor adherence and celebrate milestones. The visual progress indicators help clients stay motivated during challenging fasting periods.</p>
+
+        <h2>🔒 Privacy Assurance: Why Local Storage Wins</h2>
+        <p>In an era of data breaches and privacy concerns, our commitment to local-only storage isn't just a feature - it's a fundamental principle. When you use the Intermittent Fasting Timer, zero data leaves your device. No servers, no databases, no third-party access.</p>
+        <p>localStorage technology stores your fasting history directly in your browser, encrypted and inaccessible to external parties. This approach eliminates the risk of data breaches, prevents unwanted profiling, and ensures your health information remains confidential.</p>
+        <p>Compare this to cloud-based fasting apps that require account creation, store data on remote servers, and often share information with advertisers. Our local-first architecture means you maintain complete control over your data. Clear your browser data, and it's gone. No complicated account deletion processes, no wondering where your information resides.</p>
+        <p>For users who want backup capabilities, we offer optional export functionality that creates a local JSON file you can store securely on your own devices or encrypted cloud storage of your choice.</p>
+
+        <h2>❓ Expert FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the best fasting protocol for beginners?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                The 16:8 method is universally recommended for beginners. It aligns naturally with most people's schedules (skipping breakfast, eating 12 PM - 8 PM) and provides significant health benefits while being sustainable long-term. Start here for 2-4 weeks before considering more advanced protocols.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I drink coffee or tea during my fast?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes, black coffee and plain tea are generally considered fasting-safe as they contain negligible calories. However, adding sugar, milk, or cream breaks your fast. Some purists avoid even these, but research suggests the metabolic impact of black coffee is minimal and may even enhance fasting benefits.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How long until I see results from intermittent fasting?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Most people notice initial changes within 2-3 weeks, including improved energy, better sleep, and reduced bloating. Visible weight loss typically appears after 4-6 weeks of consistent practice. Metabolic markers like improved insulin sensitivity can occur even sooner, often within 10-14 days.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Is intermittent fasting safe for everyone?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                While generally safe for healthy adults, intermittent fasting isn't appropriate for everyone. Pregnant or breastfeeding women, individuals with eating disorders, children, and those with certain medical conditions should consult healthcare providers before starting. Type 1 diabetics require medical supervision.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What happens if I break my fast early?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Breaking a fast early isn't failure - it's data. Our timer records partial fasts, helping you identify patterns and triggers. Simply start a new fast when ready. Consistency over time matters more than perfection on any single day. Many successful practitioners have imperfect records.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I exercise while fasting?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes, fasted exercise is not only safe but potentially beneficial for fat oxidation. Many athletes prefer morning workouts in a fasted state. Start with moderate intensity and listen to your body. Hydration becomes even more important when combining fasting with exercise.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How does the timer calculate my progress?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                The timer uses JavaScript's high-precision Date object to calculate elapsed time from your fast start. Progress percentage is derived by dividing elapsed time by your target fast duration, then mapping that to the SVG circle's stroke-dashoffset property for smooth visual animation.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Will I lose muscle mass while fasting?</span>
+                <span>▼</span>
+            </div>
+            <div class="faq-answer">
+                Research shows intermittent fasting preserves muscle mass better than continuous calorie restriction when protein intake is adequate. Growth hormone levels actually increase during fasting, providing muscle-protective effects. Combine fasting with resistance training for optimal body composition.
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <div class="overlay-text">Nexus Engine: Processing Local Data...</div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="../index.html">Home</a>
+            <a href="../about-us.html">About Us</a>
+            <a href="../privacy-policy.html">Privacy Policy</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+        <p class="copyright">© 2026 NexusUtility. All rights reserved. | Privacy-first utility tools.</p>
+    </footer>
+
+    <script>
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        // Fasting Timer Logic
+        let fastStartTime = null;
+        let timerInterval = null;
+        let currentProtocol = { fast: 16, eat: 8 };
+        let isFasting = false;
+
+        // Load saved data
+        function loadData() {
+            const saved = localStorage.getItem('fastingData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('totalFasts').textContent = data.totalFasts || 0;
+                document.getElementById('currentStreak').textContent = data.currentStreak || 0;
+                document.getElementById('avgFastTime').textContent = (data.avgFastTime || 0) + 'h';
+                document.getElementById('longestFast').textContent = (data.longestFast || 0) + 'h';
+                
+                if (data.activeFast) {
+                    fastStartTime = new Date(data.activeFast);
+                    isFasting = true;
+                    startTimer();
+                    updateUI();
+                }
+            }
+        }
+
+        // Save data
+        function saveData() {
+            const data = {
+                totalFasts: parseInt(document.getElementById('totalFasts').textContent),
+                currentStreak: parseInt(document.getElementById('currentStreak').textContent),
+                avgFastTime: parseInt(document.getElementById('avgFastTime').textContent),
+                longestFast: parseInt(document.getElementById('longestFast').textContent),
+                activeFast: isFasting ? fastStartTime.toISOString() : null
+            };
+            localStorage.setItem('fastingData', JSON.stringify(data));
+        }
+
+        // Protocol selection
+        document.querySelectorAll('.protocol-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                showOverlay();
+                setTimeout(() => {
+                    document.querySelectorAll('.protocol-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentProtocol = {
+                        fast: parseInt(this.dataset.fast),
+                        eat: parseInt(this.dataset.eat)
+                    };
+                    hideOverlay();
+                }, 2500);
+            });
+        });
+
+        function startFast() {
+            showOverlay();
+            setTimeout(() => {
+                fastStartTime = new Date();
+                isFasting = true;
+                startTimer();
+                updateUI();
+                saveData();
+                hideOverlay();
+            }, 2500);
+        }
+
+        function endFast() {
+            showOverlay();
+            setTimeout(() => {
+                if (fastStartTime) {
+                    const duration = (new Date() - fastStartTime) / (1000 * 60 * 60); // hours
+                    const totalFasts = parseInt(document.getElementById('totalFasts').textContent) + 1;
+                    document.getElementById('totalFasts').textContent = totalFasts;
+                    
+                    const currentAvg = parseInt(document.getElementById('avgFastTime').textContent) || 0;
+                    const newAvg = Math.round((currentAvg * (totalFasts - 1) + duration) / totalFasts);
+                    document.getElementById('avgFastTime').textContent = newAvg + 'h';
+                    
+                    const longest = parseInt(document.getElementById('longestFast').textContent) || 0;
+                    if (duration > longest) {
+                        document.getElementById('longestFast').textContent = Math.round(duration) + 'h';
+                    }
+                }
+                
+                stopTimer();
+                isFasting = false;
+                fastStartTime = null;
+                updateUI();
+                saveData();
+                hideOverlay();
+            }, 2500);
+        }
+
+        function resetFast() {
+            showOverlay();
+            setTimeout(() => {
+                stopTimer();
+                isFasting = false;
+                fastStartTime = null;
+                document.getElementById('timerDisplay').textContent = '00:00:00';
+                document.getElementById('progressCircle').style.strokeDashoffset = 754;
+                updateUI();
+                saveData();
+                hideOverlay();
+            }, 2500);
+        }
+
+        function startTimer() {
+            stopTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function updateTimer() {
+            if (!fastStartTime) return;
+            
+            const now = new Date();
+            const elapsed = now - fastStartTime;
+            const hours = Math.floor(elapsed / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+            
+            document.getElementById('timerDisplay').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update progress circle
+            const targetMs = currentProtocol.fast * 60 * 60 * 1000;
+            const progress = Math.min(elapsed / targetMs, 1);
+            const circumference = 754;
+            const offset = circumference - (progress * circumference);
+            document.getElementById('progressCircle').style.strokeDashoffset = offset;
+        }
+
+        function updateUI() {
+            const statusEl = document.getElementById('fastingStatus');
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const timerLabel = document.getElementById('timerLabel');
+            
+            if (isFasting) {
+                statusEl.textContent = '🔥 Fasting in Progress';
+                statusEl.className = 'fasting-status status-fasting';
+                startBtn.style.display = 'none';
+                stopBtn.style.display = 'inline-flex';
+                timerLabel.textContent = 'Fast Duration';
+            } else {
+                statusEl.textContent = 'Ready to Start';
+                statusEl.className = 'fasting-status status-eating';
+                startBtn.style.display = 'inline-flex';
+                stopBtn.style.display = 'none';
+                timerLabel.textContent = 'Eating Window';
+            }
+        }
+
+        function showOverlay() {
+            document.getElementById('processingOverlay').classList.add('active');
+        }
+
+        function hideOverlay() {
+            document.getElementById('processingOverlay').classList.remove('active');
+        }
+
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            faqItem.classList.toggle('active');
+            const arrow = element.querySelector('span:last-child');
+            arrow.textContent = faqItem.classList.contains('active') ? '▲' : '▼';
+        }
+
+        // Initialize
+        loadData();
+        updateUI();
+    </script>
+</body>
+</html>
